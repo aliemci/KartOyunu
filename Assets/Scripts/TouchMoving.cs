@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class TouchMoving : MonoBehaviour
 {
+
+
+    private void Start()
+    {
+
+    }
+
     private void OnMouseDown()
     {
 
@@ -11,7 +18,7 @@ public class TouchMoving : MonoBehaviour
 
     private void OnMouseDrag()
     {
-        transform.position = Input.GetTouch(0).position;
+        transform.position = Vector3.Lerp(transform.position, Input.GetTouch(0).position, Time.deltaTime * 5);
     }
 
     private void OnMouseUp()
