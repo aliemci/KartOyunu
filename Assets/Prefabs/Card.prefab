@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8873654060712500249}
   - component: {fileID: 8873654060712500251}
   - component: {fileID: 8873654060712500248}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Mana
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -72,8 +72,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+    rgba: 4278253823
+  m_fontColor: {r: 1, g: 0.976174, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -132,13 +132,13 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 8873654060712500248}
-    characterCount: 0
+    characterCount: 1
     spriteCount: 0
     spaceCount: 0
-    wordCount: 0
+    wordCount: 1
     linkCount: 0
-    lineCount: 0
-    pageCount: 0
+    lineCount: 1
+    pageCount: 1
     materialCount: 1
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
@@ -166,7 +166,7 @@ GameObject:
   - component: {fileID: 8873654060852615758}
   - component: {fileID: 8873654060852615752}
   - component: {fileID: 8873654060852615753}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Attack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -227,8 +227,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+    rgba: 4278190335
+  m_fontColor: {r: 1, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -287,13 +287,13 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 8873654060852615753}
-    characterCount: 0
+    characterCount: 1
     spriteCount: 0
     spaceCount: 0
-    wordCount: 0
+    wordCount: 1
     linkCount: 0
-    lineCount: 0
-    pageCount: 0
+    lineCount: 1
+    pageCount: 1
     materialCount: 1
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
@@ -321,7 +321,7 @@ GameObject:
   - component: {fileID: 8873654060996634374}
   - component: {fileID: 8873654060996634368}
   - component: {fileID: 8873654060996634369}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Description
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -409,7 +409,7 @@ MonoBehaviour:
   m_enableAutoSizing: 1
   m_fontSizeMin: 0.15
   m_fontSizeMax: 0.25
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_textAlignment: 514
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -444,13 +444,13 @@ MonoBehaviour:
   m_margin: {x: 0.08398376, y: 0, z: 0.09690395, w: -0.56850594}
   m_textInfo:
     textComponent: {fileID: 8873654060996634369}
-    characterCount: 0
+    characterCount: 12
     spriteCount: 0
-    spaceCount: 0
-    wordCount: 0
+    spaceCount: 1
+    wordCount: 1
     linkCount: 0
-    lineCount: 0
-    pageCount: 0
+    lineCount: 1
+    pageCount: 1
     materialCount: 1
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
@@ -530,6 +530,7 @@ MonoBehaviour:
   manaText: {fileID: 8873654060712500248}
   attackText: {fileID: 8873654060852615753}
   healthText: {fileID: 8873654061337099189}
+  isPlayerOwn: 0
 --- !u!114 &8873654061148652707
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -599,7 +600,7 @@ GameObject:
   - component: {fileID: 8873654061337099194}
   - component: {fileID: 8873654061337099188}
   - component: {fileID: 8873654061337099189}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Health
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -660,8 +661,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+    rgba: 4293197568
+  m_fontColor: {r: 0, g: 1, b: 0.895895, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -720,13 +721,13 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 8873654061337099189}
-    characterCount: 0
+    characterCount: 1
     spriteCount: 0
     spaceCount: 0
-    wordCount: 0
+    wordCount: 1
     linkCount: 0
-    lineCount: 0
-    pageCount: 0
+    lineCount: 1
+    pageCount: 1
     materialCount: 1
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
@@ -754,7 +755,7 @@ GameObject:
   - component: {fileID: 8873654062203700544}
   - component: {fileID: 8873654062203700546}
   - component: {fileID: 8873654062203700547}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Name
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -836,12 +837,12 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 0.5
+  m_fontSize: 0.55
   m_fontSizeBase: 0.5
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 0.25
-  m_fontSizeMax: 0.5
+  m_fontSizeMax: 1
   m_fontStyle: 0
   m_textAlignment: 514
   m_characterSpacing: 0
@@ -877,13 +878,13 @@ MonoBehaviour:
   m_margin: {x: 0.109824814, y: 0, z: 0.07106292, w: 0.34255356}
   m_textInfo:
     textComponent: {fileID: 8873654062203700547}
-    characterCount: 0
+    characterCount: 5
     spriteCount: 0
-    spaceCount: 0
-    wordCount: 0
+    spaceCount: 1
+    wordCount: 1
     linkCount: 0
-    lineCount: 0
-    pageCount: 0
+    lineCount: 1
+    pageCount: 1
     materialCount: 1
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
@@ -910,7 +911,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8873654062736073462}
   - component: {fileID: 8873654062736073457}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: CardTemplate
   m_TagString: Untagged
   m_Icon: {fileID: 0}

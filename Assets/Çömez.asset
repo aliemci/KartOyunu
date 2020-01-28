@@ -9,13 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab39e7d5b12533e4fb6de22fa4234ab0, type: 3}
-  m_Name: Manjaro
+  m_Script: {fileID: 11500000, guid: e931e46f2b8bd6a4fb10cc4f63e09a7a, type: 3}
+  m_Name: "\xC7\xF6mez"
   m_EditorClassIdentifier: 
-  id: Manjaro
-  Description: Best Linux Distro, Best OS
-  Mana: 99
-  Attack: 99
-  Health: 99
-  Thumbnail: {fileID: 0}
-  isPlayerOwn: 0
+  Id: Velet
+  Description: "\xC7\xF6mez"
+  Health: 5
+  Mana: 3
+  Shield: 1
+  Character: {fileID: 21300000, guid: 5cf1b4629c7cb104e98d369448084abd, type: 3}

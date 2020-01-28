@@ -30,6 +30,12 @@ public class TouchMoving : MonoBehaviour
 
     private void OnMouseUp()
     {
+        RaycastHit2D hit = Physics2D.Raycast(Input.mousePosition, -Vector2.up, 500f);
+        if (hit.collider != null)
+        {
+            hit.collider.gameObject.GetComponent<EnemyDisplay>().DamageTaken(GetComponent<CardDisplay>().card.Attack);
+        }
         transform.SetParent(originalParent);
+
     }
 }
