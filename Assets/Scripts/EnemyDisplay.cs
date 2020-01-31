@@ -31,6 +31,7 @@ public class EnemyDisplay : MonoBehaviour
     void Death()
     {
         Destroy(gameObject);
+        Debug.Log("Düşman Öldü!");
     }
     
 }
