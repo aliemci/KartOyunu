@@ -19,6 +19,11 @@ public class CardDisplay : MonoBehaviour
 
     void Start()
     {
+        Refresh();
+    }
+
+    public void Refresh()
+    {
         nameText.text = card.id;
         descriptionText.text = card.Description;
         manaText.text = card.Mana.ToString();

@@ -16,15 +16,19 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     {
         //Kartın destedeki yerini tutacak bir boşluk oluşturuluyor.
         placeHolder = new GameObject();
+
         //Destenin çocuğu olarak ayarlanıyor.
         placeHolder.transform.SetParent(this.transform.parent);
+
         //Yatay düzende durabilmesi için "LayoutElement" eklentisi ekleniyor.
         LayoutElement le = placeHolder.AddComponent<LayoutElement>();
+
         //Asıl kartın yüksekliği genişliğini alıyor.
         le.preferredHeight = this.GetComponent<LayoutElement>().preferredHeight;
         le.preferredWidth = this.GetComponent<LayoutElement>().preferredWidth;
         le.flexibleHeight = 0;
         le.flexibleWidth = 0;
+
         //Kartın olduğu yere yerleşiyor.
         placeHolder.transform.SetSiblingIndex(this.transform.GetSiblingIndex());
 
@@ -52,15 +56,20 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
             transform.position = Input.mousePosition + grabOffset3;
         }
 
+        //Kartın gideceği yeri belirlemek adına kullanılan bir değişken.
         int newSiblingIndex = originalParent.childCount;
 
+        //Destedeki her kart için döngüye giriyor.
         for(int i=0; i<originalParent.childCount; i++)
         {
+            // x konumlarına bakıyor. Yatay doğru.
             if(this.transform.position.x < originalParent.GetChild(i).position.x)
             {
+                //konumu bir değişkene atıyor.
                 newSiblingIndex = i;
 
-                if(placeHolder.transform.GetSiblingIndex() < newSiblingIndex)
+                //
+                if (placeHolder.transform.GetSiblingIndex() < newSiblingIndex)
                     newSiblingIndex--;
 
                 break;
@@ -81,11 +90,16 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         {
             //Düşmanın üstüne isabet ettiyse "DamageTaken" işlevi çağırılıyor.
             hit.collider.gameObject.GetComponent<EnemyDisplay>().DamageTaken(GetComponent<CardDisplay>().card.Attack);
+            Destroy(placeHolder);
+            Destroy(gameObject);
+        }
+        else
+        {
+            //Kartı desteye koyma
+            this.transform.SetParent(originalParent);
+            this.transform.SetSiblingIndex(placeHolder.transform.GetSiblingIndex());
         }
 
-        //Kartı desteye koyma
-        this.transform.SetParent(originalParent);
-        this.transform.SetSiblingIndex(placeHolder.transform.GetSiblingIndex());
 
         Destroy(placeHolder);
     }
