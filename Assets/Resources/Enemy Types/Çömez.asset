@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: Velet
   Description: "\xC7\xF6mez"
-  Health: 50
+  Health: 10
   Mana: 3
   Shield: 1
   Character: {fileID: 21300000, guid: 5cf1b4629c7cb104e98d369448084abd, type: 3}

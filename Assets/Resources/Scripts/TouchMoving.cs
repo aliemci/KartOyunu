@@ -68,14 +68,14 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
                 //konumu bir değişkene atıyor.
                 newSiblingIndex = i;
 
-                //
+                //Konumunu buluyor.
                 if (placeHolder.transform.GetSiblingIndex() < newSiblingIndex)
                     newSiblingIndex--;
 
                 break;
             }
         }
-
+        //Son olarak konumu ayarlıyor.
         placeHolder.transform.SetSiblingIndex(newSiblingIndex);
 
     }

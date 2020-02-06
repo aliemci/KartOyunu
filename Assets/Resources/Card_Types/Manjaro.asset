@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: Manjaro
   Description: Best Linux Distro, Best OS
-  Mana: 99
-  Attack: 99
-  Health: 99
+  Health: 9
+  Mana: 9
+  Attack: 9
   Thumbnail: {fileID: 0}
   isPlayerOwn: 0
