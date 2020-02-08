@@ -24,7 +24,8 @@ public class EnemyDisplay : MonoBehaviour
     {
         Health -= damage;
         
-        transform.GetChild(0).transform.localScale = new Vector3(0.2f, (float) Health/maxHealth, 1f);
+        //Düşmanın can barına erişip, x ekseninde ölçeklendirme yapıyor. (Çalışma prensibi ile alakalı)
+        transform.GetChild(0).GetChild(0).transform.localScale = new Vector3((float)Health / maxHealth, 1f, 1f);
 
         if (Health <= 0)
         {
@@ -33,7 +34,7 @@ public class EnemyDisplay : MonoBehaviour
     }
 
     void Death()
-    {
+    { 
         Destroy(gameObject);
         Debug.Log("Düşman Öldü!");
     }
