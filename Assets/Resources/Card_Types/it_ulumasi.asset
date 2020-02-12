@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab39e7d5b12533e4fb6de22fa4234ab0, type: 3}
   m_Name: it_ulumasi
   m_EditorClassIdentifier: 
-  id: "\u0130T"
-  Description: UUUUUU
+  id: Wolf
+  Description: UUU
   Health: 2
   Mana: 3
   Attack: 4

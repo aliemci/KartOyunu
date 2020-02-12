@@ -24,6 +24,7 @@ public class EnemyDisplay : MonoBehaviour
     {
         Health -= damage;
         
+        
         //Düşmanın can barına erişip, x ekseninde ölçeklendirme yapıyor. (Çalışma prensibi ile alakalı)
         transform.GetChild(0).GetChild(0).transform.localScale = new Vector3((float)Health / maxHealth, 1f, 1f);
 

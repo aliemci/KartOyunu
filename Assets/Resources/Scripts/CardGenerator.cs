@@ -14,6 +14,18 @@ public class CardGenerator : MonoBehaviour
         //Card_Types klasörünün altındaki bütün Card tipindeki nesneleri alıyor.
         CardTypes = Resources.LoadAll<Card>("Card_Types");
 
+        //Oyuncunun sahip olduğu kartlar bir listede toplanacak
+        List<Card> PlayerCards = new List<Card>();
+
+        foreach (Card kart in CardTypes)
+        {
+            if(kart.isPlayerOwn == true)
+            {
+                PlayerCards.Add(kart);
+            }
+        }
+
+
         //Boş bir liste oluşturuluyor.
         List<Card> deckCards = new List<Card>();
 
@@ -43,13 +55,4 @@ public class CardGenerator : MonoBehaviour
 
     }
 
-    void Start()
-    {
-
-    }
-
-    void Update()
-    {
-        
-    }
 }

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Manjaro
   m_EditorClassIdentifier: 
   id: Manjaro
-  Description: Best Linux Distro, Best OS
+  Description: Best Linux Distro
   Health: 9
   Mana: 9
   Attack: 9

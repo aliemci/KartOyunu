@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab39e7d5b12533e4fb6de22fa4234ab0, type: 3}
   m_Name: "bal\u0131klama"
   m_EditorClassIdentifier: 
-  id: "Bal\u0131klama"
-  Description: "Diyarbak\u0131r Olimpiyatlar\u0131na kat\u0131lan Ya\u015Far atl\u0131yor."
+  id: Fishy
+  Description: Jump like Yasar
   Health: 1
   Mana: 2
   Attack: 5
