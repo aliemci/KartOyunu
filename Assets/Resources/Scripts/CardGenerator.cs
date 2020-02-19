@@ -12,7 +12,7 @@ public class CardGenerator : MonoBehaviour
     void Awake()
     {
         //Card_Types klasörünün altındaki bütün Card tipindeki nesneleri alıyor.
-        CardTypes = Resources.LoadAll<Card>("Card_Types");
+        CardTypes = Resources.LoadAll<Card>("CardTypes");
 
         //Oyuncunun sahip olduğu kartlar bir listede toplanacak
         List<Card> PlayerCards = new List<Card>();

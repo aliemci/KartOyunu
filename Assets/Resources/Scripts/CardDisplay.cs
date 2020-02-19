@@ -13,7 +13,7 @@ public class CardDisplay : MonoBehaviour
     public TextMeshProUGUI descriptionText;
     public TextMeshProUGUI manaText;
     public TextMeshProUGUI attackText;
-    public TextMeshProUGUI healthText;
+    public TextMeshProUGUI shieldText;
 
     public bool isPlayerOwn;
 
@@ -28,7 +28,7 @@ public class CardDisplay : MonoBehaviour
         descriptionText.text = card.Description;
         manaText.text = card.Mana.ToString();
         attackText.text = card.Attack.ToString();
-        healthText.text = card.Health.ToString();
+        shieldText.text = card.Shield.ToString();
         isPlayerOwn = card.isPlayerOwn;
     }
         

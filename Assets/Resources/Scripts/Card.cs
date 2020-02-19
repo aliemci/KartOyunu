@@ -10,7 +10,7 @@ public class Card : ScriptableObject
     public new string id;
     public string Description;
     
-    public int Health, Mana, Attack;
+    public int Shield, Mana, Attack;
 
     public Sprite Thumbnail;
 

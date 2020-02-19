@@ -529,7 +529,7 @@ MonoBehaviour:
   descriptionText: {fileID: 8873654060996634369}
   manaText: {fileID: 8873654060712500248}
   attackText: {fileID: 8873654060852615753}
-  healthText: {fileID: 8873654061337099189}
+  shieldText: {fileID: 8873654061337099189}
   isPlayerOwn: 0
 --- !u!114 &8873654061148652707
 MonoBehaviour:
@@ -601,7 +601,7 @@ GameObject:
   - component: {fileID: 8873654061337099188}
   - component: {fileID: 8873654061337099189}
   m_Layer: 0
-  m_Name: Health
+  m_Name: Shield
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

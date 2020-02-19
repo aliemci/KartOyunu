@@ -12,7 +12,7 @@ public class EnemyGenerator : MonoBehaviour
     void Awake()
     {
         //Enemy_Types klasörünün altındaki bütün Enemy tipindeki nesneleri alıyor.
-        EnemyTypes = Resources.LoadAll<Enemy>("Enemy_Types");
+        EnemyTypes = Resources.LoadAll<Enemy>("EnemyTypes");
 
         //Boş bir liste oluşturuluyor.
         List<Enemy> Enemies = new List<Enemy>();
