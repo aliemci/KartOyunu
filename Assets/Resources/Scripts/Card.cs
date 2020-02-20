@@ -7,7 +7,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Card", menuName = "Cards")]
 public class Card : ScriptableObject
 {
-    public new string id;
+    public string CardIdentity;
     public string Description;
     
     public int Shield, Mana, Attack;

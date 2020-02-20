@@ -24,7 +24,7 @@ public class CardDisplay : MonoBehaviour
 
     public void Refresh()
     {
-        nameText.text = card.id;
+        nameText.text = card.CardIdentity;
         descriptionText.text = card.Description;
         manaText.text = card.Mana.ToString();
         attackText.text = card.Attack.ToString();
