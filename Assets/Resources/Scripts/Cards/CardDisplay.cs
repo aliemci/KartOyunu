@@ -7,6 +7,7 @@ using TMPro;
 
 public class CardDisplay : MonoBehaviour
 {
+    //Public Variables:
     public Card card;
     
     public TextMeshProUGUI nameText;
@@ -17,9 +18,21 @@ public class CardDisplay : MonoBehaviour
 
     public bool isPlayerOwn;
 
+    //Private Variables:
+    private Vector2 resolution_scale;
+
+
+    //--------END OF VARIABLES--------
+
+    void Awake()
+    {
+        resolution_scale = GameObject.Find("Canvas").GetComponent<RectTransform>().localScale;
+    }
+
     void Start()
     {
         Refresh();
+        transform.localScale = transform.localScale * resolution_scale * resolution_scale;
     }
 
     public void Refresh()

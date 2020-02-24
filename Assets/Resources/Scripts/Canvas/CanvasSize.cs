@@ -5,19 +5,21 @@ using UnityEngine.UI;
 
 public class CanvasSize : MonoBehaviour
 {
-    // Start is called before the first frame update
+
+    public float canvas_scaler;
+
+
+    void Awake()
+    {
+        canvas_scaler = GetComponent<RectTransform>().localScale.x;
+    }
+
     void Start()
     {
         int h = Screen.height;
         int w = Screen.width;
-        Debug.Log(h.ToString() + " :h - w: " +  w.ToString());
+        //Debug.Log(h.ToString() + " :h - w: " +  w.ToString());
         GetComponent<CanvasScaler>().referenceResolution = new Vector2(w,h);
-
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    
 }
