@@ -10,11 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e931e46f2b8bd6a4fb10cc4f63e09a7a, type: 3}
-  m_Name: "\xC7\xF6mez"
+  m_Name: Captain
   m_EditorClassIdentifier: 
-  Id: Velet
-  Description: "\xC7\xF6mez"
-  Health: 10
-  Mana: 3
-  Shield: 1
-  Character: {fileID: 21300000, guid: 5cf1b4629c7cb104e98d369448084abd, type: 3}
+  Id: Captain
+  Description: Leader of the ship
+  Health: 35
+  Mana: 20
+  Shield: 5
+  CharacterSprite: {fileID: 21300008, guid: 5cf1b4629c7cb104e98d369448084abd, type: 3}
+  moves: 00000000010000000000000002000000

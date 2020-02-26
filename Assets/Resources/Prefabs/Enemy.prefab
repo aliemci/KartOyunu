@@ -53,12 +53,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemy: {fileID: 11400000, guid: 59720238efba4324e835a4753986f472, type: 2}
-  Id: 
-  Description: 
-  Health: 0
-  Mana: 0
-  Shield: 0
-  maxHealth: 0
 --- !u!212 &9126003734635536174
 SpriteRenderer:
   m_ObjectHideFlags: 0
