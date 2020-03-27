@@ -2,40 +2,82 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEditor;
 
 public class CharacterDisplay : MonoBehaviour
 {
-    public Character playableChar;
-    string Id;
-    int Health, Mana, Shield, maxHealth;
-    Sprite CharacterSprite;
+    public Character character;
+    public bool isPlayer = false;
+    public playerCharacter playerChar;
+    public bool isEnemy = false;
+    public rivalCharacter rivalChar;
 
-    //Her ekran için ayrı büyüklükte olacağı için
+    //Her ekran için ayrı büyüklükte olacağı için belirli bir katsayı ile nesneleri büyültüp/küçülteceğiz.
     private Vector2 resolution_scale;
+    
 
     void Awake()
     {
+        //Çözünürlük için
         resolution_scale = GameObject.Find("Canvas").GetComponent<RectTransform>().localScale;
     }
 
     void Start()
     {
-        //Düşman bilgileri ekleniyor.
-        Refresh();
+        if (character as playerCharacter == null)
+            isEnemy = true;
+        else
+            isPlayer = true;
+
+        //Karakterin çiziminin ekranda çıkması için.
+        GetComponent<SpriteRenderer>().sprite = character.CharacterSprite;
+
+        healthWriter();
+        manaWriter();
+
         //Ekrana göre büyüklükleri ayarlanıyor.
         transform.localScale = transform.localScale * resolution_scale * resolution_scale;
-        //Can yazısı yazdırılıyor.
-        GameObject.Find("Heart_Value").GetComponent<TextMeshProUGUI>().text = Health.ToString() + "/" + maxHealth.ToString();
+        
     }
 
-    public void Refresh()
+
+    public void healthWriter()
     {
-        //Düşman bilgileri ataması
-        Id = playableChar.Id;
-        Health = playableChar.Health;
-        maxHealth = Health;
-        Mana = playableChar.Mana;
-        Shield = playableChar.Shield;
-        GetComponent<SpriteRenderer>().sprite = playableChar.CharacterSprite;
+        if (isPlayer)
+        {
+            GameObject.Find("Heart_Value").GetComponent<TextMeshProUGUI>().text = character.health.ToString(); // + "/" + character.maxHealth.ToString();
+            return;
+        }
+
+        //Can yazısı yenileniyor.
+        transform.Find("health").GetComponent<TextMeshProUGUI>().text = character.health.ToString(); // + "/" + character.maxHealth.ToString();
     }
+
+    public void manaWriter()
+    {
+        if (isPlayer)
+        {
+            GameObject.Find("Mana_Value").GetComponent<TextMeshProUGUI>().text = character.mana.ToString();
+        }
+    }
+
+
+
+    public void DamageTaken(int damage)
+    {
+        //Can aldığı hasar kadar azalıyor.
+        character.health -= damage;
+
+        healthWriter();
+        manaWriter();
+
+        //Ölüm durumu kontrol ediliyor.
+        if (character.health <= 0)
+        {
+            Destroy(gameObject);
+        }
+    }
+
+
 }
+

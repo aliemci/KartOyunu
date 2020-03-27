@@ -30,6 +30,6 @@ public class end_turn : MonoBehaviour
         //O kodda olan "Enemy" scriptable object sınıfına erişiyor.
         //"Enemy" sınıfında olan "moveFunction" fonksiyonunu çalıştırıyor.
         //İşlevin içine aldığı parametre de yine "Enemy" sınıfının içindeki veri tipi.
-        enemy.GetComponent<EnemyDisplay>().enemy.moveFunction(enemy.GetComponent<EnemyDisplay>().enemy.moves);
+        //enemy.GetComponent<EnemyDisplay>().enemy.moveFunction(enemy.GetComponent<EnemyDisplay>().enemy.moves);
     }
 }

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 9126003734635536174}
   - component: {fileID: 5283194552139187}
   - component: {fileID: 7847185716921934330}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: PlayerChar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -51,7 +51,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a920d41ae95acbe48b583f5512678ad0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playableChar: {fileID: 11400000, guid: e89a8fea372ab2c4c839ac7d5f1c7264, type: 2}
+  character: {fileID: 0}
+  isPlayer: 0
+  playerChar: {fileID: 0}
+  isEnemy: 0
+  rivalChar: {fileID: 0}
 --- !u!212 &9126003734635536174
 SpriteRenderer:
   m_ObjectHideFlags: 0
