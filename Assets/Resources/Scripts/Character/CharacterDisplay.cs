@@ -63,11 +63,8 @@ public class CharacterDisplay : MonoBehaviour
 
 
 
-    public void DamageTaken(int damage)
+    public void checkIsDead()
     {
-        //Can aldığı hasar kadar azalıyor.
-        character.health -= damage;
-
         healthWriter();
         manaWriter();
 
