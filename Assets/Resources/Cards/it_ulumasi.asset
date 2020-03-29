@@ -13,9 +13,11 @@ MonoBehaviour:
   m_Name: it_ulumasi
   m_EditorClassIdentifier: 
   cardName: IT ULUMASI
-  CardT1: 2
+  CardT1: 0
   CardT2: 0
-  isPlayerOwn: 0
+  cardBuff: 0
+  cardDebuff: 0
   attack: 0
   defence: 0
-  mana: 10
+  mana: -10
+  isPlayerOwn: 0

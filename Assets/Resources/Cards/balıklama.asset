@@ -19,5 +19,5 @@ MonoBehaviour:
   cardDebuff: 0
   attack: 5
   defence: 0
-  mana: -2
+  mana: -70
   isPlayerOwn: 1

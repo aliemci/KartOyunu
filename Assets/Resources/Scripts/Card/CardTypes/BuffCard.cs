@@ -54,6 +54,10 @@ public class BuffCard : MonoBehaviour
 
     private void adrenaline(Character subject)
     {
-        subject.attack_factor = 2;
+        buffQueue helper = new buffQueue();
+        helper.buff = buffs.Adrenaline;
+        helper.coefficient = 1;
+        subject.buffList.Add(helper);
+        Debug.Log(subject.buffList[0].buff.ToString() + "-" + subject.buffList[0].coefficient.ToString());
     }
 }

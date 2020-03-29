@@ -11,4 +11,19 @@ public class AttackCard : MonoBehaviour
         Attack = GetComponentInParent<CardDisplay>().card.attack;
         Mana = GetComponentInParent<CardDisplay>().card.mana;
     }
+
+    public bool attack(Character attacker, Character defender)
+    {
+        int manaConsumption = Mathf.Abs(Mana) + Mathf.Abs(attacker.mana_factor);
+        int damage = (Attack + attacker.attack_factor) * attacker.attack_multiplier;
+
+        if (attacker.mana >= manaConsumption)
+        {
+            defender.health -= damage;
+            attacker.mana -= manaConsumption;
+            return true;
+        }
+
+        return false;
+    }
 }

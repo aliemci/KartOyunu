@@ -16,12 +16,19 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     playerCharacter player;
     rivalCharacter rival;
 
+    public GameObject playerObject, rivalObject;
+
+    Card card;
+
     public void Start()
     {
-        player = GameObject.Find("ScriptHolder").GetComponent<CharacterGenerator>().characters[0] as playerCharacter;
+        
     }
+
     public void OnBeginDrag(PointerEventData eventData)
     {
+        // KARTIN DESTEDEN ALINMASI İŞLEMİ ------------------------------
+
         //Kartın destedeki yerini tutacak bir boşluk oluşturuluyor.
         placeHolder = new GameObject();
 
@@ -48,6 +55,14 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         
         //Kartı desteden çıkarıyor.
         this.transform.SetParent(this.transform.parent.parent);
+
+        // --------------------------------------------------------------
+
+        card = this.GetComponent<CardDisplay>().card;
+
+        playerObject = GameObject.Find("Player");
+
+        player = GameObject.Find("Player").GetComponent<CharacterDisplay>().character as playerCharacter;
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -94,12 +109,26 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         //Fare'nin konumundan bir ışın gönderiliyor.
         RaycastHit2D hit = Physics2D.Raycast(Input.mousePosition, -Vector2.up, 500f);
 
-        GameObject hitObject = hit.collider.gameObject;
+        GameObject hitObject;
 
-        Debug.Log(hitObject.layer);
+        try
+        {
+            //Eğer dönen obje yoksa hata verecektir.
+            hitObject = hit.collider.gameObject;
+            
+        }
+        catch
+        {
+            //Hata gelirse kartı deck'e geri koysun.
+            returnToDeck();
+            return;
+        }
+
+        
+        bool should_card_destory = false;
 
         //Eğer düşman objesine çarptıysa
-        if(hitObject.layer == 8)
+        if (hitObject.layer == 8)
         {
             bool
                 is_attack_card = GetComponent<CardDisplay>().card.CardT1 == CardType1.AttackCard,
@@ -108,7 +137,69 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
             
 
             rival  = hitObject.GetComponent<CharacterDisplay>().character as rivalCharacter;
-                       
+
+            switch (card.CardT1)
+            {
+                case CardType1.AttackCard:
+                    // Kartın yapacağı saldırı fonksiyonu çağırılıyor. Eğer true dönerse vurmuş demektir. 
+                    if(this.GetComponent<AttackCard>().attack(player, rival))
+                    {
+                        // Kartın etkilediği düşmanın can kontrolü
+                        hitObject.GetComponent<CharacterDisplay>().checkIsDead();
+                        // Kartın etkilediği oyuncunun değerlerin ekrana yazdırılması
+                        playerObject.GetComponent<CharacterDisplay>().healthManaWriter();
+                        // Kullanılan kartın silinmesi için
+                        should_card_destory = true;
+                    }
+                    //Eğer false dönerse saldıramamış demektir. Bu da mana yetmiyor demek oluyor.
+                    else
+                    {
+                        should_card_destory = false;
+                    }
+                    break;
+
+                case CardType1.DebuffCard:
+
+                    should_card_destory = true;
+                    break;
+
+                case CardType1.SpecialCard:
+
+                    should_card_destory = true;
+                    break;
+
+                case CardType1.UnusualCard:
+
+                    should_card_destory = true;
+                    break;
+            }
+
+            switch (card.CardT2)
+            {
+                case CardType2.BuffCard:
+                    this.GetComponent<BuffCard>().buffApplier(player);
+                    should_card_destory = true;
+                    break;
+
+                case CardType2.DebuffCard:
+
+                    should_card_destory = true;
+                    break;
+
+                case CardType2.None:
+                    break;
+            }
+
+            if (should_card_destory)
+            {
+                //Kartı yok etme
+                Destroy(placeHolder);
+                Destroy(gameObject);
+            }
+            else
+                returnToDeck();
+
+            /*
             if (is_attack_card)
             {
                 //Mana kontrolü
@@ -130,11 +221,12 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
                     Destroy(gameObject);
                 }
             }
-           
+            */
 
         }
 
-        else if(hitObject.layer == 9)
+        //Eğer oyuncu objesine çarptıysa
+        else if (hitObject.layer == 9)
         {
             bool
                 is_defence_card = GetComponent<CardDisplay>().card.CardT1 == CardType1.DefenceCard,
@@ -142,6 +234,55 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
                 is_buff_card = GetComponent<CardDisplay>().card.CardT1 == CardType1.BuffCard,
                 is_debuff_card = GetComponent<CardDisplay>().card.CardT1 == CardType1.DebuffCard;
 
+
+            switch (card.CardT1)
+            {
+                case CardType1.DefenceCard:
+                    should_card_destory = true;
+                    break;
+
+                case CardType1.BuffCard:
+
+                    should_card_destory = true;
+                    break;
+
+                case CardType1.SpecialCard:
+
+                    should_card_destory = true;
+                    break;
+
+                case CardType1.UnusualCard:
+
+                    should_card_destory = true;
+                    break;
+            }
+
+            switch (card.CardT2)
+            {
+                case CardType2.BuffCard:
+                    this.GetComponent<BuffCard>().buffApplier(player);
+                    should_card_destory = true;
+                    break;
+
+                case CardType2.DebuffCard:
+
+                    should_card_destory = true;
+                    break;
+
+                case CardType2.None:
+                    break;
+            }
+
+            if (should_card_destory)
+            {
+                //Kartı yok etme
+                Destroy(placeHolder);
+                Destroy(gameObject);
+            }
+            else
+                returnToDeck();
+
+            /*
             if (is_defence_card)
             {
                 //Mana kontrolü
@@ -163,17 +304,19 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
                     Destroy(gameObject);
                 }
             }
+            */
         }
         
         else
-        {
-            //Kartı desteye koyma
-            this.transform.SetParent(originalParent);
-            this.transform.SetSiblingIndex(placeHolder.transform.GetSiblingIndex());
-        }
+            returnToDeck();
+                
+    }
 
-
+    public void returnToDeck()
+    {
+        //Kartı desteye koyma
+        this.transform.SetParent(originalParent);
+        this.transform.SetSiblingIndex(placeHolder.transform.GetSiblingIndex());
         Destroy(placeHolder);
-        
     }
 }

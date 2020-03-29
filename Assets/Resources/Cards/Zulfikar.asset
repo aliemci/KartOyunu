@@ -15,7 +15,9 @@ MonoBehaviour:
   cardName: ZULFIKAR
   CardT1: 0
   CardT2: 0
-  isPlayerOwn: 0
-  attack: 0
+  cardBuff: 0
+  cardDebuff: 0
+  attack: 5
   defence: 0
-  mana: 0
+  mana: -1
+  isPlayerOwn: 0
