@@ -148,6 +148,7 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
                         hitObject.GetComponent<CharacterDisplay>().checkIsDead();
                         // Kartın etkilediği oyuncunun değerlerin ekrana yazdırılması
                         playerObject.GetComponent<CharacterDisplay>().healthManaWriter();
+                        playerObject.GetComponent<CharacterDisplay>().cardRequirements(player);
                         // Kullanılan kartın silinmesi için
                         should_card_destory = true;
                     }
@@ -319,4 +320,6 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         this.transform.SetSiblingIndex(placeHolder.transform.GetSiblingIndex());
         Destroy(placeHolder);
     }
+
+    
 }

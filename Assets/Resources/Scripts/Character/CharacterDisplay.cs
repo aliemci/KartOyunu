@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEditor;
+using System;
 
 public class CharacterDisplay : MonoBehaviour
 {
     public Character character;
     public bool isPlayer = false;
-    public playerCharacter playerChar;
+    //public playerCharacter playerChar;
     public bool isEnemy = false;
-    public rivalCharacter rivalChar;
+    //public rivalCharacter rivalChar;
 
     //Her ekran için ayrı büyüklükte olacağı için belirli bir katsayı ile nesneleri büyültüp/küçülteceğiz.
     private Vector2 resolution_scale;
@@ -27,9 +28,14 @@ public class CharacterDisplay : MonoBehaviour
     void Start()
     {
         if (character as playerCharacter == null)
+        {
             isEnemy = true;
+        }
         else
+        {
             isPlayer = true;
+            cardRequirements(character as playerCharacter);
+        }
 
         //Karakterin çiziminin ekranda çıkması için.
         GetComponent<SpriteRenderer>().sprite = character.CharacterSprite;
@@ -45,10 +51,10 @@ public class CharacterDisplay : MonoBehaviour
 
     public void healthManaWriter()
     {
-        Debug.Log("healthManaWriter is called");
+        //Debug.Log("healthManaWriter is called");
         if (isPlayer)
         {
-            Debug.Log("and it's player");
+            //Debug.Log("and it's player");
             hearthText.text = character.health.ToString(); // + "/" + character.maxHealth.ToString();
             manaText.text = character.mana.ToString();
             return;
@@ -58,7 +64,6 @@ public class CharacterDisplay : MonoBehaviour
         transform.Find("health").GetComponent<TextMeshProUGUI>().text = character.health.ToString(); // + "/" + character.maxHealth.ToString();
     }
     
-
     public void checkIsDead()
     {
         healthManaWriter();
@@ -70,6 +75,31 @@ public class CharacterDisplay : MonoBehaviour
         }
     }
 
-
+    public void cardRequirements(playerCharacter player)
+    {
+        foreach(GameObject card in GameObject.FindGameObjectsWithTag("Card"))
+        {
+            Debug.Log(card.GetComponent<CardDisplay>().card.name + " is checking...");
+            try
+            {
+                int cardMana = card.GetComponentInChildren<CardDisplay>().card.mana;
+                Debug.Log("player:" + player.mana + " ? " + cardMana + " Card");
+                if (player.mana < Mathf.Abs(cardMana))
+                {
+                    card.GetComponent<CardDisplay>().toggleCard(false);
+                    Debug.Log("Card has toggled off");
+                }
+                else
+                {
+                    card.GetComponent<CardDisplay>().toggleCard(true);
+                    Debug.Log("Card has toggled on");
+                }
+            }
+            catch(Exception e)
+            {
+                Debug.Log(e);
+            }
+        }
+    }
 }
 

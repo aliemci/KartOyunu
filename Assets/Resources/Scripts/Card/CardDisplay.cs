@@ -16,11 +16,12 @@ public class CardDisplay : MonoBehaviour
     public TextMeshProUGUI attackText;
     public TextMeshProUGUI shieldText;
 
+    public Material toggleOn, toggleOff;
+
     public bool isPlayerOwn;
 
     //Private Variables:
     private Vector2 resolution_scale;
-
 
     //--------END OF VARIABLES--------
 
@@ -49,4 +50,17 @@ public class CardDisplay : MonoBehaviour
         isPlayerOwn = card.isPlayerOwn;
     }
 
+    public void toggleCard(bool boolForToggleCard)
+    {
+        if (boolForToggleCard)
+        {
+            GetComponentInChildren<SpriteRenderer>().material = toggleOn;
+            GetComponent<TouchMoving>().enabled = true;
+        }
+        else
+        {
+            GetComponentInChildren<SpriteRenderer>().material = toggleOff;
+            GetComponent<TouchMoving>().enabled = false;
+        }
+    }
 }

@@ -15,7 +15,9 @@ MonoBehaviour:
   cardName: TAHTA
   CardT1: 4
   CardT2: 0
-  isPlayerOwn: 0
+  cardBuff: 0
+  cardDebuff: 0
   attack: 0
   defence: 0
-  mana: 0
+  mana: -10
+  isPlayerOwn: 0
