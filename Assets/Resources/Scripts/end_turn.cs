@@ -7,7 +7,19 @@ public class end_turn : MonoBehaviour
     
     public void next_turn()
     {
-        enemy_turn();
+        Debug.Log("Next Turn!");
+        //Oyuncu için fonksiyonlar: Önce sıradaki tur fonksiyonuyla listedeki buff debufflar etkiyecek.
+        //Sonra bu değişiklikler yazdırılacak.
+        GameObject.Find("Player").GetComponent<CharacterDisplay>().character.next_turn();
+        GameObject.Find("Player").GetComponent<CharacterDisplay>().healthManaWriter();
+
+        //Aynı şey her düşman için de kontrol edilecek.
+        foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Enemy"))
+        {
+            obj.GetComponent<CharacterDisplay>().character.next_turn();
+            obj.GetComponent<CharacterDisplay>().checkIsDead();
+        }
+
     }
 
     private void enemy_turn()

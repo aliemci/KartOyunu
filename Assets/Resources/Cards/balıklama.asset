@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardName: BALIKLAMA
   CardT1: 0
-  CardT2: 0
-  cardBuff: 2
+  CardT2: 1
+  cardBuff: 0
   cardDebuff: 0
   attack: 5
   defence: 0
-  mana: -70
+  mana: -15
   isPlayerOwn: 1

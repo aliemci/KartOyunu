@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class CardGenerator : MonoBehaviour
 {
-    
     Card[] CardTypes;
 
     public GameObject Prefab;
@@ -48,11 +47,10 @@ public class CardGenerator : MonoBehaviour
             //Eğer ikincil özellik varsa onun da kodunu yüklüyor.
             if (CardTypes[index].CardT2.ToString() != "None")
                 createdCard.AddComponent(System.Type.GetType(CardTypes[index].CardT2.ToString()));
-            
 
             //Yeni oluşturulmuş OyunNesnesi'nin ebeveyni olarak "Deck"i veriyor.
             //Bu sayede Deck içine geçip sıralanıyor.
-                createdCard.transform.SetParent(GameObject.Find("Deck").transform);
+            createdCard.transform.SetParent(GameObject.Find("Deck").transform);
         }
         
         

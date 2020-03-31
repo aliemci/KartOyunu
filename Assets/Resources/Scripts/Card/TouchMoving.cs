@@ -13,8 +13,7 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
     GameObject placeHolder = null;
 
-    playerCharacter player;
-    rivalCharacter rival;
+    Character player, rival;
 
     public GameObject playerObject, rivalObject;
 
@@ -44,6 +43,8 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         le.flexibleHeight = 0;
         le.flexibleWidth = 0;
 
+        placeHolder.GetComponent<RectTransform>().sizeDelta = new Vector2(le.preferredWidth, le.preferredHeight);
+
         //Kartın olduğu yere yerleşiyor.
         placeHolder.transform.SetSiblingIndex(this.transform.GetSiblingIndex());
 
@@ -62,7 +63,7 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
         playerObject = GameObject.Find("Player");
 
-        player = GameObject.Find("Player").GetComponent<CharacterDisplay>().character as playerCharacter;
+        player = playerObject.GetComponent<CharacterDisplay>().character;
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -98,14 +99,14 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
                 break;
             }
         }
+
         //Son olarak konumu ayarlıyor.
         placeHolder.transform.SetSiblingIndex(newSiblingIndex);
-
+        
     }
     
     public void OnEndDrag(PointerEventData eventData)
     {
-        
         //Fare'nin konumundan bir ışın gönderiliyor.
         RaycastHit2D hit = Physics2D.Raycast(Input.mousePosition, -Vector2.up, 500f);
 
@@ -136,31 +137,30 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
                 is_debuff_card = GetComponent<CardDisplay>().card.CardT1 == CardType1.DebuffCard;
             
 
-            rival  = hitObject.GetComponent<CharacterDisplay>().character as rivalCharacter;
+            rival  = hitObject.GetComponent<CharacterDisplay>().character;
+            Debug.Log(rival);
 
             switch (card.CardT1)
             {
                 case CardType1.AttackCard:
-                    // Kartın yapacağı saldırı fonksiyonu çağırılıyor. Eğer true dönerse vurmuş demektir. 
-                    if(this.GetComponent<AttackCard>().attack(player, rival))
-                    {
-                        // Kartın etkilediği düşmanın can kontrolü
-                        hitObject.GetComponent<CharacterDisplay>().checkIsDead();
-                        // Kartın etkilediği oyuncunun değerlerin ekrana yazdırılması
-                        playerObject.GetComponent<CharacterDisplay>().healthManaWriter();
-                        playerObject.GetComponent<CharacterDisplay>().cardRequirements(player);
-                        // Kullanılan kartın silinmesi için
-                        should_card_destory = true;
-                    }
-                    //Eğer false dönerse saldıramamış demektir. Bu da mana yetmiyor demek oluyor.
-                    else
-                    {
-                        should_card_destory = false;
-                    }
+                    // Kartın yapacağı saldırı fonksiyonu çağırılıyor.
+                    this.GetComponent<AttackCard>().attack(player, rival);
+                    // Kartın etkilediği düşmanın can kontrolü
+                    hitObject.GetComponent<CharacterDisplay>().checkIsDead();
+                    // Kartın etkilediği oyuncunun değerlerin ekrana yazdırılması
+                    playerObject.GetComponent<CharacterDisplay>().healthManaWriter();
+                    // Kullanılan kartın silinmesi için
+                    should_card_destory = true;
                     break;
 
                 case CardType1.DebuffCard:
-
+                    // Kartın yapacağı düşürücü fonksiyonu çağırılıyor.
+                    this.GetComponent<DebuffCard>().debuffApplier(rival);
+                    // Kartın etkilediği düşmanın can kontrolü
+                    hitObject.GetComponent<CharacterDisplay>().checkIsDead();
+                    // Kartın etkilediği oyuncunun değerlerin ekrana yazdırılması
+                    playerObject.GetComponent<CharacterDisplay>().healthManaWriter();
+                    // Kullanılan kartın silinmesi için
                     should_card_destory = true;
                     break;
 
@@ -178,12 +178,24 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
             switch (card.CardT2)
             {
                 case CardType2.BuffCard:
+                    // Kartın yapacağı arttırıcı fonksiyonu çağırılıyor.
                     this.GetComponent<BuffCard>().buffApplier(player);
+                    // Kartın etkilediği düşmanın can kontrolü
+                    hitObject.GetComponent<CharacterDisplay>().checkIsDead();
+                    // Kartın etkilediği oyuncunun değerlerin ekrana yazdırılması
+                    playerObject.GetComponent<CharacterDisplay>().healthManaWriter();
+                    // Kullanılan kartın silinmesi için
                     should_card_destory = true;
                     break;
 
                 case CardType2.DebuffCard:
-
+                    // Kartın yapacağı düşürücü fonksiyonu çağırılıyor.
+                    this.GetComponent<DebuffCard>().debuffApplier(rival);
+                    // Kartın etkilediği düşmanın can kontrolü
+                    hitObject.GetComponent<CharacterDisplay>().checkIsDead();
+                    // Kartın etkilediği oyuncunun değerlerin ekrana yazdırılması
+                    playerObject.GetComponent<CharacterDisplay>().healthManaWriter();
+                    // Kullanılan kartın silinmesi için
                     should_card_destory = true;
                     break;
 
@@ -310,7 +322,9 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         
         else
             returnToDeck();
-                
+
+        //Manası yeterli olmayan kartları kapatacak fonksiyon çağırılıyor.
+        playerObject.GetComponent<CharacterDisplay>().cardRequirements(player);
     }
 
     public void returnToDeck()

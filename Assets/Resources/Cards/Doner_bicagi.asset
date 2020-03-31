@@ -14,10 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardName: DONER BICAGI
   CardT1: 0
-  CardT2: 0
+  CardT2: 2
   cardBuff: 0
   cardDebuff: 0
+  buffCoefficient: 0
+  debuffCoefficient: 1
   attack: 5
   defence: 0
-  mana: -24
-  isPlayerOwn: 0
+  mana: -5
+  isPlayerOwn: 1

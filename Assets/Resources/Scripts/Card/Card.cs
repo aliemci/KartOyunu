@@ -35,7 +35,11 @@ public class Card : ScriptableObject{
     public buffs cardBuff;
     [HideInInspector]
     public debuffs cardDebuff;
-    
+
+    [HideInInspector]
+    public float buffCoefficient;
+    [HideInInspector]
+    public float debuffCoefficient;
 
     public int attack, defence, mana;
 
@@ -58,9 +62,16 @@ public class Card_Editor : Editor
             card.CardT2 = (CardType2)EditorGUILayout.EnumPopup("Second Card Type", card.CardT2);
 
             if(card.CardT2 == CardType2.BuffCard)
+            {
                 card.cardBuff = (buffs)EditorGUILayout.EnumPopup("Buffs", card.cardBuff);
+                card.buffCoefficient = EditorGUILayout.FloatField("Buff Coefficient", card.buffCoefficient);
+            }
+
             else if(card.CardT2 == CardType2.DebuffCard)
+            {
                 card.cardDebuff = (debuffs)EditorGUILayout.EnumPopup("Debuffs", card.cardDebuff);
+                card.debuffCoefficient = EditorGUILayout.FloatField("Debuff Coefficient", card.debuffCoefficient);
+            }
 
         }
     }

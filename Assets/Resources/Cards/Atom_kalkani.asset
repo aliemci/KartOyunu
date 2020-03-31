@@ -14,10 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardName: ATOM KALKANI
   CardT1: 0
-  CardT2: 1
+  CardT2: 2
   cardBuff: 0
   cardDebuff: 0
+  buffCoefficient: 0
+  debuffCoefficient: 1
   attack: 10
   defence: 0
-  mana: -40
-  isPlayerOwn: 0
+  mana: -20
+  isPlayerOwn: 1

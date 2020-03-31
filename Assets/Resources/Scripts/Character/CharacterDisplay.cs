@@ -75,24 +75,24 @@ public class CharacterDisplay : MonoBehaviour
         }
     }
 
-    public void cardRequirements(playerCharacter player)
+    public void cardRequirements(Character player)
     {
         foreach(GameObject card in GameObject.FindGameObjectsWithTag("Card"))
         {
-            Debug.Log(card.GetComponent<CardDisplay>().card.name + " is checking...");
+            //Debug.Log(card.GetComponent<CardDisplay>().card.name + " is checking...");
             try
             {
                 int cardMana = card.GetComponentInChildren<CardDisplay>().card.mana;
-                Debug.Log("player:" + player.mana + " ? " + cardMana + " Card");
+                //Debug.Log("player:" + player.mana + " ? " + cardMana + " Card");
                 if (player.mana < Mathf.Abs(cardMana))
                 {
                     card.GetComponent<CardDisplay>().toggleCard(false);
-                    Debug.Log("Card has toggled off");
+                    //Debug.Log("Card has toggled off");
                 }
                 else
                 {
                     card.GetComponent<CardDisplay>().toggleCard(true);
-                    Debug.Log("Card has toggled on");
+                    //Debug.Log("Card has toggled on");
                 }
             }
             catch(Exception e)

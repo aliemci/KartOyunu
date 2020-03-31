@@ -16,9 +16,23 @@ public enum debuffs
 public class DebuffCard : MonoBehaviour
 {
     public debuffs debuff;
+    public float debuffCoefficient;
 
-    public void debuffApplier()
+    public void Start()
     {
+        debuff = GetComponent<CardDisplay>().card.cardDebuff;
+        debuffCoefficient = GetComponent<CardDisplay>().card.debuffCoefficient;
+    }
+
+    public void debuffApplier(Character effectedCharacter)
+    {
+        debuffQueue helper = new debuffQueue();
+        helper.debuff = debuff;
+        helper.repetition = 1;
+        helper.coefficient = debuffCoefficient;
+        effectedCharacter.debuffList.Add(helper);
+        
+        /*
         switch (debuff)
         {
             case debuffs.Poison:
@@ -49,10 +63,8 @@ public class DebuffCard : MonoBehaviour
 
                 break;
         }
+        */
+
     }
 
-    private void poison( )
-    {
-        
-    }
 }
