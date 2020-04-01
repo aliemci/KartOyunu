@@ -23,7 +23,10 @@ public class Character : ScriptableObject
     public bool
         is_resisted = false,
         is_invincible = false,
-        is_stunned = false;
+        is_stunned = false,
+        is_missed = false,
+        is_confused = false,
+        is_evaded = false;
 
     public int
         health = 100,
@@ -74,6 +77,27 @@ public class Character : ScriptableObject
             case buffs.Alertness:
                 evasion_chance = coefficient;
                 break;
+
+            case buffs.Castle:
+                shield_factor = Mathf.RoundToInt(coefficient);
+                break;
+
+            case buffs.Economiser:
+                mana_factor = Mathf.RoundToInt(coefficient);
+                break;
+
+            case buffs.Puffed:
+                attack_factor = Mathf.RoundToInt(coefficient);
+                break;
+
+            case buffs.Resistance:
+                is_resisted = true;
+                break;
+
+            case buffs.Invincible:
+                is_invincible = true;
+                break;
+
         }
     }
 
@@ -84,8 +108,59 @@ public class Character : ScriptableObject
             case debuffs.Poison:
                 health -= Mathf.RoundToInt(coefficient) * repetition;
                 break;
+
+            case debuffs.Confused:
+                confused_chance = Mathf.RoundToInt(coefficient);
+                break;
+
+            case debuffs.Frailness:
+                shield_factor = Mathf.RoundToInt(coefficient);
+                break;
+
+            case debuffs.Stun:
+                is_stunned = true;
+                break;
+
+            case debuffs.Tired:
+                mana_factor = Mathf.RoundToInt(coefficient);
+                break;
+
+            case debuffs.Weakness:
+                attack_factor = Mathf.RoundToInt(coefficient);
+                break;
         }
     }
+
+    public void prepareChances()
+    {
+        if (Random.Range(0f, 100f) < confused_chance)
+            is_confused = true;
+        else
+            is_confused = false;
+
+        if (Random.Range(0f, 100f) < miss_chance)
+            is_missed = true;
+        else
+            is_missed = false;
+
+        if (Random.Range(0f, 100f) < evasion_chance)
+            is_evaded = true;
+        else
+            is_evaded = false;
+    }
+
+    public void takeDamage(int damage)
+    {
+        health -= damage;
+    }
+
+    public void consumeMana(int cost)
+    {
+        mana -= cost;
+    }
+
+
+
 }
 
 [CreateAssetMenu(fileName = "New Player Character", menuName = "Player Character")]
