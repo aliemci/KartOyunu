@@ -13,10 +13,14 @@ MonoBehaviour:
   m_Name: Olta
   m_EditorClassIdentifier: 
   cardName: OLTA
-  CardT1: 0
-  CardT2: 0
+  CardT1: 2
+  CardT2: 3
+  CardCT: 0
   cardBuff: 0
   cardDebuff: 0
+  cardCombine: 3
+  buffCoefficient: 0
+  debuffCoefficient: 0
   attack: 5
   defence: 0
   mana: -2

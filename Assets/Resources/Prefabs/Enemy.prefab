@@ -54,9 +54,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   character: {fileID: 0}
   isPlayer: 0
-  playerChar: {fileID: 0}
   isEnemy: 0
-  rivalChar: {fileID: 0}
+  hearthText: {fileID: 0}
+  manaText: {fileID: 0}
 --- !u!212 &9126003734635536174
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -92,9 +92,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: -1
+  m_SortingLayerID: -957958211
+  m_SortingLayer: 4
+  m_SortingOrder: 0
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

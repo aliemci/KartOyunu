@@ -20,6 +20,7 @@ public class CharacterGenerator : MonoBehaviour
     {
         Transform playerDeck = GameObject.Find("Player-deck").transform;
         Transform rivalDeck = GameObject.Find("Enemy-deck").transform;
+
         int indis = 0;
         foreach(Character character in characters)
         {

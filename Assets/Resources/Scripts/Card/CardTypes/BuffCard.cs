@@ -32,41 +32,10 @@ public class BuffCard : MonoBehaviour
         helper.repetition = 1;
         helper.coefficient = buffCoefficient;
         effectedCharacter.buffList.Add(helper);
-
-        /*
-        switch (buff)
-        {
-            case buffs.Adrenaline:
-                helper.coefficient = 0;
-                break;
-
-            case buffs.Alertness:
-                helper.coefficient = 0;
-                break;
-
-            case buffs.Castle:
-
-                break;
-
-            case buffs.Economiser:
-
-                break;
-
-            case buffs.Puffed:
-
-                break;
-
-            case buffs.Resistance:
-
-                break;
-
-            case buffs.Invincible:
-
-                break;
-        }
-        */
+        
     }
 
+    /*
     private void adrenaline(Character subject)
     {
         buffQueue helper = new buffQueue();
@@ -111,4 +80,6 @@ public class BuffCard : MonoBehaviour
         subject.buffList.Add(helper);
         Debug.Log(subject.buffList[0].buff.ToString() + "-" + subject.buffList[0].coefficient.ToString());
     }
+    */
+
 }

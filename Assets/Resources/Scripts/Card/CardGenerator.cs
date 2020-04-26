@@ -37,6 +37,8 @@ public class CardGenerator : MonoBehaviour
             //Öncelikle prefab ile Gameobject oluşturuluyor.
             GameObject createdCard = Instantiate(Prefab);
 
+            createdCard.name = "Card " + i.ToString();
+
             //Oluşturulan Gameobject içindeki CardDisplay koduna erişiyor.
             //Koddaki card değişkenine elimizdeki card tipini atıyor.
             createdCard.GetComponent<CardDisplay>().card = CardTypes[index];
@@ -45,8 +47,12 @@ public class CardGenerator : MonoBehaviour
             createdCard.AddComponent(System.Type.GetType(CardTypes[index].CardT1.ToString()));
 
             //Eğer ikincil özellik varsa onun da kodunu yüklüyor.
-            if (CardTypes[index].CardT2.ToString() != "None")
+            if (CardTypes[index].CardT2.ToString() != "None" )
                 createdCard.AddComponent(System.Type.GetType(CardTypes[index].CardT2.ToString()));
+
+            //Eğer ikincil özelliği birleşme değilse, birleşme tuşunu çalışmaz hale getiriyor.
+            if (CardTypes[index].CardT2 != CardType2.CombineCard)
+                createdCard.transform.Find("Combine").gameObject.SetActive(false);
 
             //Yeni oluşturulmuş OyunNesnesi'nin ebeveyni olarak "Deck"i veriyor.
             //Bu sayede Deck içine geçip sıralanıyor.

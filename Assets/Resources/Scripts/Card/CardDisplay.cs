@@ -38,7 +38,10 @@ public class CardDisplay : MonoBehaviour
     void Start()
     {
         Refresh();
+        //Uygun çözünürlüğe getirmek için katsayılar ile çarpılıyor.
         transform.localScale = transform.localScale * resolution_scale * resolution_scale;
+        //z ölçeğini 0 yapıyor. Bunu engellemek için tekrardan 0,0,1 vektörü ile topladım.
+        transform.localScale = transform.localScale + new Vector3(0f, 0f, 1f);
     }
 
     public void Refresh()

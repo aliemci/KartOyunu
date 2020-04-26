@@ -403,7 +403,7 @@ GameObject:
   m_Component:
   - component: {fileID: 305997040}
   - component: {fileID: 305997041}
-  m_Layer: 5
+  m_Layer: 11
   m_Name: Deck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -452,8 +452,8 @@ MonoBehaviour:
   m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 0
   m_ChildControlHeight: 0
-  m_ChildScaleWidth: 1
-  m_ChildScaleHeight: 1
+  m_ChildScaleWidth: 0
+  m_ChildScaleHeight: 0
 --- !u!1 &456028418
 GameObject:
   m_ObjectHideFlags: 0
@@ -491,7 +491,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -100, y: 30}
+  m_AnchoredPosition: {x: -100, y: 0}
   m_SizeDelta: {x: 160, y: 90}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &456028420
@@ -762,7 +762,7 @@ GameObject:
   - component: {fileID: 498949250}
   - component: {fileID: 498949251}
   m_Layer: 5
-  m_Name: Card-Deck
+  m_Name: Card-deck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -869,7 +869,7 @@ Camera:
   field of view: 60
   orthographic: 1
   orthographic size: 375
-  m_Depth: 0
+  m_Depth: 10
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -908,6 +908,7 @@ GameObject:
   m_Component:
   - component: {fileID: 663731054}
   - component: {fileID: 663731055}
+  - component: {fileID: 663731056}
   m_Layer: 5
   m_Name: Player-deck
   m_TagString: Untagged
@@ -959,6 +960,17 @@ MonoBehaviour:
   m_ChildControlHeight: 0
   m_ChildScaleWidth: 1
   m_ChildScaleHeight: 1
+--- !u!210 &663731056
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 663731053}
+  m_Enabled: 1
+  m_SortingLayerID: -957958211
+  m_SortingLayer: -4
+  m_SortingOrder: 0
 --- !u!1 &688557514
 GameObject:
   m_ObjectHideFlags: 0
@@ -972,6 +984,7 @@ GameObject:
   - component: {fileID: 688557516}
   - component: {fileID: 688557515}
   - component: {fileID: 688557519}
+  - component: {fileID: 688557520}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -1078,6 +1091,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvas_scaler: 0
+--- !u!114 &688557520
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 688557514}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75dea72d32ba1524f81050ebcae1cca7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &818522826
 GameObject:
   m_ObjectHideFlags: 0
@@ -1089,6 +1114,7 @@ GameObject:
   - component: {fileID: 818522827}
   - component: {fileID: 818522829}
   - component: {fileID: 818522828}
+  - component: {fileID: 818522830}
   m_Layer: 5
   m_Name: Top-deck
   m_TagString: Untagged
@@ -1153,6 +1179,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 818522826}
   m_CullTransparentMesh: 0
+--- !u!210 &818522830
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 818522826}
+  m_Enabled: 1
+  m_SortingLayerID: -1189400177
+  m_SortingLayer: 1
+  m_SortingOrder: 0
 --- !u!1 &1023701169
 GameObject:
   m_ObjectHideFlags: 0
@@ -1164,7 +1201,7 @@ GameObject:
   - component: {fileID: 1023701170}
   - component: {fileID: 1023701171}
   - component: {fileID: 1023701172}
-  m_Layer: 5
+  m_Layer: 11
   m_Name: Lower-deck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1837,6 +1874,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1618763451}
   - component: {fileID: 1618763452}
+  - component: {fileID: 1618763453}
   m_Layer: 5
   m_Name: Enemy-deck
   m_TagString: Untagged
@@ -1887,6 +1925,17 @@ MonoBehaviour:
   m_Spacing: {x: 25, y: 0}
   m_Constraint: 1
   m_ConstraintCount: 2
+--- !u!210 &1618763453
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1618763450}
+  m_Enabled: 1
+  m_SortingLayerID: -957958211
+  m_SortingLayer: -4
+  m_SortingOrder: 0
 --- !u!1 &1630460939
 GameObject:
   m_ObjectHideFlags: 0

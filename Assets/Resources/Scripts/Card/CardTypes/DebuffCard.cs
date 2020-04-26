@@ -32,38 +32,6 @@ public class DebuffCard : MonoBehaviour
         helper.coefficient = debuffCoefficient;
         effectedCharacter.debuffList.Add(helper);
         
-        /*
-        switch (debuff)
-        {
-            case debuffs.Poison:
-                poison();
-                break;
-
-            case debuffs.Confused:
-
-                break;
-
-            case debuffs.Stun:
-
-                break;
-
-            case debuffs.Blind:
-
-                break;
-
-            case debuffs.Frailness:
-
-                break;
-
-            case debuffs.Weakness:
-
-                break;
-
-            case debuffs.Tired:
-
-                break;
-        }
-        */
 
     }
 

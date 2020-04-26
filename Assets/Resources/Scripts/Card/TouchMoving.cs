@@ -7,78 +7,100 @@ using UnityEngine.EventSystems;
 
 public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
+    public GameObject playerObject, rivalObject;
     
+    Card card;
+
     Transform originalParent;
+
     Vector2 grabOffset;
 
     GameObject placeHolder = null;
 
     Character player, rival;
+    
+    private bool isCombineCard;
 
-    public GameObject playerObject, rivalObject;
+    public GameObject combineWindow;
 
-    Card card;
+    // --------------------------------------------------------------
+
+    // --------------- İŞLEVLER --------------- 
 
     public void Start()
     {
         
+        // ----------------------------------------
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        // KARTIN DESTEDEN ALINMASI İŞLEMİ ------------------------------
-
-        //Kartın destedeki yerini tutacak bir boşluk oluşturuluyor.
-        placeHolder = new GameObject();
-
-        //Destenin çocuğu olarak ayarlanıyor.
-        placeHolder.transform.SetParent(this.transform.parent);
-
-        //Yatay düzende durabilmesi için "LayoutElement" eklentisi ekleniyor.
-        LayoutElement le = placeHolder.AddComponent<LayoutElement>();
-
-        //Asıl kartın yüksekliği genişliğini alıyor.
-        le.preferredHeight = this.GetComponent<LayoutElement>().preferredHeight;
-        le.preferredWidth = this.GetComponent<LayoutElement>().preferredWidth;
-        le.flexibleHeight = 0;
-        le.flexibleWidth = 0;
-
-        placeHolder.GetComponent<RectTransform>().sizeDelta = new Vector2(le.preferredWidth, le.preferredHeight);
-
-        //Kartın olduğu yere yerleşiyor.
-        placeHolder.transform.SetSiblingIndex(this.transform.GetSiblingIndex());
-
-        //Kartı tuttuğu yer bir değişkene atılıyor.
-        grabOffset =  transform.position - Input.mousePosition;
+        //Eğer UI katmanındaysa (Kartların olduğu liman UI o yüzden)
+        if(this.transform.parent.gameObject.layer == 5 || true)
+        {
+            // KARTIN DESTEDEN ALINMASI İŞLEMİ ------------------------------
         
-        //Desteye geri döndürebilmek için
-        originalParent = this.transform.parent;
+            //Kartın destedeki yerini tutacak bir boşluk oluşturuluyor.
+            placeHolder = new GameObject();
+
+            //Destenin çocuğu olarak ayarlanıyor.
+            placeHolder.transform.SetParent(this.transform.parent);
+
+            //Yatay düzende durabilmesi için "LayoutElement" eklentisi ekleniyor.
+            LayoutElement le = placeHolder.AddComponent<LayoutElement>();
+
+            //Asıl kartın yüksekliği genişliğini alıyor.
+            le.preferredHeight = this.GetComponent<LayoutElement>().preferredHeight;
+            le.preferredWidth = this.GetComponent<LayoutElement>().preferredWidth;
+            le.flexibleHeight = 0;
+            le.flexibleWidth = 0;
+
+            placeHolder.GetComponent<RectTransform>().sizeDelta = new Vector2(le.preferredWidth, le.preferredHeight);
+
+            //Kartın olduğu yere yerleşiyor.
+            placeHolder.transform.SetSiblingIndex(this.transform.GetSiblingIndex());
+
+            //Kartı tuttuğu yer bir değişkene atılıyor.
+            grabOffset =  transform.position - Input.mousePosition;
         
-        //Kartı desteden çıkarıyor.
-        this.transform.SetParent(this.transform.parent.parent);
+            //Desteye geri döndürebilmek için
+            originalParent = this.transform.parent;
+        
+            //Kartı desteden çıkarıyor.
+            this.transform.SetParent(this.transform.parent.parent);
+
+        }
 
         // --------------------------------------------------------------
 
+        //Değişken atamaları
         card = this.GetComponent<CardDisplay>().card;
 
         playerObject = GameObject.Find("Player");
 
         player = playerObject.GetComponent<CharacterDisplay>().character;
+
+        // --------------------------------------------------------------
+        
+
     }
 
     public void OnDrag(PointerEventData eventData)
     {
+        //Mobil
         if (Application.platform == RuntimePlatform.Android || Application.platform == RuntimePlatform.IPhonePlayer)
         {
-            //transform.position = Vector3.Lerp(transform.position, Input.GetTouch(0).position + grabOffset, Time.deltaTime * 5);
             transform.position = Input.GetTouch(0).position + grabOffset;
         }
+        //PC
         else
         {
             Vector3 grabOffset3 = grabOffset;
-            //transform.position = Vector3.Lerp(transform.position, Input.mousePosition + grabOffset3, Time.deltaTime * 5);
             transform.position = Input.mousePosition + grabOffset3;
         }
+
+        // --------------------------------------------------------------
+
 
         //Kartın gideceği yeri belirlemek adına kullanılan bir değişken.
         int newSiblingIndex = originalParent.childCount;
@@ -102,21 +124,27 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
         //Son olarak konumu ayarlıyor.
         placeHolder.transform.SetSiblingIndex(newSiblingIndex);
-        
+
+        // --------------------------------------------------------------
+
+
+
     }
-    
+
     public void OnEndDrag(PointerEventData eventData)
     {
         //Fare'nin konumundan bir ışın gönderiliyor.
         RaycastHit2D hit = Physics2D.Raycast(Input.mousePosition, -Vector2.up, 500f);
 
+        //Kısayol
         GameObject hitObject;
+        
 
         try
         {
+            Debug.Log(hit.collider.gameObject.name);
             //Eğer dönen obje yoksa hata verecektir.
             hitObject = hit.collider.gameObject;
-            
         }
         catch
         {
@@ -125,10 +153,12 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
             return;
         }
 
-        
+        //İleride kartın yok edilip edilmemesini kontrol için kullanılıyor.
         bool should_card_destory = false;
 
-        //Eğer düşman objesine çarptıysa
+        //------------------------------------------------------------------------
+
+        //Eğer düşman nesnesine atıldıysa
         if (hitObject.layer == 8)
         {
             bool
@@ -236,9 +266,11 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
             }
             */
 
+            //Manası yeterli olmayan kartları kapatacak fonksiyon çağırılıyor.
+            playerObject.GetComponent<CharacterDisplay>().cardRequirements(player);
         }
 
-        //Eğer oyuncu objesine çarptıysa
+        //Eğer oyuncu nesnesine çarptıysa
         else if (hitObject.layer == 9)
         {
             bool
@@ -318,13 +350,40 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
                 }
             }
             */
+
+            //Manası yeterli olmayan kartları kapatacak fonksiyon çağırılıyor.
+            playerObject.GetComponent<CharacterDisplay>().cardRequirements(player);
+        }
+        
+        //Eğer birleştiriciye çarptıysa
+        else if(hitObject.layer == 10)
+        {
+            //Kartı atama işlemi
+            transform.SetParent(hit.collider.transform);
+            
+            //Eski yerdeki boş yeri siliyor.
+            Destroy(placeHolder);
+            //return;
+        }
+
+        //Eğer Kart destesine çarptıysa
+        else if (hitObject.layer == 11)
+        {
+            //Desteye erişim
+            Transform deck = hitObject.transform;
+            transform.SetParent(deck);
+
+            //Eski yerdeki boş yeri siliyor.
+            Destroy(placeHolder);
         }
         
         else
             returnToDeck();
+        //------------------------------------------------------------------------
+
 
         //Manası yeterli olmayan kartları kapatacak fonksiyon çağırılıyor.
-        playerObject.GetComponent<CharacterDisplay>().cardRequirements(player);
+        //playerObject.GetComponent<CharacterDisplay>().cardRequirements(player);
     }
 
     public void returnToDeck()
@@ -335,5 +394,40 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         Destroy(placeHolder);
     }
 
+    public void createCombinerWindow()
+    {
+        //Öge oluşturuluyor. İsmi konuyor. Aktif hale getiriliyor.
+        GameObject windowForCombine = Instantiate(combineWindow);
+        windowForCombine.name = "CombineCardPanel";
+        windowForCombine.SetActive(true);
+
+        //Gözükmesi için kanvas içine alınıyor. 100 birim yukarıya konumlandırılıyor.
+        windowForCombine.transform.SetParent(GameObject.Find("Canvas").transform);
+        windowForCombine.transform.localPosition = Vector3.zero + new Vector3(0f, 100f, 0f);
+
+        //------------------------------------------------------------------------
+
+        //Yanlışlıkla düşmanlara basılmasın diye "collider" kapatılıyor.
+        for (int i=0; i< GameObject.Find("Enemy-deck").transform.childCount; i++)
+            GameObject.Find("Enemy-deck").transform.GetChild(i).GetComponent<BoxCollider2D>().enabled = false;
+
+        //Yanlışlıkla oyuncuya basılmasın diye "collider" kapatılıyor.
+        for (int i = 0; i < GameObject.Find("Player-deck").transform.childCount; i++)
+            GameObject.Find("Player-deck").transform.GetChild(i).GetComponent<BoxCollider2D>().enabled = false;
+
+        //------------------------------------------------------------------------
+
+        //Kartlardaki birleşme tuşunu çalışır vaziyete getiriyor.
+        foreach (GameObject cardObj in GameObject.FindGameObjectsWithTag("Card"))
+        {
+            if (cardObj.GetComponent<CombineCard>())
+            {
+                cardObj.transform.Find("Combine").gameObject.SetActive(false);
+            }
+        }
+
+
+    }
     
+
 }
