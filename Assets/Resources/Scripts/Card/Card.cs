@@ -47,8 +47,8 @@ public class Card : ScriptableObject{
     [HideInInspector]
     public int attack, defence, mana;
 
-    public bool isPlayerOwn;
-    
+    public bool isPlayerOwn, isCardUsed;
+
 }
 
 #if UNITY_EDITOR

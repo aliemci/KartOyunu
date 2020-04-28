@@ -10,14 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ab39e7d5b12533e4fb6de22fa4234ab0, type: 3}
-  m_Name: "bal\u0131klama"
+  m_Name: Sonic_Wave_Gun
   m_EditorClassIdentifier: 
-  cardName: BALIKLAMA
+  cardName: Sonic Wave Gun
   CardT1: 0
-  CardT2: 1
+  CardT2: 2
   cardBuff: 0
-  cardDebuff: 0
-  attack: 5
+  cardDebuff: 2
+  cardCombine: 0
+  buffCoefficient: 0
+  debuffCoefficient: 1
+  attack: 8
   defence: 0
-  mana: -15
-  isPlayerOwn: 1
+  mana: -2
+  isPlayerOwn: 0
+  isCardUsed: 0

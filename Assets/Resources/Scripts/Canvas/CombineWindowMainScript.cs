@@ -1,11 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CombinerWindowMainScript : MonoBehaviour
 {
-    GameObject card1, card2;
-    Transform deck;
+    private GameObject card1, card2;
+    private Transform deck;
+    private bool isLeftCardSlotEmpty = true, isRightCardSlotEmpty = true;
+
 
     private void Start()
     {
@@ -14,21 +14,53 @@ public class CombinerWindowMainScript : MonoBehaviour
     }
 
     
-    void CombineThem()
+    public void CombineThem()
     {
+        //Kart kontrolü
+        checksCardSlots();
+
+        //Sağ ve solda kartlar varsa
+        if (!isLeftCardSlotEmpty && !isRightCardSlotEmpty)
+        {
+            CombineType comTypeCard1 = card1.GetComponent<CombineCard>().cardCombineType;
+            CombineType comTypeCard2 = card2.GetComponent<CombineCard>().cardCombineType;
+
+
+        }
 
     }
 
+    
 
-    void returnCardsToDeck()
+
+    private void checksCardSlots()
     {
         if (this.transform.Find("CardSlotLeft").transform.childCount > 0)
+            isLeftCardSlotEmpty = false;
+        else
+            isLeftCardSlotEmpty = true;
+
+        if (this.transform.Find("CardSlotRight").transform.childCount > 0)
+            isRightCardSlotEmpty = false;
+        else
+            isRightCardSlotEmpty = true;
+    }
+
+
+    private void returnCardsToDeck()
+    {
+        //Kartlar kontrol ediliyor.
+        checksCardSlots();
+
+        //Eğer sol kart yeri doluysa
+        if (!isLeftCardSlotEmpty)
         {
             card1 = this.transform.Find("CardSlotLeft").transform.GetChild(0).gameObject;
             card1.transform.SetParent(deck);
         }
 
-        if (this.transform.Find("CardSlotRight").transform.childCount > 0)
+        //Eğer sağ kart yeri doluysa
+        if (!isRightCardSlotEmpty)
         {
             card2 = this.transform.Find("CardSlotRight").transform.GetChild(0).gameObject;
             card2.transform.SetParent(deck);
@@ -54,4 +86,6 @@ public class CombinerWindowMainScript : MonoBehaviour
         //Debug.Log(this.transform.ToString() + " Should be Closed!");
         Destroy(this.transform.gameObject);
     }
+
+
 }

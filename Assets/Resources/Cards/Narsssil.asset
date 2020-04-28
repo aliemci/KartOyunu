@@ -10,17 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ab39e7d5b12533e4fb6de22fa4234ab0, type: 3}
-  m_Name: Manjaro
+  m_Name: Narsssil
   m_EditorClassIdentifier: 
-  cardName: MANJARO
+  cardName: Narrrsil
   CardT1: 0
-  CardT2: 3
+  CardT2: 2
   cardBuff: 0
-  cardDebuff: 0
+  cardDebuff: 1
   cardCombine: 0
   buffCoefficient: 0
-  debuffCoefficient: 0
-  attack: 5
+  debuffCoefficient: 1
+  attack: 40
   defence: 0
-  mana: -5
+  mana: -4
   isPlayerOwn: 0
+  isCardUsed: 0

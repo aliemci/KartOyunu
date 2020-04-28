@@ -10,16 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ab39e7d5b12533e4fb6de22fa4234ab0, type: 3}
-  m_Name: Atom_kalkani
+  m_Name: Leaf
   m_EditorClassIdentifier: 
-  cardName: ATOM KALKANI
+  cardName: Leaf
   CardT1: 0
-  CardT2: 2
+  CardT2: 0
   cardBuff: 0
   cardDebuff: 0
+  cardCombine: 0
   buffCoefficient: 0
-  debuffCoefficient: 1
-  attack: 10
+  debuffCoefficient: 0
+  attack: 7
   defence: 0
-  mana: -20
-  isPlayerOwn: 1
+  mana: -1
+  isPlayerOwn: 0
+  isCardUsed: 0

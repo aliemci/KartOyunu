@@ -18,8 +18,11 @@ public class CharacterGenerator : MonoBehaviour
 
     void Start()
     {
+        //Limanlar atanıyor.
         Transform playerDeck = GameObject.Find("Player-deck").transform;
         Transform rivalDeck = GameObject.Find("Enemy-deck").transform;
+
+        GameObject inventoryObject = GameObject.Find("Lower-deck").transform.Find("Inventory").gameObject;
 
         int indis = 0;
         foreach(Character character in characters)
@@ -37,12 +40,14 @@ public class CharacterGenerator : MonoBehaviour
                 player.layer = 9;
                 // Charcter display koduna atama işlemi. Bu sayede oyuncu nesnesi oluştuktan sonra özelliklerine erişilebilecek
                 player.GetComponent<CharacterDisplay>().character = Instantiate(character);
+                //Envanterdeki kartları hazırlayacak fonksiyon çağırılıyor.
+                inventoryObject.GetComponent<InventoryScript>().inventory_load(character as playerCharacter);
             }
             else
             {
                 // Karakter oluşturulup atanıyor.
                 Transform rivalChar = Instantiate(rivalPrefab, rivalDeck);
-                rivalChar.name = "Enemy" + indis;
+                rivalChar.name = "Enemy " + indis;
                 //Gameobject nesnesini alıyor.
                 GameObject rival = rivalChar.gameObject;
                 // Layer olarak 8 atanıyor. (Enemy)

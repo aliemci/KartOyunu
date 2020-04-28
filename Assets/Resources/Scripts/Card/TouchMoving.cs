@@ -3,25 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-
+using System.IO;
+using UnityEditor;
 
 public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     public GameObject playerObject, rivalObject;
-    
-    Card card;
+    public GameObject combineWindow;
+    private GameObject placeHolder = null;
+    private GameObject inventory, cardpile, cardDeck;
 
-    Transform originalParent;
+    private Card card;
 
-    Vector2 grabOffset;
+    private Transform originalParent;
 
-    GameObject placeHolder = null;
+    private Vector2 grabOffset;
 
     Character player, rival;
     
     private bool isCombineCard;
 
-    public GameObject combineWindow;
+
 
     // --------------------------------------------------------------
 
@@ -29,7 +31,10 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
     public void Start()
     {
-        
+        //Değişken atamaları
+        inventory = GameObject.Find("Inventory").gameObject;
+        cardpile = GameObject.Find("CardPile").gameObject;
+        cardDeck = GameObject.Find("Deck").gameObject;
         // ----------------------------------------
     }
 
@@ -142,7 +147,7 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
         try
         {
-            Debug.Log(hit.collider.gameObject.name);
+            //Debug.Log(hit.collider.gameObject.name);
             //Eğer dönen obje yoksa hata verecektir.
             hitObject = hit.collider.gameObject;
         }
@@ -153,8 +158,8 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
             return;
         }
 
-        //İleride kartın yok edilip edilmemesini kontrol için kullanılıyor.
-        bool should_card_destory = false;
+        //İleride kartın özelliğini etkilemek için kullanılıyor.
+        bool is_card_used = false;
 
         //------------------------------------------------------------------------
 
@@ -166,9 +171,9 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
                 is_buff_card = GetComponent<CardDisplay>().card.CardT1 == CardType1.BuffCard,
                 is_debuff_card = GetComponent<CardDisplay>().card.CardT1 == CardType1.DebuffCard;
             
-
+            //Kısayol
             rival  = hitObject.GetComponent<CharacterDisplay>().character;
-            Debug.Log(rival);
+            //Debug.Log(rival);
 
             switch (card.CardT1)
             {
@@ -180,7 +185,7 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
                     // Kartın etkilediği oyuncunun değerlerin ekrana yazdırılması
                     playerObject.GetComponent<CharacterDisplay>().healthManaWriter();
                     // Kullanılan kartın silinmesi için
-                    should_card_destory = true;
+                    is_card_used = true;
                     break;
 
                 case CardType1.DebuffCard:
@@ -191,17 +196,17 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
                     // Kartın etkilediği oyuncunun değerlerin ekrana yazdırılması
                     playerObject.GetComponent<CharacterDisplay>().healthManaWriter();
                     // Kullanılan kartın silinmesi için
-                    should_card_destory = true;
+                    is_card_used = true;
                     break;
 
                 case CardType1.SpecialCard:
 
-                    should_card_destory = true;
+                    is_card_used = true;
                     break;
 
                 case CardType1.UnusualCard:
 
-                    should_card_destory = true;
+                    is_card_used = true;
                     break;
             }
 
@@ -215,7 +220,7 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
                     // Kartın etkilediği oyuncunun değerlerin ekrana yazdırılması
                     playerObject.GetComponent<CharacterDisplay>().healthManaWriter();
                     // Kullanılan kartın silinmesi için
-                    should_card_destory = true;
+                    is_card_used = true;
                     break;
 
                 case CardType2.DebuffCard:
@@ -226,46 +231,36 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
                     // Kartın etkilediği oyuncunun değerlerin ekrana yazdırılması
                     playerObject.GetComponent<CharacterDisplay>().healthManaWriter();
                     // Kullanılan kartın silinmesi için
-                    should_card_destory = true;
+                    is_card_used = true;
                     break;
 
                 case CardType2.None:
                     break;
             }
 
-            if (should_card_destory)
+            //Eğer kart kullanılmışsa
+            if (is_card_used)
             {
-                //Kartı yok etme
+                //Kartın tutacağını yok etme
                 Destroy(placeHolder);
+                
+                //Kartın kullanıldığını belirtmek için değişkeni doğru olarak atanıyor.
+                this.gameObject.GetComponent<CardDisplay>().isCardUsed = true;
+
+                //Limandan siliyor.
+                cardDeck.GetComponent<DeckScript>().cardsInDeck.Remove(card);
+
+                //Kullanılmış kart destesine ekliyor.
+                cardpile.GetComponent<CardPileScript>().CardPile.Add(card);
+                
+                //Oyun nesnesini siliyor.
                 Destroy(gameObject);
             }
+
             else
                 returnToDeck();
 
-            /*
-            if (is_attack_card)
-            {
-                //Mana kontrolü
-                if(player.mana >= GetComponent<AttackCard>().Mana)
-                {
-                    //Düşmanın üstüne isabet ettiyse "DamageTaken" işlevi çağırılıyor.
-                    hitObject.GetComponent<CharacterDisplay>().DamageTaken(GetComponent<AttackCard>().Attack);
-
-                    if (is_buff_card)
-                    {   //Bu fonksiyon character classından nesne alıyor. O yüzden character display kodundan ona erişiyorum.
-                        GetComponent<BuffCard>().buffApplier(player);
-                    }
-
-                    //Mana tüketimi
-                    player.mana -= GetComponent<AttackCard>().Mana;
-
-                    //Kartı yok etme
-                    Destroy(placeHolder);
-                    Destroy(gameObject);
-                }
-            }
-            */
-
+            
             //Manası yeterli olmayan kartları kapatacak fonksiyon çağırılıyor.
             playerObject.GetComponent<CharacterDisplay>().cardRequirements(player);
         }
@@ -283,22 +278,22 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
             switch (card.CardT1)
             {
                 case CardType1.DefenceCard:
-                    should_card_destory = true;
+                    is_card_used = true;
                     break;
 
                 case CardType1.BuffCard:
 
-                    should_card_destory = true;
+                    is_card_used = true;
                     break;
 
                 case CardType1.SpecialCard:
 
-                    should_card_destory = true;
+                    is_card_used = true;
                     break;
 
                 case CardType1.UnusualCard:
 
-                    should_card_destory = true;
+                    is_card_used = true;
                     break;
             }
 
@@ -306,19 +301,19 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
             {
                 case CardType2.BuffCard:
                     this.GetComponent<BuffCard>().buffApplier(player);
-                    should_card_destory = true;
+                    is_card_used = true;
                     break;
 
                 case CardType2.DebuffCard:
 
-                    should_card_destory = true;
+                    is_card_used = true;
                     break;
 
                 case CardType2.None:
                     break;
             }
 
-            if (should_card_destory)
+            if (is_card_used)
             {
                 //Kartı yok etme
                 Destroy(placeHolder);

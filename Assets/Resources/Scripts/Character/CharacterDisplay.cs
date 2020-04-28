@@ -55,6 +55,7 @@ public class CharacterDisplay : MonoBehaviour
         if (isPlayer)
         {
             //Debug.Log("and it's player");
+            checkIsDead();
             hearthText.text = character.health.ToString(); // + "/" + character.maxHealth.ToString();
             manaText.text = character.mana.ToString();
             return;
@@ -66,7 +67,8 @@ public class CharacterDisplay : MonoBehaviour
     
     public void checkIsDead()
     {
-        healthManaWriter();
+        if(!isPlayer)
+            healthManaWriter();
 
         //Ölüm durumu kontrol ediliyor.
         if (character.health <= 0)
@@ -101,5 +103,7 @@ public class CharacterDisplay : MonoBehaviour
             }
         }
     }
+
+
 }
 

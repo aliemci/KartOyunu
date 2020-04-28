@@ -18,7 +18,7 @@ public class CardDisplay : MonoBehaviour
 
     public Material toggleOn, toggleOff;
 
-    public bool isPlayerOwn;
+    public bool isPlayerOwn, isCardUsed;
 
     //Private Variables:
     private Vector2 resolution_scale;
@@ -51,6 +51,7 @@ public class CardDisplay : MonoBehaviour
         shieldText.text = card.defence.ToString();
         manaText.text = card.mana.ToString();
         isPlayerOwn = card.isPlayerOwn;
+        isCardUsed = card.isCardUsed;
     }
 
     public void toggleCard(bool boolForToggleCard)

@@ -96,6 +96,7 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
+    m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
   m_UseShadowmask: 1
 --- !u!196 &4
@@ -287,6 +288,7 @@ GameObject:
   - component: {fileID: 270072197}
   - component: {fileID: 270072196}
   - component: {fileID: 270072195}
+  - component: {fileID: 270072198}
   m_Layer: 5
   m_Name: CardPile
   m_TagString: Untagged
@@ -393,6 +395,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 270072193}
   m_CullTransparentMesh: 0
+--- !u!114 &270072198
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 270072193}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a42d87cd9108d34e8aada0ad84bccae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CardPile: []
 --- !u!1 &305997039
 GameObject:
   m_ObjectHideFlags: 0
@@ -403,6 +418,8 @@ GameObject:
   m_Component:
   - component: {fileID: 305997040}
   - component: {fileID: 305997041}
+  - component: {fileID: 305997042}
+  - component: {fileID: 305997043}
   m_Layer: 11
   m_Name: Deck
   m_TagString: Untagged
@@ -454,6 +471,45 @@ MonoBehaviour:
   m_ChildControlHeight: 0
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
+--- !u!61 &305997042
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 305997039}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 900, y: 375}
+  m_EdgeRadius: 0
+--- !u!114 &305997043
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 305997039}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d20e833bb01904419e6d81686c8fcec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cardsInDeck: []
 --- !u!1 &456028418
 GameObject:
   m_ObjectHideFlags: 0
@@ -1318,6 +1374,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1673,7 +1730,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1463123686}
   - component: {fileID: 1463123689}
-  - component: {fileID: 1463123688}
   m_Layer: 5
   m_Name: ScriptHolder
   m_TagString: Untagged
@@ -1700,19 +1756,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1463123688
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1463123685}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 66b5a90c70f45d7469a2a657d83ba76d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Prefab: {fileID: 8873654061148652710, guid: ef4ac232b047ba84f99f9f8e60d19083, type: 3}
 --- !u!114 &1463123689
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1747,6 +1790,7 @@ GameObject:
   - component: {fileID: 1598328730}
   - component: {fileID: 1598328729}
   - component: {fileID: 1598328728}
+  - component: {fileID: 1598328731}
   m_Layer: 5
   m_Name: Inventory
   m_TagString: Untagged
@@ -1864,6 +1908,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1598328726}
   m_CullTransparentMesh: 0
+--- !u!114 &1598328731
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1598328726}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e83613089ac21649acaad6be34512e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Inventory: []
+  numberOfCardsInDeck: 5
+  Prefab: {fileID: 8873654061148652710, guid: ef4ac232b047ba84f99f9f8e60d19083, type: 3}
+  cardPile: {fileID: 0}
 --- !u!1 &1618763450
 GameObject:
   m_ObjectHideFlags: 0
@@ -2053,6 +2113,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -2268,8 +2329,9 @@ Light:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1834503125}
   m_Enabled: 1
-  serializedVersion: 9
+  serializedVersion: 10
   m_Type: 1
+  m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 1
   m_Range: 10

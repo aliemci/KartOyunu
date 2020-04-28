@@ -10,19 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 0}
-  m_Name: Newbie
-  m_EditorClassIdentifier: Assembly-CSharp::rivalCharacter
-  Id: Newbie
-  health: 18
-  maxHealth: 18
-  mana: 99
-  shield: 4
+  m_Name: Talha
+  m_EditorClassIdentifier: Assembly-CSharp::playerCharacter
+  Id: Talha
   is_resisted: 0
   is_invincible: 0
   is_stunned: 0
   is_missed: 0
   is_confused: 0
   is_evaded: 0
+  health: 120
+  maxHealth: 120
+  mana: 40
+  shield: 50
   shield_factor: 0
   mana_factor: 0
   attack_factor: 0
@@ -30,15 +30,12 @@ MonoBehaviour:
   evasion_chance: 0
   confused_chance: 0
   miss_chance: 0
+  StartingCards:
+  - card: {fileID: 11400000, guid: fd32bfdc7619c4a4e8c27a339ae32e93, type: 2}
+    count: 1
+  - card: {fileID: 11400000, guid: 137291b9b9703ca47995468c19b8009a, type: 2}
+    count: 5
+  - card: {fileID: 11400000, guid: b7444e1e6785c704f8460a6e3265c788, type: 2}
+    count: 2
   CharacterSprite: {fileID: 21300000, guid: 5cf1b4629c7cb104e98d369448084abd, type: 3}
-  isRival: 1
-  enemy_damage: 9
-  enemy_regain_health: 0
-  enemy_shield: 0
-  enemy_has_buff: 0
-  enemy_has_debuff: 0
-  enemyPattern:
-  - moves: 0
-  - moves: 1
-  enemy_buff: 0
-  enemy_debuff: 0
+  isPlayer: 1
