@@ -9,9 +9,9 @@ public class CharacterDisplay : MonoBehaviour
 {
     public Character character;
     public bool isPlayer = false;
-    //public playerCharacter playerChar;
     public bool isEnemy = false;
-    //public rivalCharacter rivalChar;
+
+    private end_turn end_turn_ref;
 
     //Her ekran için ayrı büyüklükte olacağı için belirli bir katsayı ile nesneleri büyültüp/küçülteceğiz.
     private Vector2 resolution_scale;
@@ -22,7 +22,8 @@ public class CharacterDisplay : MonoBehaviour
     {
         //Çözünürlük için
         resolution_scale = GameObject.Find("Canvas").GetComponent<RectTransform>().localScale;
-        
+
+        end_turn_ref = GameObject.Find("Next_Turn").GetComponent<end_turn>();
     }
 
     void Start()
@@ -45,37 +46,86 @@ public class CharacterDisplay : MonoBehaviour
         
         hearthText = GameObject.Find("Heart_Value").GetComponent<TextMeshProUGUI>();
         manaText = GameObject.Find("Mana_Value").GetComponent<TextMeshProUGUI>();
-        healthManaWriter();
+        situationUpdater();
     }
 
 
-    public void healthManaWriter()
+    public void situationUpdater()
     {
-        //Debug.Log("healthManaWriter is called");
+        //Eğer oyuncuysa
         if (isPlayer)
         {
-            //Debug.Log("and it's player");
+            //Can ve Enerji değerlerini yazdırıyor.
+            hearthText.text = character.health.ToString();
+            manaText.text = character.mana.ToString();
+            //Eğer ölmüşse
+            if (character.health <= 0)
+            {
+                //Can yerine 0 yazdırılacak
+                hearthText.text = "0";
+                //Nesne silinecek.
+                Destroy(this.gameObject);
+            }
+        }
+        //Eğer oyuncu değilse
+        else
+        {
+            Debug.Log(character.name + "'s situation updater!");
+            //Can değerlerini yazdırıyor.
+            transform.Find("health").GetComponent<TextMeshProUGUI>().text = character.health.ToString();
+            //Eğer ölmüşse
+            if (character.health <= 0)
+            {
+                Debug.Log(character.name + " is dead!");
+                //Bir düşman öldüğüne göre düşman listesinin güncellenmesi gerekmekte. Bu işe yarıyor.
+                end_turn_ref.isVariablesDefined = false;
+
+                //Dövüşün bitip bitmediğini kontrol ediyor.
+                end_turn_ref.end_of_fight();
+
+                //Nesneyi siliyor.
+                Destroy(this.gameObject);
+
+            }
+        }
+
+    }
+
+    /*
+    public void healthManaWriter()
+    {
+
+        if (isPlayer)
+        {
             checkIsDead();
-            hearthText.text = character.health.ToString(); // + "/" + character.maxHealth.ToString();
+            hearthText.text = character.health.ToString();
             manaText.text = character.mana.ToString();
             return;
         }
 
         //Can yazısı yenileniyor.
-        transform.Find("health").GetComponent<TextMeshProUGUI>().text = character.health.ToString(); // + "/" + character.maxHealth.ToString();
+        transform.Find("health").GetComponent<TextMeshProUGUI>().text = character.health.ToString();
     }
     
     public void checkIsDead()
     {
+        //Eğer oyuncu değilse
         if(!isPlayer)
             healthManaWriter();
 
         //Ölüm durumu kontrol ediliyor.
         if (character.health <= 0)
         {
+            //Can yazısını sıfır yapıyor.
+            hearthText.text = "0";
+
+            Debug.Log("");
+
+            //Oyuncu nesnesini siliyor.
             Destroy(gameObject);
         }
     }
+    */
 
     public void cardRequirements(Character player)
     {

@@ -4,20 +4,23 @@ using UnityEngine;
 
 public class InventoryScript : MonoBehaviour
 {
+    [Header("Inventory List")]
     public List<Card> Inventory = new List<Card>();
 
+    [Header("Essentials")]
     public int numberOfCardsInDeck = 5;
+    public GameObject Prefab;
 
-    public GameObject Prefab, cardPile;
+    [HideInInspector]
+    public GameObject cardPile, CardDeck;
+    
 
-    private Transform CardDeck;
-
-    private void Start()
+    void Awake()
     {
         //Gerekli atamalar
-        CardDeck = GameObject.Find("Lower-deck").transform.Find("Card-deck").transform.Find("Deck");
+        CardDeck = GameObject.Find("Deck");
 
-        cardPile = GameObject.Find("Lower-deck").transform.Find("CardPile").gameObject;
+        cardPile = GameObject.Find("CardPile");
     }
 
     public void inventory_load(playerCharacter player)
@@ -67,7 +70,7 @@ public class InventoryScript : MonoBehaviour
             //Rastgele bir tamsayı alıyor.
             int index = Random.Range(0, Inventory.Count);
             //Belirtilmiş özelliklere sahip bir kart oluşturuyor. (Dönüş değeri de var ancak şuan kullanılmıyor.)
-            create_new_card(Prefab, "Card " + i.ToString(), Inventory[index], CardDeck);
+            create_new_card(Prefab, "Card " + i.ToString(), Inventory[index], CardDeck.transform);
 
             //Envanterdeki kart limana ekleniyor.
             CardDeck.GetComponent<DeckScript>().cardsInDeck.Add(Inventory[index]);

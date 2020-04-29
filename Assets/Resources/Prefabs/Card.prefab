@@ -143,6 +143,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -553,6 +554,7 @@ MonoBehaviour:
   toggleOn: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   toggleOff: {fileID: 2100000, guid: 749b9069dc4742c5bfa5c74644049926, type: 2}
   isPlayerOwn: 0
+  isCardUsed: 0
 --- !u!114 &8873654061148652707
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -610,7 +612,7 @@ MonoBehaviour:
   m_IgnoreLayout: 0
   m_MinWidth: -1
   m_MinHeight: -1
-  m_PreferredWidth: 200
+  m_PreferredWidth: 180
   m_PreferredHeight: 250
   m_FlexibleWidth: 0
   m_FlexibleHeight: 0
@@ -977,6 +979,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:

@@ -279,28 +279,39 @@ public class rivalCharacter : Character
     //---------------
     public void do_move(playerCharacter player)
     {
+        //Debug.Log("\n" + Id + " is taking move!\n" + player.Id + " is enemy for him\n" + enemyPattern[movement_index].moves +
+        //    " is the move");
+
         switch (enemyPattern[movement_index].moves)
         {
             case move.Attack:
                 player.takeDamage(enemy_damage);
+                movement_index++;
                 break;
 
             case move.Buff:
                 doBuff(enemy_buff, 1);
+                movement_index++;
                 break;
 
             case move.Charge:
 
+                movement_index++;
                 break;
 
             case move.Debuff:
-                doDebuff(enemy_debuff, 1);
+                player.doDebuff(enemy_debuff, 1);
+                movement_index++;
                 break;
 
             case move.Shield:
                 shieldApply(enemy_shield);
+                movement_index++;
                 break;
         }
+
+        //Liste sonsuz olarak dönsün diye 
+        movement_index = movement_index % enemyPattern.Count;
     }
 
 

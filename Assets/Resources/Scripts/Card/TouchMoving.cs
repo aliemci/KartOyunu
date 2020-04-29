@@ -181,9 +181,9 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
                     // Kartın yapacağı saldırı fonksiyonu çağırılıyor.
                     this.GetComponent<AttackCard>().attack(player, rival);
                     // Kartın etkilediği düşmanın can kontrolü
-                    hitObject.GetComponent<CharacterDisplay>().checkIsDead();
+                    hitObject.GetComponent<CharacterDisplay>().situationUpdater();
                     // Kartın etkilediği oyuncunun değerlerin ekrana yazdırılması
-                    playerObject.GetComponent<CharacterDisplay>().healthManaWriter();
+                    playerObject.GetComponent<CharacterDisplay>().situationUpdater();
                     // Kullanılan kartın silinmesi için
                     is_card_used = true;
                     break;
@@ -192,9 +192,9 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
                     // Kartın yapacağı düşürücü fonksiyonu çağırılıyor.
                     this.GetComponent<DebuffCard>().debuffApplier(rival);
                     // Kartın etkilediği düşmanın can kontrolü
-                    hitObject.GetComponent<CharacterDisplay>().checkIsDead();
+                    hitObject.GetComponent<CharacterDisplay>().situationUpdater();
                     // Kartın etkilediği oyuncunun değerlerin ekrana yazdırılması
-                    playerObject.GetComponent<CharacterDisplay>().healthManaWriter();
+                    playerObject.GetComponent<CharacterDisplay>().situationUpdater();
                     // Kullanılan kartın silinmesi için
                     is_card_used = true;
                     break;
@@ -216,9 +216,9 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
                     // Kartın yapacağı arttırıcı fonksiyonu çağırılıyor.
                     this.GetComponent<BuffCard>().buffApplier(player);
                     // Kartın etkilediği düşmanın can kontrolü
-                    hitObject.GetComponent<CharacterDisplay>().checkIsDead();
+                    hitObject.GetComponent<CharacterDisplay>().situationUpdater();
                     // Kartın etkilediği oyuncunun değerlerin ekrana yazdırılması
-                    playerObject.GetComponent<CharacterDisplay>().healthManaWriter();
+                    playerObject.GetComponent<CharacterDisplay>().situationUpdater();
                     // Kullanılan kartın silinmesi için
                     is_card_used = true;
                     break;
@@ -227,9 +227,9 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
                     // Kartın yapacağı düşürücü fonksiyonu çağırılıyor.
                     this.GetComponent<DebuffCard>().debuffApplier(rival);
                     // Kartın etkilediği düşmanın can kontrolü
-                    hitObject.GetComponent<CharacterDisplay>().checkIsDead();
+                    hitObject.GetComponent<CharacterDisplay>().situationUpdater();
                     // Kartın etkilediği oyuncunun değerlerin ekrana yazdırılması
-                    playerObject.GetComponent<CharacterDisplay>().healthManaWriter();
+                    playerObject.GetComponent<CharacterDisplay>().situationUpdater();
                     // Kullanılan kartın silinmesi için
                     is_card_used = true;
                     break;
@@ -366,7 +366,10 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         {
             //Desteye erişim
             Transform deck = hitObject.transform;
+            //Deste içine atıyor.
             transform.SetParent(deck);
+            //Destedeki sırasını belirliyor.
+            transform.SetSiblingIndex(placeHolder.transform.GetSiblingIndex());
 
             //Eski yerdeki boş yeri siliyor.
             Destroy(placeHolder);
@@ -375,10 +378,7 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         else
             returnToDeck();
         //------------------------------------------------------------------------
-
-
-        //Manası yeterli olmayan kartları kapatacak fonksiyon çağırılıyor.
-        //playerObject.GetComponent<CharacterDisplay>().cardRequirements(player);
+        
     }
 
     public void returnToDeck()

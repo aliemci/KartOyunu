@@ -20,8 +20,8 @@ public class AttackCard : MonoBehaviour
         attacker.prepareChances();
         defender.prepareChances();
 
-        Debug.Log("ATTACKER\ninv:" + attacker.is_invincible + "\nconf:" + attacker.is_confused + "\nmiss:" + attacker.is_missed);
-        Debug.Log("DEFENDER\ninv:" + defender.is_invincible + "\nconf:" + defender.is_confused + "\nmiss:" + defender.is_missed);
+        //Debug.Log("ATTACKER\ninv:" + attacker.is_invincible + "\nconf:" + attacker.is_confused + "\nmiss:" + attacker.is_missed);
+        //Debug.Log("DEFENDER\ninv:" + defender.is_invincible + "\nconf:" + defender.is_confused + "\nmiss:" + defender.is_missed);
 
         //Eğer saldıran "ölümsüz değilse" ve "şaşırmadıysa" ve "kaçırmadıysa" ve savunan "kaçamadıysa"
         if (!attacker.is_invincible && !attacker.is_confused && !attacker.is_missed && !defender.is_evaded)

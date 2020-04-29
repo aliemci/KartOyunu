@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class end_turn : MonoBehaviour
 {
-    private bool isVariablesDefined = false;
+    public bool isVariablesDefined = false;
 
     private GameObject playerObject;
     private GameObject[] rivalObjects;
@@ -23,42 +23,32 @@ public class end_turn : MonoBehaviour
             playerObject = GameObject.FindGameObjectWithTag("Player");
 
             isVariablesDefined = true;
+
+            //Player character sınıfının fonksiyonları da çağırılacağı için o tipte atanıyor.
+            player = playerObject.GetComponent<CharacterDisplay>().character as playerCharacter;
         }
 
-        try
-        {
-            //Oyuncu için fonksiyonlar: Önce sıradaki tur fonksiyonuyla listedeki buff debufflar etkiyecek.
-            //Sonra bu değişiklikler yazdırılacak.
-            player = playerObject.GetComponent<CharacterDisplay>().character as playerCharacter;
-            player.next_turn();
-            playerObject.GetComponent<CharacterDisplay>().healthManaWriter();
-        }
-        catch
-        {
-            if(GameObject.FindGameObjectWithTag("Player") == null)
-            {
-                Debug.Log("Kaybettin");
-                return;
-            }
-        }
+        
+        //Oyuncu için fonksiyonlar: Önce sıradaki tur fonksiyonuyla listedeki buff debufflar etkiyecek.
+        //Sonra bu değişiklikler yazdırılacak.
+        player.next_turn();
+        playerObject.GetComponent<CharacterDisplay>().situationUpdater();
 
         //Aynı şey her düşman için de kontrol edilecek.
         foreach (GameObject rivalobj in rivalObjects)
         {
-            try{
-                rival = rivalobj.GetComponent<CharacterDisplay>().character as rivalCharacter;
-                rival.next_turn();
-                rivalobj.GetComponent<CharacterDisplay>().checkIsDead();
-                rival.do_move(player);
-            }
-            catch {
-                if (GameObject.FindGameObjectsWithTag("Enemy").Length == 0)
-                {
-                    Debug.Log("Bölüm kazanıldı!");
-                    return;
-                }
-            }
 
+            //rival değişkenini fonksiyonları için bir değişkene atıyor.
+            rival = rivalobj.GetComponent<CharacterDisplay>().character as rivalCharacter;
+            //rival için temel hazırlıkları yapıyor.
+            rival.next_turn();
+            //aldığı hasarla ölüp ölmediğine bakılıyor.
+            rivalobj.GetComponent<CharacterDisplay>().situationUpdater();
+            //Sıra ona geçiyor ve hamlesini oynuyor.
+            rival.do_move(player);
+            //Düşmanı için yazı güncellemeleri
+            playerObject.GetComponent<CharacterDisplay>().situationUpdater();
+            
         }
 
         //Kartları yeniden diziyor.
@@ -66,5 +56,17 @@ public class end_turn : MonoBehaviour
 
     }
 
+
+    public void end_of_fight()
+    {
+        //Burada 1 demesinin sebebi şu, bu fonksiyon bir şahıs ölünce tetikleniyor. Ancak o şahıs silinmeden önce tetikleniyor.
+        //Yani ölecek bir şahıs hayatta oluyor. O yüzden düşman sayısı 1 iken devam ediyor.
+        if (GameObject.FindGameObjectsWithTag("Enemy").Length == 1)
+        {
+            Debug.Log("END OF THE FIGHT");
+        }
+        else
+            Debug.Log("Number of enemies: " + GameObject.FindGameObjectsWithTag("Enemy").Length);
+    }
     
 }
