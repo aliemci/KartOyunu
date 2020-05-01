@@ -13,16 +13,16 @@ MonoBehaviour:
   m_Name: Talha
   m_EditorClassIdentifier: Assembly-CSharp::playerCharacter
   Id: Talha
+  health: 120
+  maxHealth: 120
+  mana: 40
+  shield: 50
   is_resisted: 0
   is_invincible: 0
   is_stunned: 0
   is_missed: 0
   is_confused: 0
   is_evaded: 0
-  health: 120
-  maxHealth: 120
-  mana: 40
-  shield: 50
   shield_factor: 0
   mana_factor: 0
   attack_factor: 0
@@ -30,12 +30,12 @@ MonoBehaviour:
   evasion_chance: 0
   confused_chance: 0
   miss_chance: 0
+  CharacterSprite: {fileID: 21300000, guid: 5cf1b4629c7cb104e98d369448084abd, type: 3}
+  isPlayer: 1
   StartingCards:
   - card: {fileID: 11400000, guid: fd32bfdc7619c4a4e8c27a339ae32e93, type: 2}
-    count: 1
+    count: 2
   - card: {fileID: 11400000, guid: 137291b9b9703ca47995468c19b8009a, type: 2}
     count: 5
   - card: {fileID: 11400000, guid: b7444e1e6785c704f8460a6e3265c788, type: 2}
-    count: 2
-  CharacterSprite: {fileID: 21300000, guid: 5cf1b4629c7cb104e98d369448084abd, type: 3}
-  isPlayer: 1
+    count: 3

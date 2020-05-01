@@ -652,6 +652,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5652e286718ac5049b30c2aea1a4976b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isVariablesDefined: 0
 --- !u!1 &482155832
 GameObject:
   m_ObjectHideFlags: 0
@@ -1256,7 +1257,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1023701170}
   - component: {fileID: 1023701171}
-  - component: {fileID: 1023701172}
   m_Layer: 11
   m_Name: Lower-deck
   m_TagString: Untagged
@@ -1311,18 +1311,6 @@ MonoBehaviour:
   m_ChildControlHeight: 0
   m_ChildScaleWidth: 1
   m_ChildScaleHeight: 1
---- !u!114 &1023701172
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1023701169}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 51334ea84b1514a42b6e187635cb35d1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1057201252
 GameObject:
   m_ObjectHideFlags: 0
@@ -1861,8 +1849,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1023701172}
-        m_MethodName: inventory
+      - m_Target: {fileID: 1598328731}
+        m_MethodName: create_inventory_panel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1921,9 +1909,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Inventory: []
-  numberOfCardsInDeck: 5
-  Prefab: {fileID: 8873654061148652710, guid: ef4ac232b047ba84f99f9f8e60d19083, type: 3}
+  cardPrefab: {fileID: 8873654061148652710, guid: ef4ac232b047ba84f99f9f8e60d19083,
+    type: 3}
+  inventoryPanelPrefab: {fileID: 1295302334628013090, guid: 0a393544dce939a4eae6ffaa08ebfb86,
+    type: 3}
   cardPile: {fileID: 0}
+  CardDeck: {fileID: 0}
 --- !u!1 &1618763450
 GameObject:
   m_ObjectHideFlags: 0

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class scaler : MonoBehaviour
+public class Scaler : MonoBehaviour
 {
 
     public Transform ParentScaler, ChildScaler;

@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class end_turn : MonoBehaviour
+public class End_turn : MonoBehaviour
 {
+    [HideInInspector]
     public bool isVariablesDefined = false;
 
     private GameObject playerObject;
@@ -32,12 +33,14 @@ public class end_turn : MonoBehaviour
         //Oyuncu için fonksiyonlar: Önce sıradaki tur fonksiyonuyla listedeki buff debufflar etkiyecek.
         //Sonra bu değişiklikler yazdırılacak.
         player.next_turn();
+        //Debug.Log("Player next turn applied!");
         playerObject.GetComponent<CharacterDisplay>().situationUpdater();
+        //Debug.Log("Player situation updated!");
 
         //Aynı şey her düşman için de kontrol edilecek.
         foreach (GameObject rivalobj in rivalObjects)
         {
-
+            //Debug.Log(rivalobj);
             //rival değişkenini fonksiyonları için bir değişkene atıyor.
             rival = rivalobj.GetComponent<CharacterDisplay>().character as rivalCharacter;
             //rival için temel hazırlıkları yapıyor.

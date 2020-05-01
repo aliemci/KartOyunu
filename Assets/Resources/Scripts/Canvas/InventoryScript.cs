@@ -8,8 +8,9 @@ public class InventoryScript : MonoBehaviour
     public List<Card> Inventory = new List<Card>();
 
     [Header("Essentials")]
-    public int numberOfCardsInDeck = 5;
-    public GameObject Prefab;
+    public const int numberOfCardsInDeck = 5;
+    public GameObject cardPrefab;
+    public GameObject inventoryPanelPrefab;
 
     [HideInInspector]
     public GameObject cardPile, CardDeck;
@@ -52,6 +53,7 @@ public class InventoryScript : MonoBehaviour
         if (CardDeck.GetComponent<DeckScript>().cardsInDeck.Count != 0)
             return;
 
+
         //Eğer yeterli sayıda kart kalmadıysa
         if(Inventory.Count < numberOfCardsInDeck)
         {
@@ -70,7 +72,8 @@ public class InventoryScript : MonoBehaviour
             //Rastgele bir tamsayı alıyor.
             int index = Random.Range(0, Inventory.Count);
             //Belirtilmiş özelliklere sahip bir kart oluşturuyor. (Dönüş değeri de var ancak şuan kullanılmıyor.)
-            create_new_card(Prefab, "Card " + i.ToString(), Inventory[index], CardDeck.transform);
+            create_new_card(cardPrefab, "Card " + i.ToString(), Inventory[index], CardDeck.transform);
+
 
             //Envanterdeki kart limana ekleniyor.
             CardDeck.GetComponent<DeckScript>().cardsInDeck.Add(Inventory[index]);
@@ -107,4 +110,12 @@ public class InventoryScript : MonoBehaviour
 
         return createdCard;
     }
+
+    public void create_inventory_panel()
+    {
+        GameObject inventory_panel = Instantiate(inventoryPanelPrefab, GameObject.Find("Canvas").transform);
+    }
+
+
+
 }
