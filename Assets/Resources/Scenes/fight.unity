@@ -358,7 +358,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 270072196}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 270072198}
+        m_MethodName: create_card_pile_panel
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &270072196
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -408,6 +419,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CardPile: []
+  cardPilePanelPrefab: {fileID: 1295302334628013090, guid: ae19458f460a7f24cba04202c278b1fc,
+    type: 3}
 --- !u!1 &305997039
 GameObject:
   m_ObjectHideFlags: 0
@@ -1761,11 +1774,11 @@ MonoBehaviour:
   rivalPrefab: {fileID: 9024543244216020872, guid: 72e52cfff16d4104eb92dbef1d260d2c,
     type: 3}
   characters:
-  - {fileID: 11400000, guid: 9e48ef1ae5e384844be11ae61142306c, type: 2}
-  - {fileID: 11400000, guid: 96f00a37b48855f4892f0ede99166c00, type: 2}
+  - {fileID: 11400000, guid: 37afd9126859dc64ea73225358af098c, type: 2}
   - {fileID: 11400000, guid: 96f00a37b48855f4892f0ede99166c00, type: 2}
   - {fileID: 11400000, guid: dc0dccff1a6d91247b4bde216b4b49c8, type: 2}
   - {fileID: 11400000, guid: dc0dccff1a6d91247b4bde216b4b49c8, type: 2}
+  - {fileID: 11400000, guid: 96f00a37b48855f4892f0ede99166c00, type: 2}
 --- !u!1 &1598328726
 GameObject:
   m_ObjectHideFlags: 0

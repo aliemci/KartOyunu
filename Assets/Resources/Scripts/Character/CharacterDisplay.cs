@@ -89,42 +89,7 @@ public class CharacterDisplay : MonoBehaviour
 
     }
 
-    /*
-    public void healthManaWriter()
-    {
-
-        if (isPlayer)
-        {
-            checkIsDead();
-            hearthText.text = character.health.ToString();
-            manaText.text = character.mana.ToString();
-            return;
-        }
-
-        //Can yazısı yenileniyor.
-        transform.Find("health").GetComponent<TextMeshProUGUI>().text = character.health.ToString();
-    }
     
-    public void checkIsDead()
-    {
-        //Eğer oyuncu değilse
-        if(!isPlayer)
-            healthManaWriter();
-
-        //Ölüm durumu kontrol ediliyor.
-        if (character.health <= 0)
-        {
-            //Can yazısını sıfır yapıyor.
-            hearthText.text = "0";
-
-            Debug.Log("");
-
-            //Oyuncu nesnesini siliyor.
-            Destroy(gameObject);
-        }
-    }
-    */
-
     public void cardRequirements(Character player)
     {
         foreach(GameObject card in GameObject.FindGameObjectsWithTag("Card"))

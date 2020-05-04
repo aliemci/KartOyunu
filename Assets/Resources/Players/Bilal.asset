@@ -9,20 +9,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: kopek
+  m_Script: {fileID: 11500000, guid: cc02292a2dcdea841a92e295b6754ccf, type: 3}
+  m_Name: Bilal
   m_EditorClassIdentifier: Assembly-CSharp::playerCharacter
-  Id: Kopek
+  Id: Bilal
+  health: 150
+  maxHealth: 150
+  mana: 50
+  shield: 0
   is_resisted: 0
   is_invincible: 0
   is_stunned: 0
   is_missed: 0
   is_confused: 0
   is_evaded: 0
-  health: 100
-  maxHealth: 100
-  mana: 100
-  shield: 0
   shield_factor: 0
   mana_factor: 0
   attack_factor: 0
@@ -30,10 +30,12 @@ MonoBehaviour:
   evasion_chance: 0
   confused_chance: 0
   miss_chance: 0
-  CharacterSprite: {fileID: 21300004, guid: 5cf1b4629c7cb104e98d369448084abd, type: 3}
+  CharacterSprite: {fileID: 21300006, guid: 5cf1b4629c7cb104e98d369448084abd, type: 3}
   isPlayer: 1
   StartingCards:
-  - card: {fileID: 11400000, guid: 07a479e98f318db4c98d3c5d8a6e2550, type: 2}
-    count: 2
   - card: {fileID: 11400000, guid: b7444e1e6785c704f8460a6e3265c788, type: 2}
+    count: 5
+  - card: {fileID: 11400000, guid: cfba833e3201f3341a49216a054c7fec, type: 2}
+    count: 2
+  - card: {fileID: 11400000, guid: 137291b9b9703ca47995468c19b8009a, type: 2}
     count: 3

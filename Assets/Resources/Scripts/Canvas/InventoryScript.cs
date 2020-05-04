@@ -7,6 +7,10 @@ public class InventoryScript : MonoBehaviour
     [Header("Inventory List")]
     public List<Card> Inventory = new List<Card>();
 
+    private List<Card> DeckList = new List<Card>();
+    private List<Card> CardPileList = new List<Card>();
+
+
     [Header("Essentials")]
     public const int numberOfCardsInDeck = 5;
     public GameObject cardPrefab;
@@ -22,6 +26,10 @@ public class InventoryScript : MonoBehaviour
         CardDeck = GameObject.Find("Deck");
 
         cardPile = GameObject.Find("CardPile");
+
+        DeckList = CardDeck.GetComponent<DeckScript>().cardsInDeck;
+
+        CardPileList = cardPile.GetComponent<CardPileScript>().CardPile;
     }
 
     public void inventory_load(playerCharacter player)
@@ -50,8 +58,25 @@ public class InventoryScript : MonoBehaviour
     public void add_card_to_deck() {
 
         //Eğer destede kart varsa, yeni kart eklemesin.
-        if (CardDeck.GetComponent<DeckScript>().cardsInDeck.Count != 0)
-            return;
+        if (DeckList.Count != 0)
+        {
+            //Destede kalan kartlar
+            foreach(Card card in DeckList)
+            {
+                //Kartları kullanılmışların içine atıyor.
+                CardPileList.Add(card);
+            }
+
+            //Destedeki kartların vekillerini yok etsin.
+            DeckList.Clear();
+
+            //Destede bulunan kartları yok etsin.
+            for(int i=0; i < CardDeck.transform.childCount; i++)
+            {
+                Destroy(CardDeck.transform.GetChild(i).gameObject);
+            }
+            
+        }
 
 
         //Eğer yeterli sayıda kart kalmadıysa
@@ -83,7 +108,6 @@ public class InventoryScript : MonoBehaviour
 
     }
 
-    //Aldığı girdilere göre yeni bir kart oluşturuyor.
     GameObject create_new_card(GameObject Prefab, string Name, Card card, Transform Parent)
     {
         GameObject createdCard = Instantiate(Prefab);

@@ -9,14 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 1b3d5f14d8bdb3b41bc2c1e18202f5f6, type: 3}
   m_Name: Kaptan
   m_EditorClassIdentifier: Assembly-CSharp::rivalCharacter
   Id: Kaptan
-  health: 21
-  maxHealth: 21
-  mana: 999
-  shield: 4
+  health: 40
+  maxHealth: 40
+  mana: 0
+  shield: 2
   is_resisted: 0
   is_invincible: 0
   is_stunned: 0
@@ -30,14 +30,15 @@ MonoBehaviour:
   evasion_chance: 0
   confused_chance: 0
   miss_chance: 0
-  CharacterSprite: {fileID: 21300008, guid: 5cf1b4629c7cb104e98d369448084abd, type: 3}
+  CharacterSprite: {fileID: 21300122, guid: 5cf1b4629c7cb104e98d369448084abd, type: 3}
   isRival: 1
-  enemy_damage: 12
-  enemy_regain_health: 10
+  enemy_damage: 8
+  enemy_regain_health: 2
   enemy_shield: 0
   enemy_has_buff: 0
   enemy_has_debuff: 0
   enemyPattern:
   - moves: 0
+  - moves: 1
   enemy_buff: 0
   enemy_debuff: 0
