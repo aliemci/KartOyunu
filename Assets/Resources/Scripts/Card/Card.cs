@@ -26,8 +26,10 @@ public enum CardType2
 [CreateAssetMenu(fileName = "New Card", menuName = "Card")]
 public class Card : ScriptableObject{
 
+    [Header("Specifications")]
     public string cardName;
     
+    [Header("Card Type")]
     public CardType1 CardT1;
     [HideInInspector]
     public CardType2 CardT2;
@@ -47,6 +49,7 @@ public class Card : ScriptableObject{
     [HideInInspector]
     public int attack, defence, mana;
 
+    [HideInInspector]
     public bool isPlayerOwn, isCardUsed;
 
 }

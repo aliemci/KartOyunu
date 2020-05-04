@@ -36,5 +36,10 @@ MonoBehaviour:
   regain_health: 0
   regain_shield: 0
   enemyPattern:
-  - {fileID: 0}
+  - moves: 0
+    buff: 0
+    debuff: 0
+  - moves: 0
+    buff: 0
+    debuff: 0
   movement_index: 0

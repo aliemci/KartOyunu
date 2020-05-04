@@ -4,8 +4,8 @@ using UnityEngine;
 using UnityEditor;
 
 //Düşmanın hareketleri
-//[System.Serializable]
-public class fightPattern:MonoBehaviour
+[System.Serializable]
+public class fightPattern
 {
     public move moves;
 
@@ -101,47 +101,18 @@ public class rivalCharacter_Editor : Editor
         rivalCharacter rival_character = (rivalCharacter)target;
 
         //Eğer bool doğruysa buff seçilebilsin.
-        if(rival_character.enemyPattern[rival_character.movement_index].moves == move.Buff)
+        if(rival_character.enemyPattern[0].moves == move.Buff)
         {
             //rival_character.enemy_buff = (buffs)EditorGUILayout.EnumPopup("Buffs", rival_character.enemy_buff);
-            rival_character.enemyPattern[rival_character.movement_index].buff = (buffs)EditorGUILayout.EnumPopup("Buffs", rival_character.enemyPattern[rival_character.movement_index].buff);
+            rival_character.enemyPattern[0].buff = (buffs)EditorGUILayout.EnumPopup("Buffs", rival_character.enemyPattern[rival_character.movement_index].buff);
         }
 
         //Eğer bool doğruysa debuff seçilebilsin.
-        if (rival_character.enemyPattern[rival_character.movement_index].moves == move.Debuff)
-            rival_character.enemyPattern[rival_character.movement_index].debuff = (debuffs)EditorGUILayout.EnumPopup("Debuffs", rival_character.enemyPattern[rival_character.movement_index].debuff);
+        if (rival_character.enemyPattern[0].moves == move.Debuff)
+            rival_character.enemyPattern[0].debuff = (debuffs)EditorGUILayout.EnumPopup("Debuffs", rival_character.enemyPattern[rival_character.movement_index].debuff);
 
     }
 
 }
 #endif
 */
-
-#if UNITY_EDITOR
-[CustomEditor(typeof(fightPattern))]
-public class fightPattern_Editor : Editor
-{
-    //Düzenleme alanındaki her eylemden sonra bu fonksiyon çağırılıyor.
-    public override void OnInspectorGUI()
-    {
-        //Öntanımlı çizilenler için.
-        DrawDefaultInspector();
-
-        //Üzerinde değişiklik yaptığımız nesnenin kart olduğunu belirterek değişkene atıyoruz.
-        fightPattern fpList = target as fightPattern;
-
-        //Eğer bool doğruysa buff seçilebilsin.
-        if (fpList.moves == move.Buff)
-        {
-            //rival_character.enemy_buff = (buffs)EditorGUILayout.EnumPopup("Buffs", rival_character.enemy_buff);
-            fpList.buff = (buffs)EditorGUILayout.EnumPopup("Buffs", fpList.buff);
-        }
-
-        //Eğer bool doğruysa debuff seçilebilsin.
-        if (fpList.moves == move.Debuff)
-            fpList.debuff = (debuffs)EditorGUILayout.EnumPopup("Debuffs", fpList.debuff);
-
-    }
-
-}
-#endif
