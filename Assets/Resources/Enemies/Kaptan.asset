@@ -32,13 +32,14 @@ MonoBehaviour:
   miss_chance: 0
   CharacterSprite: {fileID: 21300122, guid: 5cf1b4629c7cb104e98d369448084abd, type: 3}
   isRival: 1
-  enemy_damage: 8
-  enemy_regain_health: 2
-  enemy_shield: 0
-  enemy_has_buff: 0
-  enemy_has_debuff: 0
+  damage: 10
+  regain_health: 5
+  regain_shield: 3
   enemyPattern:
   - moves: 0
+    buff: 0
+    debuff: 0
   - moves: 1
-  enemy_buff: 0
-  enemy_debuff: 0
+    buff: 0
+    debuff: 0
+  movement_index: 0

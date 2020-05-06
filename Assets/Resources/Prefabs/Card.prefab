@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 296530426277186721}
   - component: {fileID: 3827274581887467905}
   - component: {fileID: 5461251854569293867}
-  m_Layer: 2
+  m_Layer: 12
   m_Name: Combine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -190,7 +190,7 @@ GameObject:
   - component: {fileID: 8873654060712500249}
   - component: {fileID: 8873654060712500251}
   - component: {fileID: 8873654060712500248}
-  m_Layer: 2
+  m_Layer: 12
   m_Name: Mana
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -238,7 +238,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -345,7 +345,7 @@ GameObject:
   - component: {fileID: 8873654060852615758}
   - component: {fileID: 8873654060852615752}
   - component: {fileID: 8873654060852615753}
-  m_Layer: 2
+  m_Layer: 12
   m_Name: Attack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -393,7 +393,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -502,7 +502,8 @@ GameObject:
   - component: {fileID: 8873654061148652707}
   - component: {fileID: 8873654061148652706}
   - component: {fileID: 8654724847837192517}
-  m_Layer: 2
+  - component: {fileID: 8382699150092495148}
+  m_Layer: 12
   m_Name: Card
   m_TagString: Card
   m_Icon: {fileID: 0}
@@ -546,7 +547,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ed1b793c5ad81946a7d11ac3578a73d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  card: {fileID: 11400000, guid: 3edea20ac5bd3ae43afb9ddefe2dd489, type: 2}
+  card: {fileID: 0}
   nameText: {fileID: 8873654062203700547}
   manaText: {fileID: 8873654060712500248}
   attackText: {fileID: 8873654060852615753}
@@ -617,6 +618,17 @@ MonoBehaviour:
   m_FlexibleWidth: 0
   m_FlexibleHeight: 0
   m_LayoutPriority: 1
+--- !u!210 &8382699150092495148
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8873654061148652710}
+  m_Enabled: 1
+  m_SortingLayerID: 2050740627
+  m_SortingLayer: -1
+  m_SortingOrder: 0
 --- !u!1 &8873654061337099195
 GameObject:
   m_ObjectHideFlags: 0
@@ -628,7 +640,7 @@ GameObject:
   - component: {fileID: 8873654061337099194}
   - component: {fileID: 8873654061337099188}
   - component: {fileID: 8873654061337099189}
-  m_Layer: 2
+  m_Layer: 12
   m_Name: Shield
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -676,7 +688,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -783,7 +795,7 @@ GameObject:
   - component: {fileID: 8873654062203700544}
   - component: {fileID: 8873654062203700546}
   - component: {fileID: 8873654062203700547}
-  m_Layer: 2
+  m_Layer: 12
   m_Name: Name
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -831,7 +843,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -939,7 +951,9 @@ GameObject:
   m_Component:
   - component: {fileID: 8873654062736073462}
   - component: {fileID: 8873654062736073457}
-  m_Layer: 2
+  - component: {fileID: 2397593407089892476}
+  - component: {fileID: 5940567100454663555}
+  m_Layer: 12
   m_Name: CardTemplate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1003,7 +1017,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2050740627
   m_SortingLayer: -1
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 70424fc7a2f7f724da071ec6326f6ebe, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1015,3 +1029,41 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!223 &2397593407089892476
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8873654062736073463}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 1
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 1
+  m_TargetDisplay: 0
+--- !u!114 &5940567100454663555
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8873654062736073463}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295

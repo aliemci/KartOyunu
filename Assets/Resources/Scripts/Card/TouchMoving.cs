@@ -40,6 +40,8 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        //Debug.Log(eventData.selectedObject);
+
         //Eğer UI katmanındaysa (Kartların olduğu liman UI o yüzden)
         if(this.transform.parent.gameObject.layer == 5 || true)
         {
@@ -86,7 +88,12 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         player = playerObject.GetComponent<CharacterDisplay>().character;
 
         // --------------------------------------------------------------
-        
+
+        //Kartın uygulanabileceği kimseleri belirtiyor.
+        card.attackable_enemies(show:false);
+
+        //Kartı aldıktan sonra collider bileşenini kapatıyor ki atılan yere giden ışını engellemesin
+        this.GetComponent<BoxCollider2D>().enabled = false;
 
     }
 
@@ -138,18 +145,32 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        Debug.Log(eventData.pointerCurrentRaycast.gameObject);
+
+        //Kartı attıktan sonra collider bileşenini açıyor ki bir daha alınabilsin
+        this.GetComponent<BoxCollider2D>().enabled = true;
+
         //Fare'nin konumundan bir ışın gönderiliyor.
         RaycastHit2D hit = Physics2D.Raycast(Input.mousePosition, -Vector2.up, 500f);
 
         //Kısayol
-        GameObject hitObject;
-        
+        GameObject hitObject =  eventData.pointerCurrentRaycast.gameObject;
 
+        //Düşmanlar görünür olsun.
+        card.attackable_enemies(show: true);
+
+        if (hitObject == null)
+        {
+            returnToDeck();
+            return;
+        }
+
+        /*
         try
         {
             //Debug.Log(hit.collider.gameObject.name);
             //Eğer dönen obje yoksa hata verecektir.
-            hitObject = hit.collider.gameObject;
+            hitObject = eventData.pointerCurrentRaycast.gameObject;
         }
         catch
         {
@@ -157,6 +178,7 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
             returnToDeck();
             return;
         }
+        */
 
         //İleride kartın özelliğini etkilemek için kullanılıyor.
         bool is_card_used = false;
@@ -354,7 +376,7 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         else if(hitObject.layer == 10)
         {
             //Kartı atama işlemi
-            transform.SetParent(hit.collider.transform);
+            transform.SetParent(hitObject.transform);
             
             //Eski yerdeki boş yeri siliyor.
             Destroy(placeHolder);

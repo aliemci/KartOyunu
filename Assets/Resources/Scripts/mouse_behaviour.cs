@@ -17,9 +17,8 @@ public class mouse_behaviour : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             RaycastHit2D hit = Physics2D.Raycast(Input.mousePosition, -Vector2.up, 500f);
-            Debug.Log(hit.transform.name);
+            //Debug.Log(hit.transform.name);
             Debug.Log(hit.collider.transform.name);
-
         }
         */
     }

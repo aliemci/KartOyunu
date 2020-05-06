@@ -25,3 +25,8 @@ MonoBehaviour:
   mana: 1
   isPlayerOwn: 0
   isCardUsed: 0
+  attack_range:
+  - 0
+  - 0
+  - 0
+  - 0

@@ -19,7 +19,7 @@ TagManager:
   - Player
   - Combiner
   - CardDeck
-  - 
+  - Card
   - 
   - 
   - 
@@ -49,12 +49,12 @@ TagManager:
   - name: CombineWindow
     uniqueID: 3543019257
     locked: 0
-  - name: Cards
-    uniqueID: 2050740627
-    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
   - name: HUD
     uniqueID: 3105567119
+    locked: 0
+  - name: Cards
+    uniqueID: 2050740627
     locked: 0
