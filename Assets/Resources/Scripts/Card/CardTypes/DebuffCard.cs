@@ -10,7 +10,8 @@ public enum debuffs
     Blind,
     Frailness,
     Weakness,
-    Tired
+    Tired,
+    None
 }
 
 public class DebuffCard : MonoBehaviour

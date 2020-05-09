@@ -9,9 +9,9 @@ public class fightPattern
 {
     public move moves;
 
-    [HideInInspector]
+    //[HideInInspector]
     public buffs buff;
-    [HideInInspector]
+    //[HideInInspector]
     public debuffs debuff;
 }
 
@@ -36,14 +36,10 @@ public class rivalCharacter : Character
     public int damage;
     public int regain_health;
     public int regain_shield;
+
+    [Header("Basic AI")]
     public List<fightPattern> enemyPattern = new List<fightPattern>();
 
-    /*
-    [HideInInspector]
-    public buffs enemy_buff;
-    [HideInInspector]
-    public debuffs enemy_debuff;
-    */
 
     [HideInInspector]
     public int movement_index = 0;
@@ -52,6 +48,9 @@ public class rivalCharacter : Character
     //---------------
     public void do_move(playerCharacter player)
     {
+        //Eğer hiçbir hareketi yoksa
+        if (enemyPattern.Count == 0)
+            return;
 
         switch (enemyPattern[movement_index].moves)
         {
@@ -60,7 +59,9 @@ public class rivalCharacter : Character
                 break;
 
             case move.Buff:
-                doBuff(enemyPattern[movement_index].buff, 1);
+                Debug.Log(name + " buffed by " + enemyPattern[movement_index].buff);
+                if (enemyPattern[movement_index].buff != buffs.None)
+                    doBuff(enemyPattern[movement_index].buff, 50);
                 break;
 
             case move.Charge:
@@ -68,7 +69,9 @@ public class rivalCharacter : Character
                 break;
 
             case move.Debuff:
-                player.doDebuff(enemyPattern[movement_index].debuff, 1);
+                Debug.Log(player + " debuffed by " + enemyPattern[movement_index].debuff);
+                if (enemyPattern[movement_index].debuff != debuffs.None)
+                    player.doDebuff(enemyPattern[movement_index].debuff, 5);
                 break;
 
             case move.Shield:
@@ -86,11 +89,12 @@ public class rivalCharacter : Character
 
 }
 
-/*
+
 #if UNITY_EDITOR
 [CustomEditor(typeof(rivalCharacter))]
 public class rivalCharacter_Editor : Editor
 {
+
     //Düzenleme alanındaki her eylemden sonra bu fonksiyon çağırılıyor.
     public override void OnInspectorGUI()
     {
@@ -100,19 +104,30 @@ public class rivalCharacter_Editor : Editor
         //Üzerinde değişiklik yaptığımız nesnenin kart olduğunu belirterek değişkene atıyoruz.
         rivalCharacter rival_character = (rivalCharacter)target;
 
-        //Eğer bool doğruysa buff seçilebilsin.
-        if(rival_character.enemyPattern[0].moves == move.Buff)
+        foreach(fightPattern fp in rival_character.enemyPattern)
         {
-            //rival_character.enemy_buff = (buffs)EditorGUILayout.EnumPopup("Buffs", rival_character.enemy_buff);
-            rival_character.enemyPattern[0].buff = (buffs)EditorGUILayout.EnumPopup("Buffs", rival_character.enemyPattern[rival_character.movement_index].buff);
+            //Eğer bool doğruysa buff seçilebilsin.
+            if(fp.moves == move.Buff)
+            {
+                //Debuff seçeneğini eliyor.
+                fp.debuff = debuffs.None;
+
+                //Buff seçeneğini boş seçmesini engelliyor.
+                if (fp.buff == buffs.None)
+                    fp.buff = buffs.Adrenaline;
+            }
+
+            //Eğer bool doğruysa debuff seçilebilsin.
+            if (fp.moves == move.Debuff)
+            {
+                fp.buff = buffs.None;
+                
+                if (fp.debuff == debuffs.None)
+                    fp.debuff = debuffs.Blind;
+            }
         }
-
-        //Eğer bool doğruysa debuff seçilebilsin.
-        if (rival_character.enemyPattern[0].moves == move.Debuff)
-            rival_character.enemyPattern[0].debuff = (debuffs)EditorGUILayout.EnumPopup("Debuffs", rival_character.enemyPattern[rival_character.movement_index].debuff);
-
+        
     }
-
 }
 #endif
-*/
+

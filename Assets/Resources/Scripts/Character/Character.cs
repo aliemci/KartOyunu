@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEditor;
 
 //Karaktere gelecek arttırıcıları bir listede tutuyor. Bunlar sıra bazlı uygulanabiliyor.
+[System.Serializable]
 public class buffQueue
 {
     public buffs buff { get; set; }
@@ -12,6 +13,7 @@ public class buffQueue
 }
 
 //Aynı şekilde azaltıcılar da uygulanabiliyor.
+[System.Serializable]
 public class debuffQueue
 {
     public debuffs debuff { get; set; }
@@ -33,7 +35,7 @@ public abstract class Character : ScriptableObject
     public int mana = 100;
     public int shield = 0;
 
-    [HideInInspector]
+    //[HideInInspector]
     public bool
         is_resisted = false,
         is_invincible = false,
@@ -42,20 +44,20 @@ public abstract class Character : ScriptableObject
         is_confused = false,
         is_evaded = false;
 
-    [HideInInspector]
+    //[HideInInspector]
     public int
         shield_factor = 0,
         mana_factor = 0,
         attack_factor = 0,
         attack_multiplier = 1;
 
-    [HideInInspector]
+    //[HideInInspector]
     public float
         evasion_chance = 0f,
         confused_chance = 0f,
         miss_chance = 0f;
 
-    [HideInInspector]
+    [Header("Buff & Debuff List")]
     public List<buffQueue> buffList = new List<buffQueue>();
     public List<debuffQueue> debuffList = new List<debuffQueue>();
 

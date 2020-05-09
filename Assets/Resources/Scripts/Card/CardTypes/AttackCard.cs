@@ -29,7 +29,14 @@ public class AttackCard : MonoBehaviour
             defender.takeDamage(damage);
             attacker.consumeMana(manaConsumption);
         }
-           
+
+        else
+        {
+            Debug.Log("Invincible:" + attacker.is_invincible + "\n" +
+                "Confuse:" + attacker.is_confused + "\n" +
+                "Miss:" + attacker.is_missed + "\n" +
+                "Evade:" + defender.is_evaded);
+        }
         
     }
 }

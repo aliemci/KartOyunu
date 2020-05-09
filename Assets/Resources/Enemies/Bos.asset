@@ -35,5 +35,8 @@ MonoBehaviour:
   damage: 0
   regain_health: 0
   regain_shield: 0
-  enemyPattern: []
+  enemyPattern:
+  - moves: 3
+    buff: 1
+    debuff: 7
   movement_index: 0

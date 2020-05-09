@@ -11,7 +11,8 @@ public enum buffs
     Economiser,
     Puffed,
     Resistance,
-    Invincible
+    Invincible,
+    None
 }
 
 public class BuffCard : MonoBehaviour

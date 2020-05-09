@@ -30,16 +30,15 @@ MonoBehaviour:
   evasion_chance: 0
   confused_chance: 0
   miss_chance: 0
+  buffList: []
+  debuffList: []
   CharacterSprite: {fileID: 21300122, guid: 5cf1b4629c7cb104e98d369448084abd, type: 3}
   isRival: 1
   damage: 10
   regain_health: 5
   regain_shield: 3
   enemyPattern:
-  - moves: 0
-    buff: 0
-    debuff: 0
-  - moves: 1
-    buff: 0
-    debuff: 0
+  - moves: 4
+    buff: 7
+    debuff: 1
   movement_index: 0
