@@ -47,8 +47,12 @@ public class End_turn : MonoBehaviour
             rival.next_turn();
             //aldığı hasarla ölüp ölmediğine bakılıyor.
             rivalobj.GetComponent<CharacterDisplay>().situationUpdater();
+
             //Sıra ona geçiyor ve hamlesini oynuyor.
-            rival.do_move(player);
+            rival.do_move(player, rivalObjects);
+            //Durumu güncelleniyor.
+            rivalobj.GetComponent<CharacterDisplay>().situationUpdater();
+
             //Düşmanı için yazı güncellemeleri
             playerObject.GetComponent<CharacterDisplay>().situationUpdater();
             

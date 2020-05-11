@@ -26,46 +26,58 @@ public class debuffQueue
 
 public abstract class Character : ScriptableObject
 {
+    //--------------- DEĞİŞKENLER ---------------
     [Header("Name")]
     public string Id;
 
     [Header("General Attributes")]
-    public int health = 100;
-    public int maxHealth = 100;
-    public int mana = 100;
-    public int shield = 0;
 
-    //[HideInInspector]
+    [Tooltip("Can miktarı")]
+    public int health = 100;
+    [Tooltip("En yüksek can miktarı")]
+    public int maxHealth = 100;
+    [Tooltip("Enerji miktarı")]
+    public int mana = 100;
+    [Tooltip("Kalkan miktarı")]
+    public int shield = 0;
+    
+
+    [HideInInspector]
     public bool
         is_resisted = false,
         is_invincible = false,
         is_stunned = false,
+        is_blinded = false,
         is_missed = false,
         is_confused = false,
         is_evaded = false;
 
-    //[HideInInspector]
+    [HideInInspector]
     public int
         shield_factor = 0,
         mana_factor = 0,
         attack_factor = 0,
         attack_multiplier = 1;
 
-    //[HideInInspector]
+    [HideInInspector]
     public float
         evasion_chance = 0f,
         confused_chance = 0f,
+        blind_chance = 0f,
         miss_chance = 0f;
 
-    [Header("Buff & Debuff List")]
+    //[Header("Buff & Debuff List")]
+    [HideInInspector]
     public List<buffQueue> buffList = new List<buffQueue>();
+    [HideInInspector]
     public List<debuffQueue> debuffList = new List<debuffQueue>();
 
 
     [Header("Style")]
     public Sprite CharacterSprite;
-
-    //-----------------------------------------------
+    
+    
+    //--------------- FONKSİYONLAR ---------------
 
     //Yeni tura geçildiğinde bu fonksiyon tetikleniyor.
     public void next_turn()
@@ -92,7 +104,7 @@ public abstract class Character : ScriptableObject
         switch (buff)
         {
             case buffs.Adrenaline:
-                attack_multiplier = Mathf.RoundToInt(coefficient);
+                attack_multiplier = 2; //Mathf.RoundToInt(coefficient);
                 break;
 
             case buffs.Alertness:
@@ -119,6 +131,10 @@ public abstract class Character : ScriptableObject
                 is_invincible = true;
                 break;
 
+            case buffs.Regenerate:
+                health += Mathf.RoundToInt(coefficient);
+                break;
+
         }
     }
 
@@ -128,6 +144,10 @@ public abstract class Character : ScriptableObject
         switch (debuff)
         {
             case debuffs.Poison:
+                health -= Mathf.RoundToInt(coefficient) * repetition;
+                break;
+
+            case debuffs.Burn:
                 health -= Mathf.RoundToInt(coefficient) * repetition;
                 break;
 
@@ -143,12 +163,16 @@ public abstract class Character : ScriptableObject
                 is_stunned = true;
                 break;
 
+            case debuffs.Blind:
+                blind_chance = Mathf.RoundToInt(coefficient);
+                break;
+
             case debuffs.Tired:
                 mana_factor = Mathf.RoundToInt(coefficient);
                 break;
 
             case debuffs.Weakness:
-                attack_factor = Mathf.RoundToInt(coefficient);
+                attack_factor -= Mathf.RoundToInt(coefficient);
                 break;
         }
     }
@@ -170,6 +194,11 @@ public abstract class Character : ScriptableObject
             is_evaded = true;
         else
             is_evaded = false;
+
+        if (Random.Range(0f, 100f) < blind_chance)
+            is_blinded = true;
+        else
+            is_blinded = false;
     }
 
     //Aldığı hasarı uygulayıcı
@@ -181,13 +210,23 @@ public abstract class Character : ScriptableObject
     //Kullandığı enerjiyi uygulayıcı
     public void consumeMana(int cost)
     {
-        mana -= cost;
+        mana -= cost - mana_factor;
     }
 
     //Kalkan uygulayıcı
     public void shieldApply(int amount)
     {
-        shield += amount;
+        shield += amount + shield_factor;
+    }
+
+    //Can uygulayıcı
+    public void healApply(int amount)
+    {
+        health += amount;
+
+        //Azami can sınırına ulaşırsa, aşmasın.
+        if (health > maxHealth)
+            health = maxHealth;
     }
 
     //-----------------------------------------------

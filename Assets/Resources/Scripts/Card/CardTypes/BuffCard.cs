@@ -12,6 +12,7 @@ public enum buffs
     Puffed,
     Resistance,
     Invincible,
+    Regenerate,
     None
 }
 

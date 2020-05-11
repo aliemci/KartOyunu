@@ -2,26 +2,30 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using SubjectNerd.Utilities;
 
 //Düşmanın hareketleri
 [System.Serializable]
 public class fightPattern
 {
     public move moves;
-
-    //[HideInInspector]
+    
     public buffs buff;
-    //[HideInInspector]
+    public int buffCoef;
+
     public debuffs debuff;
+    public int debuffCoef;
 }
 
 public enum move
 {
     Attack,
     Shield,
+    Heal,
     Charge,
     Buff,
-    Debuff
+    Debuff,
+    Special
 }
 
 
@@ -29,53 +33,136 @@ public enum move
 [CreateAssetMenu(fileName = "New Rival Character", menuName = "Rival Character")]
 public class rivalCharacter : Character
 {
-    [Header("Rival Specific")]
-    public bool isRival = true;
-
-    [Header("Rival General Attributes")]
+    //--------------- DEĞİŞKENLER ---------------
+        
+    [HideInInspector]
     public int damage;
-    public int regain_health;
-    public int regain_shield;
 
-    [Header("Basic AI")]
+    [HideInInspector]
+    public int regainHealth;
+    [HideInInspector]
+    public int regainShield;
+
+
+    [HideInInspector]
     public List<fightPattern> enemyPattern = new List<fightPattern>();
-
 
     [HideInInspector]
     public int movement_index = 0;
 
 
-    //---------------
-    public void do_move(playerCharacter player)
+    //--------------- FONKSİYONLAR ---------------
+    public void do_move(playerCharacter player, GameObject[] rivals)
     {
+        //Değişken
+        rivalCharacter rival = null;
+
         //Eğer hiçbir hareketi yoksa
         if (enemyPattern.Count == 0)
             return;
 
+        
+        if (is_confused)
+        {
+            //Rastgele bir sayı tutuluyor.
+            int rival_index = Mathf.FloorToInt(Random.Range(0f, rivals.Length));
+            //O indisteki düşman alınıyor. Bu Confuse mekaniği için gerekli
+            rival = rivals[rival_index].GetComponent<CharacterDisplay>().character as rivalCharacter;
+        }
+
+        Debug.Log(enemyPattern[movement_index].moves);
+
         switch (enemyPattern[movement_index].moves)
         {
             case move.Attack:
-                player.takeDamage(damage);
+                if (is_stunned)
+                    break;
+
+                if (is_blinded)
+                    break;
+
+                if (is_confused)
+                {
+                    //Kendi takımından birine vuruyor.
+                    rival.takeDamage(Mathf.Abs(damage * attack_multiplier + attack_factor));
+                    attack_multiplier = 1;
+                }
+                else
+                {
+                    player.takeDamage(Mathf.Abs(damage * attack_multiplier + attack_factor));
+                    attack_multiplier = 1;
+                }
+
                 break;
 
-            case move.Buff:
-                Debug.Log(name + " buffed by " + enemyPattern[movement_index].buff);
-                if (enemyPattern[movement_index].buff != buffs.None)
-                    doBuff(enemyPattern[movement_index].buff, 50);
+            //---------------
+
+            case move.Shield:
+                if (is_stunned)
+                    break;
+
+                shieldApply(regainShield);
+
                 break;
+
+            //---------------
+
+            case move.Heal:
+                if (is_stunned)
+                    break;
+
+                healApply(regainHealth);
+
+                break;
+
+            //---------------
 
             case move.Charge:
+                if (is_stunned)
+                    break;
+
                 //EKSİK
                 break;
 
-            case move.Debuff:
-                Debug.Log(player + " debuffed by " + enemyPattern[movement_index].debuff);
-                if (enemyPattern[movement_index].debuff != debuffs.None)
-                    player.doDebuff(enemyPattern[movement_index].debuff, 5);
+            //---------------
+
+            case move.Buff:
+                //Debug.Log(name + " buffed by " + enemyPattern[movement_index].buff);
+                if (enemyPattern[movement_index].buff != buffs.None)
+                {
+                    buffQueue bq = new buffQueue();
+                    bq.buff = enemyPattern[movement_index].buff;
+                    bq.coefficient = enemyPattern[movement_index].buffCoef;
+                    bq.repetition = 1;
+
+                    buffList.Add(bq);
+                }
+                    //doBuff(enemyPattern[movement_index].buff, enemyPattern[movement_index].buffCoef);
                 break;
 
-            case move.Shield:
-                shieldApply(regain_shield);
+            //---------------
+
+            case move.Debuff:
+                //Debug.Log(player + " debuffed by " + enemyPattern[movement_index].debuff);
+                if (enemyPattern[movement_index].debuff != debuffs.None)
+                {
+                    debuffQueue dq = new debuffQueue();
+                    dq.debuff = enemyPattern[movement_index].debuff;
+                    dq.coefficient = enemyPattern[movement_index].debuffCoef;
+                    dq.repetition = 1;
+
+                    player.debuffList.Add(dq);
+                }
+                //player.doDebuff(enemyPattern[movement_index].debuff, enemyPattern[movement_index].debuffCoef);
+                break;
+
+            //---------------
+
+            case move.Special:
+                if (is_stunned)
+                    break;
+
+                //EKSİK
                 break;
         }
 
@@ -94,6 +181,21 @@ public class rivalCharacter : Character
 [CustomEditor(typeof(rivalCharacter))]
 public class rivalCharacter_Editor : Editor
 {
+    enum displayFieldType { DisplayAsAutomaticFields, DisplayAsCustomizableGUIFields }
+    displayFieldType DisplayFieldType;
+
+    rivalCharacter riv;
+    SerializedObject GetTarget;
+    SerializedProperty ThisList;
+    int ListSize;
+
+    void OnEnable()
+    {
+        riv = (rivalCharacter)target;
+        GetTarget = new SerializedObject(riv);
+        ThisList = GetTarget.FindProperty("enemyPattern");
+        
+    }
 
     //Düzenleme alanındaki her eylemden sonra bu fonksiyon çağırılıyor.
     public override void OnInspectorGUI()
@@ -101,31 +203,110 @@ public class rivalCharacter_Editor : Editor
         //Öntanımlı çizilenler için.
         DrawDefaultInspector();
 
-        //Üzerinde değişiklik yaptığımız nesnenin kart olduğunu belirterek değişkene atıyoruz.
-        rivalCharacter rival_character = (rivalCharacter)target;
+        GetTarget.Update();
 
-        foreach(fightPattern fp in rival_character.enemyPattern)
+        EditorGUILayout.Space();
+        EditorGUILayout.Space();
+        EditorGUILayout.LabelField("Basic AI", EditorStyles.boldLabel);
+
+        ListSize = ThisList.arraySize;
+
+        if (ListSize != ThisList.arraySize)
         {
-            //Eğer bool doğruysa buff seçilebilsin.
-            if(fp.moves == move.Buff)
+            while (ListSize > ThisList.arraySize)
             {
-                //Debuff seçeneğini eliyor.
-                fp.debuff = debuffs.None;
-
-                //Buff seçeneğini boş seçmesini engelliyor.
-                if (fp.buff == buffs.None)
-                    fp.buff = buffs.Adrenaline;
+                ThisList.InsertArrayElementAtIndex(ThisList.arraySize);
             }
-
-            //Eğer bool doğruysa debuff seçilebilsin.
-            if (fp.moves == move.Debuff)
+            while (ListSize < ThisList.arraySize)
             {
-                fp.buff = buffs.None;
-                
-                if (fp.debuff == debuffs.None)
-                    fp.debuff = debuffs.Blind;
+                ThisList.DeleteArrayElementAtIndex(ThisList.arraySize - 1);
             }
         }
+
+        EditorGUILayout.Space();
+        EditorGUILayout.Space();
+
+        for (int i = 0; i < ThisList.arraySize; i++)
+        {
+            //Atamalar
+            SerializedProperty MyListRef = ThisList.GetArrayElementAtIndex(i);
+            SerializedProperty moves = MyListRef.FindPropertyRelative("moves");
+            SerializedProperty buff = MyListRef.FindPropertyRelative("buff");
+            SerializedProperty buffCoef = MyListRef.FindPropertyRelative("buffCoef");
+            SerializedProperty debuff = MyListRef.FindPropertyRelative("debuff");
+            SerializedProperty debuffCoef = MyListRef.FindPropertyRelative("debuffCoef");
+
+            //-------------------------------------------------------
+            //Yanyana olsun diye gruplandırıyor.
+            Rect r = EditorGUILayout.BeginHorizontal();
+
+            EditorGUILayout.LabelField(i + 1 + ". Move", EditorStyles.boldLabel);
+
+            //Sağ üst köşesine silme tuşu ekliyor
+            if (GUILayout.Button("Delete Move"))
+            {
+                riv.enemyPattern.RemoveAt(i);
+            }
+
+            EditorGUILayout.EndHorizontal();
+            //-------------------------------------------------------
+
+            //-------------------------------------------------------
+
+            EditorGUILayout.PropertyField(moves);
+
+            //Buff ise
+            if(moves.enumDisplayNames[moves.enumValueIndex] == move.Buff.ToString())
+            {
+                EditorGUILayout.PropertyField(buff);
+                EditorGUILayout.PropertyField(buffCoef);
+            }
+            //Debuff ise
+            else if (moves.enumDisplayNames[moves.enumValueIndex] == move.Debuff.ToString())
+            {
+                EditorGUILayout.PropertyField(debuff);
+                EditorGUILayout.PropertyField(debuffCoef);
+            }
+            //Shield ise
+            else if (moves.enumDisplayNames[moves.enumValueIndex] == move.Shield.ToString())
+            {
+                EditorGUILayout.PropertyField(GetTarget.FindProperty("regainShield"));
+            }
+            //Heal ise
+            else if (moves.enumDisplayNames[moves.enumValueIndex] == move.Heal.ToString())
+            {
+                EditorGUILayout.PropertyField(GetTarget.FindProperty("regainHealth"));
+            }
+            //Special ise
+            else if (moves.enumDisplayNames[moves.enumValueIndex] == move.Attack.ToString())
+            {
+                EditorGUILayout.PropertyField(GetTarget.FindProperty("damage"));
+            }
+            //-------------------------------------------------------
+
+            //-------------------------------------------------------
+
+            //Her bir hareketin altına yatay bir doğru parçası çiziyor.
+            EditorGUILayout.Space();
+            EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+            EditorGUILayout.Space();
+            //-------------------------------------------------------
+
+        }
+
+        EditorGUILayout.Space();
+        EditorGUILayout.Space();
+
+        //-------------------------------------------------------
+
+        //Sonuna ekleme tuşu ekliyor
+        if (GUILayout.Button("Add New Move"))
+        {
+            riv.enemyPattern.Add(new fightPattern());
+        }
+        //-------------------------------------------------------
+
+        GetTarget.ApplyModifiedProperties();
         
     }
 }
