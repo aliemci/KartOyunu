@@ -28,11 +28,24 @@ public class DebuffCard : MonoBehaviour
 
     public void debuffApplier(Character effectedCharacter)
     {
-        debuffQueue helper = new debuffQueue();
-        helper.debuff = debuff;
-        helper.repetition = 1;
-        helper.coefficient = debuffCoefficient;
-        effectedCharacter.debuffList.Add(helper);
+        //Eğer azaltıcılar bu ikisi ise kademeli şekilde etki ediyor. 1'er azalarak tekrar etki ediyor.
+        if(debuff == debuffs.Poison || debuff == debuffs.Burn)
+        {
+            for(int i=0; i<debuffCoefficient; i++)
+            {
+                debuffQueue helper = new debuffQueue();
+                helper.debuff = debuff;
+                helper.coefficient = debuffCoefficient - i;
+                effectedCharacter.debuffList.Add(helper);
+            }
+        }
+        else
+        {
+            debuffQueue helper = new debuffQueue();
+            helper.debuff = debuff;
+            helper.coefficient = debuffCoefficient;
+            effectedCharacter.debuffList.Add(helper);
+        }
         
 
     }

@@ -489,7 +489,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7228757409478804262}
+      - m_Target: {fileID: 4080886194842441205}
         m_MethodName: windowClose
         m_Mode: 1
         m_Arguments:
@@ -600,9 +600,8 @@ GameObject:
   - component: {fileID: 7651352459768671861}
   - component: {fileID: 1801313865901343069}
   - component: {fileID: 6523851999186477983}
-  - component: {fileID: 7651352459768671860}
-  - component: {fileID: 7228757409478804262}
-  m_Layer: 0
+  - component: {fileID: 4080886194842441205}
+  m_Layer: 10
   m_Name: CombineCardPanel
   m_TagString: Card
   m_Icon: {fileID: 0}
@@ -618,7 +617,7 @@ RectTransform:
   m_GameObject: {fileID: 7651352459768671857}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.0000002, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5532651823278190486}
   - {fileID: 5480261100361389959}
@@ -632,7 +631,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 100}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 850, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7651352459768671861
@@ -683,6 +682,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -705,7 +705,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -751948039
-  m_SortingLayer: -2
+  m_SortingLayer: -1
   m_SortingOrder: 0
   m_Sprite: {fileID: -4083604263406289358, guid: 49bb28ca1ef4463448d7fb130184b415,
     type: 3}
@@ -719,35 +719,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &7651352459768671860
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7651352459768671857}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.78431374}
-  m_RaycastTarget: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 49bb28ca1ef4463448d7fb130184b415, type: 3}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!114 &7228757409478804262
+--- !u!114 &4080886194842441205
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -756,7 +728,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7651352459768671857}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3fdc1469ee8d62f4396d15e84005f95e, type: 3}
+  m_Script: {fileID: 11500000, guid: d09fe3e3d54e22b45a94e0757c84ffee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &8535514325896311816

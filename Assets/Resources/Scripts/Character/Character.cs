@@ -9,7 +9,6 @@ public class buffQueue
 {
     public buffs buff { get; set; }
     public float coefficient { get; set; }
-    public int repetition { get; set; }
 }
 
 //Aynı şekilde azaltıcılar da uygulanabiliyor.
@@ -18,7 +17,6 @@ public class debuffQueue
 {
     public debuffs debuff { get; set; }
     public float coefficient { get; set; }
-    public int repetition { get; set; }
 }
 
 
@@ -66,10 +64,10 @@ public abstract class Character : ScriptableObject
         blind_chance = 0f,
         miss_chance = 0f;
 
-    //[Header("Buff & Debuff List")]
-    [HideInInspector]
+    [Header("Buff & Debuff List")]
+    //[HideInInspector]
     public List<buffQueue> buffList = new List<buffQueue>();
-    [HideInInspector]
+    //[HideInInspector]
     public List<debuffQueue> debuffList = new List<debuffQueue>();
 
 
@@ -85,21 +83,21 @@ public abstract class Character : ScriptableObject
         if (buffList.Count > 0)
         {
             //Buff etkisi uygulanıyor.
-            doBuff(buffList[0].buff, buffList[0].coefficient, buffList[0].repetition);
+            doBuff(buffList[0].buff, buffList[0].coefficient);
             buffList.Remove(buffList[0]);
         }
 
         if(debuffList.Count > 0)
         {
             //Debuff etkisi uygulanıyor.
-            doDebuff(debuffList[0].debuff, debuffList[0].coefficient, debuffList[0].repetition);
+            doDebuff(debuffList[0].debuff, debuffList[0].coefficient);
             debuffList.Remove(debuffList[0]);
         }
         
     }
     
     //Arttırıcı uygulayıcısı
-    public void doBuff(buffs buff, float coefficient, int repetition = 1)
+    public void doBuff(buffs buff, float coefficient)
     {
         switch (buff)
         {
@@ -139,16 +137,16 @@ public abstract class Character : ScriptableObject
     }
 
     //Azaltıcı uygulayıcısı
-    public void doDebuff(debuffs debuff, float coefficient, int repetition = 1)
+    public void doDebuff(debuffs debuff, float coefficient)
     {
         switch (debuff)
         {
             case debuffs.Poison:
-                health -= Mathf.RoundToInt(coefficient) * repetition;
+                health -= Mathf.RoundToInt(coefficient);
                 break;
 
             case debuffs.Burn:
-                health -= Mathf.RoundToInt(coefficient) * repetition;
+                health -= Mathf.RoundToInt(coefficient);
                 break;
 
             case debuffs.Confused:

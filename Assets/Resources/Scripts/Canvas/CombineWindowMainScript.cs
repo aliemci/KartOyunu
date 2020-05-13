@@ -1,6 +1,8 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
-public class CombinerWindowMainScript : MonoBehaviour
+public class CombineWindowMainScript : MonoBehaviour
 {
     private GameObject card1, card2;
     private Transform deck;
@@ -9,7 +11,7 @@ public class CombinerWindowMainScript : MonoBehaviour
 
     private void Start()
     {
-        deck = GameObject.Find("Lower-deck").transform.Find("Card-deck").GetChild(0).transform;
+        deck = GameObject.Find("Deck").transform;
         Debug.Log(deck + " is asssigned");
     }
 
@@ -24,14 +26,10 @@ public class CombinerWindowMainScript : MonoBehaviour
         {
             CombineType comTypeCard1 = card1.GetComponent<CombineCard>().cardCombineType;
             CombineType comTypeCard2 = card2.GetComponent<CombineCard>().cardCombineType;
-
-
         }
 
     }
-
     
-
 
     private void checksCardSlots()
     {

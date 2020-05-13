@@ -133,7 +133,6 @@ public class rivalCharacter : Character
                     buffQueue bq = new buffQueue();
                     bq.buff = enemyPattern[movement_index].buff;
                     bq.coefficient = enemyPattern[movement_index].buffCoef;
-                    bq.repetition = 1;
 
                     buffList.Add(bq);
                 }
@@ -149,7 +148,6 @@ public class rivalCharacter : Character
                     debuffQueue dq = new debuffQueue();
                     dq.debuff = enemyPattern[movement_index].debuff;
                     dq.coefficient = enemyPattern[movement_index].debuffCoef;
-                    dq.repetition = 1;
 
                     player.debuffList.Add(dq);
                 }

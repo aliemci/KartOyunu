@@ -31,7 +31,6 @@ public class BuffCard : MonoBehaviour
     {
         buffQueue helper = new buffQueue();
         helper.buff = buff;
-        helper.repetition = 1;
         helper.coefficient = buffCoefficient;
         effectedCharacter.buffList.Add(helper);
         

@@ -71,6 +71,17 @@ public class Card : ScriptableObject{
     //Kartların vurabileceği rakipleri şekillendiriyor.
     public void attackable_enemies(bool show)
     {
+        //Eğer Combiner açıksa fonksiyondan çıksın
+        try
+        {
+            var combiner = GameObject.Find("CombineCardPanel").GetComponent<CombineWindowMainScript>();
+            return;
+        }
+        catch
+        {
+            Debug.Log("Combiner açık değil, devam!");
+        }
+
         //Değişken ataması
         GameObject enemy_deck = GameObject.Find("Enemy-deck");
 

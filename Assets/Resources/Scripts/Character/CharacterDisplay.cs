@@ -16,7 +16,7 @@ public class CharacterDisplay : MonoBehaviour
     //Her ekran için ayrı büyüklükte olacağı için belirli bir katsayı ile nesneleri büyültüp/küçülteceğiz.
     private Vector2 resolution_scale;
 
-    public TextMeshProUGUI hearthText, manaText;
+    public TextMeshProUGUI hearthText, manaText, shieldText;
 
     void Awake()
     {
@@ -46,6 +46,7 @@ public class CharacterDisplay : MonoBehaviour
         
         hearthText = GameObject.Find("Heart_Value").GetComponent<TextMeshProUGUI>();
         manaText = GameObject.Find("Mana_Value").GetComponent<TextMeshProUGUI>();
+        shieldText = GameObject.Find("Shield_Value").GetComponent<TextMeshProUGUI>();
         situationUpdater();
     }
 
@@ -58,6 +59,8 @@ public class CharacterDisplay : MonoBehaviour
             //Can ve Enerji değerlerini yazdırıyor.
             hearthText.text = character.health.ToString();
             manaText.text = character.mana.ToString();
+            shieldText.text = character.shield.ToString();
+
             //Eğer ölmüşse
             if (character.health <= 0)
             {

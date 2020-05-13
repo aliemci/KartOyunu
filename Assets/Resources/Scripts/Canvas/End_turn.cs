@@ -29,7 +29,19 @@ public class End_turn : MonoBehaviour
             player = playerObject.GetComponent<CharacterDisplay>().character as playerCharacter;
         }
 
-        
+
+        //Eğer Combiner açıksa onu kapatsın
+        try
+        {
+            GameObject.Find("CombineCardPanel").GetComponent<CombineWindowMainScript>().windowClose();
+        }
+        catch
+        {
+            Debug.Log("Combiner açık değil");
+        }
+
+
+
         //Oyuncu için fonksiyonlar: Önce sıradaki tur fonksiyonuyla listedeki buff debufflar etkiyecek.
         //Sonra bu değişiklikler yazdırılacak.
         player.next_turn();

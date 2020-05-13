@@ -18,6 +18,8 @@ public class CardPanelScript : MonoBehaviour
             GameObject cardObj = Instantiate(cardPrefab, this.transform.GetChild(0));
             //Oluşturulan şablonun kartını atıyor.
             cardObj.GetComponent<CardDisplay>().card = card;
+
+            
         }
 
     }

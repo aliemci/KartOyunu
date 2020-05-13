@@ -89,6 +89,19 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
         // --------------------------------------------------------------
 
+        //Destedeki diğer kartları erişilemez hale getiriyor.
+        for (int i = 0; i < cardDeck.transform.childCount; i++)
+        {
+            try
+            {
+                cardDeck.transform.GetChild(i).GetComponent<BoxCollider2D>().enabled = false;
+            }
+            catch
+            {
+                continue;
+            }
+        }
+
         //Kartın uygulanabileceği kimseleri belirtiyor.
         card.attackable_enemies(show:false);
 
@@ -103,6 +116,7 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         if (Application.platform == RuntimePlatform.Android || Application.platform == RuntimePlatform.IPhonePlayer)
         {
             transform.position = Input.GetTouch(0).position + grabOffset;
+            
         }
         //PC
         else
@@ -159,6 +173,21 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         //Düşmanlar görünür olsun.
         card.attackable_enemies(show: true);
 
+
+        //Destedeki diğer kartları erişilebilir hale getiriyor.
+        for (int i = 0; i < cardDeck.transform.childCount; i++)
+        {
+            try
+            {
+                cardDeck.transform.GetChild(i).GetComponent<BoxCollider2D>().enabled = true;
+            }
+            catch
+            {
+                continue;
+            }
+        }
+
+        //Eğer bir şeye çarpmadıysa geri dönsün
         if (hitObject == null)
         {
             returnToDeck();
@@ -396,9 +425,12 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
             //Eski yerdeki boş yeri siliyor.
             Destroy(placeHolder);
         }
-        
+
         else
+        {
             returnToDeck();
+        }
+
         //------------------------------------------------------------------------
         
     }
