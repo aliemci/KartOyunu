@@ -316,7 +316,7 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
             playerObject.GetComponent<CharacterDisplay>().cardRequirements(player);
         }
 
-        //Eğer oyuncu nesnesine çarptıysa
+        //Eğer oyuncu nesnesine çarptıysa 
         else if (hitObject.layer == 9)
         {
             bool

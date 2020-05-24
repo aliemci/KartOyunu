@@ -433,7 +433,7 @@ GameObject:
   - component: {fileID: 305997041}
   - component: {fileID: 305997042}
   - component: {fileID: 305997043}
-  m_Layer: 2
+  m_Layer: 11
   m_Name: Deck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -491,7 +491,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 305997039}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0

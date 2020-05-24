@@ -5,8 +5,14 @@ using UnityEngine;
 public class CombineWindowMainScript : MonoBehaviour
 {
     private GameObject card1, card2;
+
     private Transform deck;
+
     private bool isLeftCardSlotEmpty = true, isRightCardSlotEmpty = true;
+
+    private CombineType comTypeCard1, comTypeCard2;
+
+    //-------------------------------------
 
 
     private void Start()
@@ -15,7 +21,7 @@ public class CombineWindowMainScript : MonoBehaviour
         Debug.Log(deck + " is asssigned");
     }
 
-    
+
     public void CombineThem()
     {
         //Kart kontrolü
@@ -27,6 +33,10 @@ public class CombineWindowMainScript : MonoBehaviour
             CombineType comTypeCard1 = card1.GetComponent<CombineCard>().cardCombineType;
             CombineType comTypeCard2 = card2.GetComponent<CombineCard>().cardCombineType;
         }
+        else
+            return;
+
+        
 
     }
     
