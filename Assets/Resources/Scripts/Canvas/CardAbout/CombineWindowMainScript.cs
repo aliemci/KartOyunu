@@ -30,11 +30,23 @@ public class CombineWindowMainScript : MonoBehaviour
         //Sağ ve solda kartlar varsa
         if (!isLeftCardSlotEmpty && !isRightCardSlotEmpty)
         {
+            //Kart tiplerini alıyor.
             CombineType comTypeCard1 = card1.GetComponent<CombineCard>().cardCombineType;
             CombineType comTypeCard2 = card2.GetComponent<CombineCard>().cardCombineType;
+
+            //Yeni kartın özellikleri eski iki kartların toplamı kadar oluyor.
+            int cardAttack = card1.GetComponent<CardDisplay>().card.attack + card2.GetComponent<CardDisplay>().card.attack;
+            int cardDefence = card1.GetComponent<CardDisplay>().card.defence + card2.GetComponent<CardDisplay>().card.defence;
+            int cardMana = card1.GetComponent<CardDisplay>().card.mana + card2.GetComponent<CardDisplay>().card.mana;
+
+
+
         }
         else
+        {
+
             return;
+        }
 
         
 

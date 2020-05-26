@@ -63,7 +63,7 @@ public class InventoryScript : MonoBehaviour
             //Destede kalan kartlar
             foreach(Card card in DeckList)
             {
-                //Kartları kullanılmışların içine atıyor.
+                //kullanılmışların içine atıyor.
                 CardPileList.Add(card);
             }
 
@@ -91,14 +91,15 @@ public class InventoryScript : MonoBehaviour
             cardPile.GetComponent<CardPileScript>().CardPile.Clear();
         }
 
+
         //Limanda olması gereken kart sayısı kadar döngü
         for (int i = 0; i < numberOfCardsInDeck; i++)
         {
             //Rastgele bir tamsayı alıyor.
             int index = Random.Range(0, Inventory.Count);
-            //Belirtilmiş özelliklere sahip bir kart oluşturuyor. (Dönüş değeri de var ancak şuan kullanılmıyor.)
-            create_new_card(cardPrefab, "Card " + i.ToString(), Inventory[index], CardDeck.transform);
 
+            //Belirtilmiş özelliklere sahip bir kart oluşturuyor. (Dönüş değeri de var ancak şuan kullanılmıyor.)
+            CardGenerator.create_new_card(cardPrefab, "Card " + i.ToString(), Inventory[index], CardDeck.transform);
 
             //Envanterdeki kart limana ekleniyor.
             CardDeck.GetComponent<DeckScript>().cardsInDeck.Add(Inventory[index]);
@@ -108,38 +109,9 @@ public class InventoryScript : MonoBehaviour
 
     }
 
-    GameObject create_new_card(GameObject Prefab, string Name, Card card, Transform Parent)
-    {
-        GameObject createdCard = Instantiate(Prefab);
-
-        createdCard.name = Name;
-
-        //Oluşturulan Gameobject içindeki CardDisplay koduna erişiyor.
-        //Koddaki card değişkenine elimizdeki card tipini atıyor.
-        createdCard.GetComponent<CardDisplay>().card = card;
-
-        //Gerekli Kodları yüklüyor
-        createdCard.AddComponent(System.Type.GetType(card.CardT1.ToString()));
-
-        //Eğer ikincil özellik varsa onun da kodunu yüklüyor.
-        if (card.CardT2.ToString() != "None")
-            createdCard.AddComponent(System.Type.GetType(card.CardT2.ToString()));
-
-        //Eğer ikincil özelliği birleşme değilse, birleşme tuşunu çalışmaz hale getiriyor.
-        if (card.CardT2 != CardType2.CombineCard)
-            createdCard.transform.Find("Combine").gameObject.SetActive(false);
-
-        //Bu sayede Deck içine geçip sıralanıyor.
-        createdCard.transform.SetParent(Parent);
-
-        return createdCard;
-    }
-
     public void create_inventory_panel()
     {
         GameObject inventory_panel = Instantiate(inventoryPanelPrefab, GameObject.Find("Canvas").transform);
     }
-
-
-
+    
 }

@@ -102,7 +102,7 @@ public abstract class Character : ScriptableObject
         switch (buff)
         {
             case buffs.Adrenaline:
-                attack_multiplier = 2; //Mathf.RoundToInt(coefficient);
+                attack_multiplier = 2; //Her zaman iki katına çıkartıyor.
                 break;
 
             case buffs.Alertness:
@@ -149,20 +149,12 @@ public abstract class Character : ScriptableObject
                 health -= Mathf.RoundToInt(coefficient);
                 break;
 
-            case debuffs.Confused:
-                confused_chance = Mathf.RoundToInt(coefficient);
-                break;
-
-            case debuffs.Frailness:
-                shield_factor = Mathf.RoundToInt(coefficient);
-                break;
-
             case debuffs.Stun:
                 is_stunned = true;
                 break;
 
-            case debuffs.Blind:
-                blind_chance = Mathf.RoundToInt(coefficient);
+            case debuffs.Frailness:
+                shield_factor = Mathf.RoundToInt(coefficient);
                 break;
 
             case debuffs.Tired:
@@ -171,6 +163,14 @@ public abstract class Character : ScriptableObject
 
             case debuffs.Weakness:
                 attack_factor -= Mathf.RoundToInt(coefficient);
+                break;
+
+            case debuffs.Confused:
+                confused_chance = Mathf.RoundToInt(coefficient);
+                break;
+
+            case debuffs.Blind:
+                blind_chance = Mathf.RoundToInt(coefficient);
                 break;
         }
     }

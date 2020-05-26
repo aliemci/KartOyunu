@@ -10,23 +10,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ab39e7d5b12533e4fb6de22fa4234ab0, type: 3}
-  m_Name: Narsssil
+  m_Name: Thermite Grenade
   m_EditorClassIdentifier: 
-  cardName: Narrrsil
-  CardT1: 0
-  CardT2: 2
-  cardBuff: 0
+  cardName: Thermite Grenade
+  CardT1: 4
+  CardT2: 0
+  cardBuff: 2
   cardDebuff: 1
   cardCombine: 0
   buffCoefficient: 0
-  debuffCoefficient: 1
-  attack: 40
+  debuffCoefficient: 2
+  attack: 0
   defence: 0
-  mana: -4
+  mana: 0
   isPlayerOwn: 0
   isCardUsed: 0
   attack_range:
-  - 0
-  - 1
-  - 0
-  - 0
+  - 0.25
+  - 0.25
+  - 0.25
+  - 0.25

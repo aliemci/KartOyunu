@@ -57,7 +57,8 @@ public class Card : ScriptableObject{
     [Header("Attack Specs")]
     public float[] attack_range = new float[attack_range_size];
 
-
+    
+    //Kontrol
     void OnValidate()
     {
         if (attack_range.Length != attack_range_size)
@@ -65,6 +66,35 @@ public class Card : ScriptableObject{
             Debug.LogWarning("attack_range listesinin boyutuyla oynama!");
             Array.Resize(ref attack_range, attack_range_size);
         }
+    }
+
+
+    //Yeni kart örneği oluşturma
+    public Card(
+        string cName,
+        CardType1 cType1, CardType2 cType2,
+        buffs cBuff, debuffs cDebuff,
+        CombineType cCombineType,
+        float cBuffCoef, float cDebuffCoef,
+        int cAttack, int cDefence, int cMana,
+        bool cIsPlayerOwn, bool cIsUsed,
+        float[] cAttackRange
+        )
+    {
+        cardName = cName;
+        CardT1 = cType1;
+        CardT2 = cType2;
+        cardBuff = cBuff;
+        cardDebuff = cDebuff;
+        cardCombine = cCombineType;
+        buffCoefficient = cBuffCoef;
+        debuffCoefficient = cDebuffCoef;
+        attack = cAttack;
+        defence = cDefence;
+        mana = cMana;
+        isPlayerOwn = cIsPlayerOwn;
+        isCardUsed = cIsUsed;
+        attack_range = cAttackRange;
     }
 
 
@@ -232,18 +262,64 @@ public class Card_Editor : Editor
             {
                 EditorGUILayout.LabelField("", label); // Boşluk
                 EditorGUILayout.LabelField("Buff Type", label);
+
                 //Kartın bilgilerini girebilmesi için gerekli alanları görünür kılıyor.
                 card.cardBuff = (buffs)EditorGUILayout.EnumPopup("Buffs", card.cardBuff);
-                card.buffCoefficient = EditorGUILayout.FloatField("Buff Coefficient", card.buffCoefficient);
+
+                //Kart tipine göre yardımcı yazı yazdırılıyor.
+                switch (card.cardBuff)
+                {
+                    //Bunlarda herhangi bir katsayı vermek gerekmiyor.
+                    case buffs.Adrenaline:
+                    case buffs.Resistance:
+                    case buffs.Invincible:
+                        break;
+
+                    //Bunlarda düz katsayı gerekiyor.
+                    case buffs.Castle:
+                    case buffs.Economiser:
+                    case buffs.Regenerate:
+                    case buffs.Puffed:
+                        card.buffCoefficient = EditorGUILayout.FloatField(new GUIContent("Buff Coefficient", "Girilen sayı kadar etki yapacak."), card.buffCoefficient);
+                        break;
+
+                    //Bunda ise ihtimal cinsinden katsayı gerekiyor.
+                    case buffs.Alertness:
+                        card.buffCoefficient = EditorGUILayout.FloatField(new GUIContent("Buff Coefficient", "Girilen sayı üzerinden ihtimal hesaplanacak."), card.buffCoefficient);
+                        break;
+                }
             }
             //Eğer birinci özellik olarak debuff seçildiyse.
             else if (card.CardT1 == CardType1.DebuffCard)
             {
                 EditorGUILayout.LabelField("", label); // Boşluk
                 EditorGUILayout.LabelField("Debuff Type", label);
+
                 //Kartın bilgilerini girebilmesi için gerekli alanları görünür kılıyor.
                 card.cardDebuff = (debuffs)EditorGUILayout.EnumPopup("Debuffs", card.cardDebuff);
-                card.debuffCoefficient = EditorGUILayout.FloatField("Debuff Coefficient", card.debuffCoefficient);
+
+                //Kart tipine göre yardımcı yazı yazdırılıyor.
+                switch (card.cardDebuff)
+                {
+                    case debuffs.Stun:
+                        break;
+
+                    case debuffs.Poison:
+                    case debuffs.Burn:
+                        card.debuffCoefficient = EditorGUILayout.FloatField(new GUIContent("Debuff Coefficient", "Girilen sayı kadar can gidecek."), card.debuffCoefficient);
+                        break;
+
+                    case debuffs.Confused:
+                    case debuffs.Blind:
+                        card.debuffCoefficient = EditorGUILayout.FloatField(new GUIContent("Debuff Coefficient", "Girilen sayı üzerinden ihtimal hesaplanacak."), card.debuffCoefficient);
+                        break;
+
+                    case debuffs.Frailness:
+                    case debuffs.Tired:
+                    case debuffs.Weakness:
+                        card.debuffCoefficient = EditorGUILayout.FloatField(new GUIContent("Debuff Coefficient", "Girilen sayı kadar etki yapacak."), card.debuffCoefficient);
+                        break;
+                }
             }
         }
     }

@@ -28,7 +28,7 @@ public class CardGenerator : MonoBehaviour
     }
 
     //Aldığı girdilere göre yeni bir kart oluşturuyor.
-    GameObject create_new_card(GameObject Prefab, string Name, Card card, Transform Parent)
+    public static GameObject create_new_card(GameObject Prefab, string Name, Card card, Transform Parent)
     {
         GameObject createdCard = Instantiate(Prefab);
 
