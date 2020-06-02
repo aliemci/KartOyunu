@@ -7,7 +7,8 @@ public enum CombineType
     Pressure,
     Flame,
     Lightning,
-    Toxic
+    Toxic,
+    None
 }
 
 public class CombineCard : MonoBehaviour

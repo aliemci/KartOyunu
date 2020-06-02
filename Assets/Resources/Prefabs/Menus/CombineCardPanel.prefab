@@ -190,12 +190,12 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7651352459768671857}
-        m_MethodName: 
+      - m_Target: {fileID: 4080886194842441205}
+        m_MethodName: CombineThem
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -299,7 +299,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7295768089454284365}
   - component: {fileID: 1254416113162185587}
-  - component: {fileID: 2932796523345860734}
+  - component: {fileID: 953291359531281300}
   m_Layer: 0
   m_Name: CardSlotResult
   m_TagString: Untagged
@@ -352,7 +352,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 180, y: 250}
   m_EdgeRadius: 0
---- !u!114 &2932796523345860734
+--- !u!114 &953291359531281300
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -361,17 +361,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 2702250362967573600}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 306cc8c2b49d7114eaa3623786fc2126, type: 3}
+  m_Script: {fileID: 11500000, guid: 30649d3a9faa99c48a7b1166b86bf2a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_IgnoreLayout: 0
-  m_MinWidth: -1
-  m_MinHeight: -1
-  m_PreferredWidth: -1
-  m_PreferredHeight: -1
-  m_FlexibleWidth: -1
-  m_FlexibleHeight: -1
-  m_LayoutPriority: 1
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 4
+  m_Spacing: 0
+  m_ChildForceExpandWidth: 1
+  m_ChildForceExpandHeight: 1
+  m_ChildControlWidth: 0
+  m_ChildControlHeight: 0
+  m_ChildScaleWidth: 0
+  m_ChildScaleHeight: 0
 --- !u!1 &3937057888536171531
 GameObject:
   m_ObjectHideFlags: 0
