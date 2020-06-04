@@ -33,7 +33,7 @@ public class End_turn : MonoBehaviour
         //Eğer Combiner açıksa onu kapatsın
         try
         {
-            GameObject.Find("CombineCardPanel").GetComponent<CombineWindowMainScript>().windowClose();
+            GameObject.Find("CombineCardPanel").GetComponent<CombineWindowMainScript>().window_close();
         }
         catch
         {

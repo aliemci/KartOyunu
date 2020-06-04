@@ -96,7 +96,7 @@ public class Card : ScriptableObject{
         isCardUsed = cIsUsed;
         attack_range = cAttackRange;
     }
-
+    
 
     //Kartların vurabileceği rakipleri şekillendiriyor.
     public void attackable_enemies(bool show)

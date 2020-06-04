@@ -7,7 +7,6 @@ using TMPro;
 
 public class CardDisplay : MonoBehaviour
 {
-
     //Public Variables:
     public Card card;
     
@@ -54,17 +53,49 @@ public class CardDisplay : MonoBehaviour
         isCardUsed = card.isCardUsed;
     }
 
-    public void toggleCard(bool boolForToggleCard)
+    public void toggle_card(bool boolForToggleCard)
     {
         if (boolForToggleCard)
         {
-            GetComponentInChildren<SpriteRenderer>().material = toggleOn;
-            GetComponent<TouchMoving>().enabled = true;
+            //Kartın içindeki bütün render parçasına sahip elemanları yarı saydam yapacak.
+            foreach(Renderer renderer in this.GetComponentsInChildren<Renderer>())
+            {
+                Color newColor = renderer.material.color;
+                newColor.a = 1f;
+                renderer.material.color = newColor;
+            }
+
+            //Kartın içindeki yazıları yarı saydam yapacak.
+            foreach (TextMeshProUGUI tmp in this.GetComponentsInChildren<TextMeshProUGUI>())
+            {
+                Color newColor = tmp.color;
+                newColor.a = 1f;
+                tmp.color = newColor;
+            }
+
+            //Hareket etmesini engelleyecek.
+            this.GetComponent<TouchMoving>().enabled = true;
         }
         else
         {
-            GetComponentInChildren<SpriteRenderer>().material = toggleOff;
-            GetComponent<TouchMoving>().enabled = false;
+            //Kartın içindeki bütün render parçasına sahip elemanları opak yapacak.
+            foreach (Renderer renderer in this.GetComponentsInChildren<Renderer>())
+            {
+                Color newColor = renderer.material.color;
+                newColor.a = 0.3f;
+                renderer.material.color = newColor;
+            }
+
+            //Kartın içindeki yazıları opak yapacak.
+            foreach (TextMeshProUGUI tmp in this.GetComponentsInChildren<TextMeshProUGUI>())
+            {
+                Color newColor = tmp.color;
+                newColor.a = 0.3f;
+                tmp.color = newColor;
+            }
+
+            //Hareket etmesini engelleyecek.
+            this.GetComponent<TouchMoving>().enabled = false;
         }
     }
 }

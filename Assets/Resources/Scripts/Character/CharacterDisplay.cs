@@ -104,12 +104,12 @@ public class CharacterDisplay : MonoBehaviour
                 //Debug.Log("player:" + player.mana + " ? " + cardMana + " Card");
                 if (player.mana < Mathf.Abs(cardMana))
                 {
-                    card.GetComponent<CardDisplay>().toggleCard(false);
+                    card.GetComponent<CardDisplay>().toggle_card(false);
                     //Debug.Log("Card has toggled off");
                 }
                 else
                 {
-                    card.GetComponent<CardDisplay>().toggleCard(true);
+                    card.GetComponent<CardDisplay>().toggle_card(true);
                     //Debug.Log("Card has toggled on");
                 }
             }

@@ -409,6 +409,15 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
             
             //Eski yerdeki boş yeri siliyor.
             Destroy(placeHolder);
+
+            //Kart yerlerini kontrol ediyor.
+            hitObject.GetComponentInParent<CombineWindowMainScript>().checks_card_slots();
+
+            //Eğer iki kart yeri de doluysa, önizleme olarak kartı sonuç kısmına koysun.
+            if (!hitObject.GetComponentInParent<CombineWindowMainScript>().isLeftCardSlotEmpty && !hitObject.GetComponentInParent<CombineWindowMainScript>().isLeftCardSlotEmpty)
+            {
+                hitObject.GetComponentInParent<CombineWindowMainScript>().Combine_them();
+            }
             //return;
         }
 
