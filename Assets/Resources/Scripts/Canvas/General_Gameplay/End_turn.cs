@@ -79,7 +79,7 @@ public class End_turn : MonoBehaviour
     public void end_of_fight()
     {
         //Burada 1 demesinin sebebi şu, bu fonksiyon bir şahıs ölünce tetikleniyor. Ancak o şahıs silinmeden önce tetikleniyor.
-        //Yani ölecek bir şahıs hayatta oluyor. O yüzden düşman sayısı 1 iken devam ediyor.
+        //Yani ölecek bir şahıs hayatta iken oluyor. O yüzden düşman sayısı 1 iken devam ediyor.
         if (GameObject.FindGameObjectsWithTag("Enemy").Length == 1)
         {
             Debug.Log("END OF THE FIGHT");

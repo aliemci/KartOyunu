@@ -11,7 +11,7 @@ public class CardPileScript : MonoBehaviour
 
     public void create_card_pile_panel()
     {
-        GameObject card_pile_panel = Instantiate(cardPilePanelPrefab, GameObject.Find("Canvas").transform);
+        GameObject card_pile_panel = Instantiate(cardPilePanelPrefab, GameObject.Find("Canvas_2").transform);
     }
 
 }
