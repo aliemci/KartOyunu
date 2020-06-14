@@ -11,7 +11,7 @@ public class CharacterDisplay : MonoBehaviour
     public bool isPlayer = false;
     public bool isEnemy = false;
 
-    private End_turn end_turn_ref;
+    private EndTurn EndTurn_ref;
 
     //Her ekran için ayrı büyüklükte olacağı için belirli bir katsayı ile nesneleri büyültüp/küçülteceğiz.
     private Vector2 resolution_scale;
@@ -23,7 +23,7 @@ public class CharacterDisplay : MonoBehaviour
         //Çözünürlük için
         resolution_scale = GameObject.Find("Canvas").GetComponent<RectTransform>().localScale;
 
-        end_turn_ref = GameObject.Find("Next_Turn").GetComponent<End_turn>();
+        EndTurn_ref = GameObject.Find("Next_Turn").GetComponent<EndTurn>();
     }
 
     void Start()
@@ -79,10 +79,10 @@ public class CharacterDisplay : MonoBehaviour
             if (character.health <= 0)
             {
                 //Bir düşman öldüğüne göre düşman listesinin güncellenmesi gerekmekte. Bu işe yarıyor.
-                end_turn_ref.isVariablesDefined = false;
+                EndTurn_ref.isVariablesDefined = false;
 
                 //Dövüşün bitip bitmediğini kontrol ediyor.
-                end_turn_ref.end_of_fight();
+                EndTurn_ref.end_of_fight();
 
                 //Nesneyi siliyor.
                 Destroy(this.gameObject);

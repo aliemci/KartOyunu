@@ -99,7 +99,7 @@ public class InventoryScript : MonoBehaviour
             int index = Random.Range(0, Inventory.Count);
 
             //Belirtilmiş özelliklere sahip bir kart oluşturuyor. (Dönüş değeri de var ancak şuan kullanılmıyor.)
-            CardGenerator.create_new_card(cardPrefab, "Card " + i.ToString(), Inventory[index], CardDeck.transform);
+            CardGenerator.create_new_card("Card " + i.ToString(), Inventory[index], CardDeck.transform);
 
             //Envanterdeki kart limana ekleniyor.
             CardDeck.GetComponent<DeckScript>().cardsInDeck.Add(Inventory[index]);

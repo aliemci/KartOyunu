@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class End_turn : MonoBehaviour
+public class EndTurn : MonoBehaviour
 {
     [HideInInspector]
     public bool isVariablesDefined = false;

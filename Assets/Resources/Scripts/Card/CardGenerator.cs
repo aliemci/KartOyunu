@@ -7,29 +7,15 @@ public class CardGenerator : MonoBehaviour
 {
     Card[] CardTypes;
 
-    public GameObject Prefab;
-    
-    private void Start()
-    {
-        /*
-        List<Card> inventoryCards = GameObject.Find("Lower-deck").transform.Find("Inventory").GetComponent<InventoryScript>().Inventory;
-                
-        //Limanda 5 kart olacağı için
-        for (int i = 0; i < 5; i++)
-        {
-            //Rastgele bir tamsayı alıyor.
-            int index = Random.Range(0, inventoryCards.Count);
-            //Belirtilmiş özelliklere sahip bir kart oluşturuyor. (Dönüş değeri de var ancak şuan kullanılmıyor.)
-            create_new_card(Prefab, "Card " + i.ToString(), inventoryCards[index], GameObject.Find("Deck").transform);
-                        
-        }
-        */
-                
-    }
+    GameObject prefab;
+
 
     //Aldığı girdilere göre yeni bir kart oluşturuyor.
-    public static GameObject create_new_card(GameObject Prefab, string Name, Card card, Transform Parent)
+    public static GameObject create_new_card(string Name, Card card, Transform Parent)
     {
+        //Kartı kendisi asset/resources/prefabs dizininden buluyor.
+        GameObject Prefab = Resources.Load("Prefabs/Card") as GameObject;
+
         GameObject createdCard = Instantiate(Prefab);
 
         createdCard.name = Name;

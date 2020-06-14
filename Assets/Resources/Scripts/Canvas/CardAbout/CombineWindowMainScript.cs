@@ -141,7 +141,7 @@ public class CombineWindowMainScript : MonoBehaviour
         willCard.attack_range = AttackRange;
         willCard.cardDebuff = debuff;
         
-        GameObject newCard = CardGenerator.create_new_card(cardObject, name, willCard, transform.Find("CardSlotResult"));
+        GameObject newCard = CardGenerator.create_new_card(name, willCard, transform.Find("CardSlotResult"));
 
         //Kartı kullanılmaz hale getiriyor.
         newCard.GetComponent<CardDisplay>().toggle_card(false);
