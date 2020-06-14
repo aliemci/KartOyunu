@@ -13,13 +13,33 @@ public class starterCards
 }
 
 
-
 [CreateAssetMenu(fileName = "New Player Character", menuName = "Player Character")]
 public class playerCharacter : Character
 {
     [Header("Player Specific")]
-    public bool isPlayer = true;
+    public bool isPlayer = false;
     public List<starterCards> StartingCards = new List<starterCards>();
+
+
+    
+    public void add_card_to_player(Card card)
+    {
+        //Kart eğer destede varsa sayısını arttırıyor.
+        foreach(starterCards sCard in StartingCards)
+        {
+            if(sCard.card == card)
+            {
+                sCard.count++;
+                return;
+            }
+        }
+        //Eğer destede yoksa yeni oluşturuyor.
+        starterCards temp = new starterCards();
+        temp.card = card;
+        temp.count = 1;
+
+        StartingCards.Add(temp);
+    }
 
 }
 

@@ -20,6 +20,7 @@ MonoBehaviour:
   is_resisted: 0
   is_invincible: 0
   is_stunned: 0
+  is_blinded: 0
   is_missed: 0
   is_confused: 0
   is_evaded: 0
@@ -29,9 +30,12 @@ MonoBehaviour:
   attack_multiplier: 1
   evasion_chance: 0
   confused_chance: 0
+  blind_chance: 0
   miss_chance: 0
+  buffList: []
+  debuffList: []
   CharacterSprite: {fileID: 21300004, guid: 5cf1b4629c7cb104e98d369448084abd, type: 3}
-  isPlayer: 1
+  isPlayer: 0
   StartingCards:
   - card: {fileID: 11400000, guid: b7444e1e6785c704f8460a6e3265c788, type: 2}
     count: 5
