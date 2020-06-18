@@ -10,6 +10,7 @@ public static class Noise
         float[,] noiseMap = new float[mapWidth, mapHeight];
 
         System.Random prng = new System.Random(seed);
+
         Vector2[] octaveOffsets = new Vector2[octaves];
 
         for(int i=0; i<octaves; i++)

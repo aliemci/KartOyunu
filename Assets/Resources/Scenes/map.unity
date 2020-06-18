@@ -165,22 +165,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   drawMode: 1
-  mapWidth: 100
-  mapHeight: 100
-  noiseScale: 25
-  octaves: 5
-  persistance: 0.505
+  mapWidth: 50
+  mapHeight: 50
+  noiseScale: 15
+  octaves: 10
+  persistance: 0.054
   lacunarity: 2
-  seed: 150
+  seed: 110
   offset: {x: 0, y: 0}
-  autoUpdate: 1
+  autoUpdate: 0
   regions:
+  - name: DeepWater
+    height: 0.1
+    color: {r: 0, g: 0.5265317, b: 1, a: 1}
   - name: Water
-    height: 0.4
-    color: {r: 0, g: 0.8446779, b: 1, a: 1}
+    height: 0.35
+    color: {r: 0, g: 0.8431373, b: 1, a: 1}
   - name: Land
+    height: 0.8
+    color: {r: 0.078431375, g: 0.7843138, b: 0.22352943, a: 1}
+  - name: Cliff
+    height: 0.95
+    color: {r: 0.4716981, g: 0.21043843, b: 0.08677466, a: 1}
+  - name: MountainTop
     height: 1
-    color: {r: 0.07756319, g: 0.7830189, b: 0.22465585, a: 1}
+    color: {r: 1, g: 1, b: 1, a: 1}
+  hexObj: {fileID: 919132149155446097, guid: 5a2b615d42c85d6459602e1b7aaa9bed, type: 3}
+  parentObj: {fileID: 718833305}
 --- !u!4 &14606502
 Transform:
   m_ObjectHideFlags: 0
@@ -194,6 +205,36 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &718833304
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 718833305}
+  m_Layer: 0
+  m_Name: Map
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &718833305
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 718833304}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &958903611
 GameObject:
@@ -248,7 +289,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 150
+  orthographic size: 25
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -272,7 +313,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 958903611}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 58, y: 41, z: -10}
+  m_LocalPosition: {x: 0, y: 0, z: -500}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -295,7 +336,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!23 &1581097080
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -352,7 +393,7 @@ Transform:
   m_GameObject: {fileID: 1581097079}
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 100, y: 1, z: 100}
+  m_LocalScale: {x: 5, y: 1, z: 5}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
@@ -442,10 +483,10 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1611320771}
-  m_LocalRotation: {x: 0.93906426, y: 0, z: 0, w: 0.34374166}
-  m_LocalPosition: {x: -0.2849807, y: 1.38, z: -11.962807}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -5, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 139.79, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MapGenerator : MonoBehaviour
 {
-    public enum DrawMode {noiseMap, colorMap }
+    public enum DrawMode {noiseMap, colorMap}
     public DrawMode drawMode;
 
     public int mapWidth;
@@ -23,8 +23,12 @@ public class MapGenerator : MonoBehaviour
 
     public TerrainType[] regions;
 
+    public GameObject hexObj;
+    public Transform parentObj;
 
-    public void generate_map()
+    private List<List<GameObject>> hexagons = new List<List<GameObject>>();
+
+    public Color[] generate_map()
     {
         float[,] noiseMap = Noise.generate_noise_map(mapWidth, mapHeight, seed, noiseScale, octaves, persistance, lacunarity, offset);
 
@@ -45,13 +49,13 @@ public class MapGenerator : MonoBehaviour
             }
         }
 
-        MapDisplay display = FindObjectOfType<MapDisplay>();
+        //MapDisplay display = FindObjectOfType<MapDisplay>();
 
-        if (drawMode == DrawMode.noiseMap)
-            display.draw_texture(TextureGenerator.texture_from_height_map(noiseMap));
-        else if (drawMode == DrawMode.colorMap)
-            display.draw_texture(TextureGenerator.texture_from_color_map(colorMap, mapWidth, mapHeight));
-
+        //if (drawMode == DrawMode.noiseMap)
+        //    display.draw_texture(TextureGenerator.texture_from_height_map(noiseMap));
+        //else if (drawMode == DrawMode.colorMap)
+        //    display.draw_texture(TextureGenerator.texture_from_color_map(colorMap, mapWidth, mapHeight));
+        return colorMap;
     }
 
     void OnValidate()
@@ -65,6 +69,47 @@ public class MapGenerator : MonoBehaviour
         if (octaves < 0)
             octaves = 0;
     }
+
+    public void Start()
+    {
+        generate_hexagons();
+    }
+
+    public void generate_hexagons()
+    {
+        float yOffset = 1.5f;
+        float xOffset = 0.866f;
+
+        Color[] colorMap = generate_map();
+
+        for (int x = 0; x < mapWidth; x++)
+        {
+            List<GameObject> tempHexagons = new List<GameObject>();
+
+            for (int y = 0; y < mapHeight; y++)
+            {
+                GameObject createdHexagon = Instantiate(hexObj, parentObj);
+
+                createdHexagon.transform.localScale = new Vector3(1f, 1f, 1f);
+                createdHexagon.transform.localRotation = Quaternion.identity;
+
+                createdHexagon.GetComponent<Renderer>().material.color = colorMap[y * mapWidth + x];
+
+                if (y%2==0)
+                    createdHexagon.transform.localPosition = new Vector3((2 * x) * xOffset, y * yOffset, 0f);
+                else
+                    createdHexagon.transform.localPosition = new Vector3((2 * x + 1) * xOffset, y * yOffset, 0f);
+
+                tempHexagons.Add(createdHexagon);
+            }
+
+            hexagons.Add(tempHexagons);
+        }
+
+        parentObj.localPosition = new Vector3((mapWidth / -2) * xOffset, (mapHeight / -2) * yOffset, 0f);
+
+    }
+
 }
 
 [System.Serializable]
