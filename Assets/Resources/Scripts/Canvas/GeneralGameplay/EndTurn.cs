@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class EndTurn : MonoBehaviour
 {
@@ -83,6 +84,8 @@ public class EndTurn : MonoBehaviour
         if (GameObject.FindGameObjectsWithTag("Enemy").Length == 1)
         {
             Debug.Log("END OF THE FIGHT");
+            //Ödül sahnesine yönlendiriyor.
+            SceneManager.LoadScene(1);
         }
         else
             Debug.Log("Number of enemies: " + GameObject.FindGameObjectsWithTag("Enemy").Length);

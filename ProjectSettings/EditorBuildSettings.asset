@@ -9,6 +9,12 @@ EditorBuildSettings:
     path: Assets/Resources/Scenes/fight.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
-    path: Assets/Resources/Scenes/inventory.unity
-    guid: ae381fd72fc98f04b893820c628c52fa
+    path: Assets/Resources/Scenes/reward.unity
+    guid: 0eed611aaffbb2f41917af0951db6411
+  - enabled: 1
+    path: Assets/Resources/Scenes/map.unity
+    guid: 2d96589ae1a884c4a8b4464642f5d1df
+  - enabled: 1
+    path: Assets/Resources/Scenes/death.unity
+    guid: 2ed897c6980449943a247ab7e3db8456
   m_configObjects: {}

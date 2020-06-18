@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class RewardButton : MonoBehaviour
 {
@@ -20,6 +21,11 @@ public class RewardButton : MonoBehaviour
 
         //Kartı oyuncuya ekleme
         player.add_card_to_player(this.gameObject.GetComponent<CardDisplay>().card);
+
+        //Belki buraya animasyon eklenebilir.
+
+        //Haritaya dönüş yapmak için.
+        SceneManager.LoadScene(2);
     }
 
 

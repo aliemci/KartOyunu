@@ -22,7 +22,6 @@ public class RewardScript : MonoBehaviour
             rewardCard.GetComponent<TouchMoving>().enabled = false;
 
             rewardCard.AddComponent<RewardButton>();
-
         }
             
 
