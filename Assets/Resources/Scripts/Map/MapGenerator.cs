@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class MapGenerator : MonoBehaviour
 {
-    public enum DrawMode {noiseMap, colorMap}
-    public DrawMode drawMode;
-
     public int mapWidth;
     public int mapHeight;
     public float noiseScale;
@@ -27,6 +24,7 @@ public class MapGenerator : MonoBehaviour
     public Transform parentObj;
 
     private List<List<GameObject>> hexagons = new List<List<GameObject>>();
+    private float[,] fallOffMap;
 
     public Color[] generate_map()
     {
@@ -37,7 +35,10 @@ public class MapGenerator : MonoBehaviour
         {
             for (int y = 0; y < mapHeight; y++)
             {
+                noiseMap[x, y] = noiseMap[x, y] - fallOffMap[x, y];
+
                 float currentHeight = noiseMap[x, y];
+
                 for (int i = 0; i < regions.Length; i++)
                 {
                     if(currentHeight <= regions[i].height)
@@ -49,12 +50,6 @@ public class MapGenerator : MonoBehaviour
             }
         }
 
-        //MapDisplay display = FindObjectOfType<MapDisplay>();
-
-        //if (drawMode == DrawMode.noiseMap)
-        //    display.draw_texture(TextureGenerator.texture_from_height_map(noiseMap));
-        //else if (drawMode == DrawMode.colorMap)
-        //    display.draw_texture(TextureGenerator.texture_from_color_map(colorMap, mapWidth, mapHeight));
         return colorMap;
     }
 
@@ -72,6 +67,10 @@ public class MapGenerator : MonoBehaviour
 
     public void Start()
     {
+        fallOffMap = FalloffGenerator.generate_falloff_map(mapWidth);
+
+        seed = Random.Range(0, 1000);
+
         generate_hexagons();
     }
 
@@ -106,7 +105,7 @@ public class MapGenerator : MonoBehaviour
             hexagons.Add(tempHexagons);
         }
 
-        parentObj.localPosition = new Vector3((mapWidth / -2) * xOffset, (mapHeight / -2) * yOffset, 0f);
+        parentObj.localPosition = hexagons[mapWidth / 2][mapHeight / 2].transform.position * -1;
 
     }
 
