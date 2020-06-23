@@ -20,21 +20,24 @@ public class MapGenerator : MonoBehaviour
 
     public TerrainType[] regions;
 
-    public GameObject hexObj;
+    public GameObject hexagonObject;
     public Transform parentObj;
 
-    private List<List<GameObject>> hexagons = new List<List<GameObject>>();
+    public List<hexagon> hexagons = new List<hexagon>();
+
     private float[,] fallOffMap;
+    private float[,] noiseMap;
 
-    public Color[] generate_map()
+    public Material[] generate_map()
     {
-        float[,] noiseMap = Noise.generate_noise_map(mapWidth, mapHeight, seed, noiseScale, octaves, persistance, lacunarity, offset);
+        noiseMap = Noise.generate_noise_map(mapWidth, mapHeight, seed, noiseScale, octaves, persistance, lacunarity, offset);
 
-        Color[] colorMap = new Color[mapWidth * mapHeight];
+        Material[] textureMap = new Material[mapWidth * mapHeight];
         for (int x = 0; x < mapWidth; x++)
         {
             for (int y = 0; y < mapHeight; y++)
             {
+                //Ada görünümü alsın diye, çevresindeki yükseklikler sıfırlanıyor.
                 noiseMap[x, y] = noiseMap[x, y] - fallOffMap[x, y];
 
                 float currentHeight = noiseMap[x, y];
@@ -43,14 +46,14 @@ public class MapGenerator : MonoBehaviour
                 {
                     if(currentHeight <= regions[i].height)
                     {
-                        colorMap[y * mapWidth + x] = regions[i].color;
+                        textureMap[y * mapWidth + x] = regions[i].material;
                         break;
                     }
                 }
             }
         }
 
-        return colorMap;
+        return textureMap;
     }
 
     void OnValidate()
@@ -65,9 +68,9 @@ public class MapGenerator : MonoBehaviour
             octaves = 0;
     }
 
-    public void Start()
+    public void Awake()
     {
-        fallOffMap = FalloffGenerator.generate_falloff_map(mapWidth);
+        fallOffMap = FalloffGenerator.generate_falloff_map(mapWidth, mapHeight);
 
         seed = Random.Range(0, 1000);
 
@@ -79,33 +82,45 @@ public class MapGenerator : MonoBehaviour
         float yOffset = 1.5f;
         float xOffset = 0.866f;
 
-        Color[] colorMap = generate_map();
+        float heightScale = 20f;
+
+        Material[] textureMap = generate_map();
 
         for (int x = 0; x < mapWidth; x++)
         {
-            List<GameObject> tempHexagons = new List<GameObject>();
+            List<hexagon> tempHexagons = new List<hexagon>();
 
             for (int y = 0; y < mapHeight; y++)
             {
-                GameObject createdHexagon = Instantiate(hexObj, parentObj);
+                GameObject createdHexagon = Instantiate(hexagonObject, parentObj);
 
-                createdHexagon.transform.localScale = new Vector3(1f, 1f, 1f);
+                float heightOfHex = noiseMap[x, y] * heightScale;
+                if (heightOfHex < 0)
+                    heightOfHex = 0.01f;
+
+                createdHexagon.transform.localScale = new Vector3(1f, 1f, heightOfHex);
                 createdHexagon.transform.localRotation = Quaternion.identity;
 
-                createdHexagon.GetComponent<Renderer>().material.color = colorMap[y * mapWidth + x];
+                createdHexagon.GetComponent<MeshRenderer>().material = textureMap[y * mapWidth + x];
 
                 if (y%2==0)
                     createdHexagon.transform.localPosition = new Vector3((2 * x) * xOffset, y * yOffset, 0f);
                 else
                     createdHexagon.transform.localPosition = new Vector3((2 * x + 1) * xOffset, y * yOffset, 0f);
 
-                tempHexagons.Add(createdHexagon);
+                if(noiseMap[x,y] > regions[1].height)
+                {
+                    hexagon temp = new hexagon(hexagonObject, new float[x,y]);
+
+                    hexagons.Add(temp);
+                }
+
             }
 
-            hexagons.Add(tempHexagons);
         }
 
-        parentObj.localPosition = hexagons[mapWidth / 2][mapHeight / 2].transform.position * -1;
+        //Haritayı ortalamak için
+        parentObj.position = hexagons[hexagons.Count / 2].hexObj.transform.position * -1;
 
     }
 
@@ -116,5 +131,20 @@ public struct TerrainType
 {
     public string name;
     public float height;
-    public Color color;
+    public Material material;
+}
+
+[System.Serializable]
+public struct hexagon
+{
+
+    public GameObject hexObj;
+    public float[,] coordinates;
+
+    public hexagon(GameObject obj, float[,] coor)
+    {
+        hexObj = obj;
+        coordinates = coor;
+    }
+
 }
