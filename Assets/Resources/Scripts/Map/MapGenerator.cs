@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class MapGenerator : MonoBehaviour
 {
+    [Header("Map Specifications")]
     public int mapWidth;
     public int mapHeight;
     public float noiseScale;
@@ -15,15 +16,20 @@ public class MapGenerator : MonoBehaviour
 
     public int seed;
     public Vector2 offset;
-
+    [HideInInspector]
     public bool autoUpdate;
 
     public TerrainType[] regions;
 
+    [Header("Prefabs")]
     public GameObject hexagonObject;
     public Transform parentObj;
 
+    [Header("Debug")]
     public List<hexagon> hexagons = new List<hexagon>();
+
+    [Header("Generate Player")]
+    public GameObject playerObj;
 
     private float[,] fallOffMap;
     private float[,] noiseMap;
@@ -32,7 +38,7 @@ public class MapGenerator : MonoBehaviour
     {
         noiseMap = Noise.generate_noise_map(mapWidth, mapHeight, seed, noiseScale, octaves, persistance, lacunarity, offset);
 
-        Material[] textureMap = new Material[mapWidth * mapHeight];
+        Material[] materialSet = new Material[mapWidth * mapHeight];
         for (int x = 0; x < mapWidth; x++)
         {
             for (int y = 0; y < mapHeight; y++)
@@ -46,14 +52,14 @@ public class MapGenerator : MonoBehaviour
                 {
                     if(currentHeight <= regions[i].height)
                     {
-                        textureMap[y * mapWidth + x] = regions[i].material;
+                        materialSet[y * mapWidth + x] = regions[i].material;
                         break;
                     }
                 }
             }
         }
 
-        return textureMap;
+        return materialSet;
     }
 
     void OnValidate()
@@ -84,7 +90,7 @@ public class MapGenerator : MonoBehaviour
 
         float heightScale = 20f;
 
-        Material[] textureMap = generate_map();
+        Material[] materialSet = generate_map();
 
         for (int x = 0; x < mapWidth; x++)
         {
@@ -92,27 +98,33 @@ public class MapGenerator : MonoBehaviour
 
             for (int y = 0; y < mapHeight; y++)
             {
-                GameObject createdHexagon = Instantiate(hexagonObject, parentObj);
-
-                float heightOfHex = noiseMap[x, y] * heightScale;
-                if (heightOfHex < 0)
-                    heightOfHex = 0.01f;
-
-                createdHexagon.transform.localScale = new Vector3(1f, 1f, heightOfHex);
-                createdHexagon.transform.localRotation = Quaternion.identity;
-
-                createdHexagon.GetComponent<MeshRenderer>().material = textureMap[y * mapWidth + x];
-
-                if (y%2==0)
-                    createdHexagon.transform.localPosition = new Vector3((2 * x) * xOffset, y * yOffset, 0f);
-                else
-                    createdHexagon.transform.localPosition = new Vector3((2 * x + 1) * xOffset, y * yOffset, 0f);
-
+                //Yürünebilir 6genleri bir listede tutuyor.
                 if(noiseMap[x,y] > regions[1].height)
                 {
-                    hexagon temp = new hexagon(hexagonObject, new float[x,y]);
+                    GameObject createdHexagon = Instantiate(hexagonObject, parentObj);
 
-                    hexagons.Add(temp);
+                    createdHexagon.name = x + " " + y;
+
+                    float heightOfHex = noiseMap[x, y] * heightScale;
+                    if (heightOfHex < 0)
+                        heightOfHex = 0.01f;
+
+                    createdHexagon.transform.localScale = new Vector3(1f, 1f, heightOfHex);
+                    createdHexagon.transform.localRotation = Quaternion.identity;
+
+                    createdHexagon.GetComponent<MeshRenderer>().material = materialSet[y * mapWidth + x];
+
+
+                    //6gen offsetleri
+                    if (y%2==0)
+                        createdHexagon.transform.localPosition = new Vector3((2 * x) * xOffset, y * yOffset, 0f);
+                    else
+                        createdHexagon.transform.localPosition = new Vector3((2 * x + 1) * xOffset, y * yOffset, 0f);
+
+                    createdHexagon.GetComponent<Hexagon>().ownHexagon = new hexagon(createdHexagon, new Vector2(x, y), createdHexagon.transform.position);
+
+                    //Listeye ekliyor
+                    hexagons.Add(createdHexagon.GetComponent<Hexagon>().ownHexagon);
                 }
 
             }
@@ -120,8 +132,27 @@ public class MapGenerator : MonoBehaviour
         }
 
         //Haritayı ortalamak için
-        parentObj.position = hexagons[hexagons.Count / 2].hexObj.transform.position * -1;
+        parentObj.position = hexagons[Mathf.CeilToInt(hexagons.Count / 2)].hexObj.transform.position * -1;
 
+        //Bir sonraki aşama
+        generate_player();
+    }
+
+    public void generate_player()
+    {
+        int randomSpawnIndex = Random.Range(0, hexagons.Count - 1);
+
+        //playerObj = Instantiate(playerObj, hexagons[randomSpawnIndex].hexObj.transform);
+        playerObj = Instantiate(playerObj);
+
+        playerObj.name = "Player";
+
+        playerObj.transform.position = hexagons[randomSpawnIndex].hexObj.transform.position + new Vector3(0f,0f,-1f);
+
+        playerObj.GetComponent<PlayerMovement>().parentHex = hexagons[randomSpawnIndex];
+
+        GameObject.Find("Main Camera").GetComponent<Camera>().enabled = false;
+        GameObject.Find("Main Camera").GetComponent<AudioListener>().enabled = false;
     }
 
 }
@@ -139,12 +170,14 @@ public struct hexagon
 {
 
     public GameObject hexObj;
-    public float[,] coordinates;
+    public Vector2 coordinates;
+    public Vector2 position;
 
-    public hexagon(GameObject obj, float[,] coor)
+    public hexagon(GameObject obj, Vector2 coord, Vector2 pos)
     {
         hexObj = obj;
-        coordinates = coor;
+        coordinates = coord;
+        position = pos;
     }
 
 }

@@ -4,8 +4,9 @@ MonoImporter:
   externalObjects: {}
   serializedVersion: 2
   defaultReferences:
-  - playerObj: {fileID: 7770898735399493737, guid: 08af8beff941a3944bc109caa0cc362a,
-      type: 3}
+  - mg: {instanceID: 0}
+  - stdGrass: {fileID: 2100000, guid: 5d8af8f434f69794eabd684fb44b4fbf, type: 2}
+  - nbGrass: {fileID: 2100000, guid: 3cf139bd04bbccd428b6f7ae6fdbc6f5, type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
