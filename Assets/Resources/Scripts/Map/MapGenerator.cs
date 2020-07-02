@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class MapGenerator : MonoBehaviour
@@ -98,8 +99,7 @@ public class MapGenerator : MonoBehaviour
 
             for (int y = 0; y < mapHeight; y++)
             {
-                //Yürünebilir 6genleri bir listede tutuyor.
-                if(noiseMap[x,y] > regions[1].height)
+                if (noiseMap[x, y] > regions[1].height)
                 {
                     GameObject createdHexagon = Instantiate(hexagonObject, parentObj);
 
@@ -109,19 +109,21 @@ public class MapGenerator : MonoBehaviour
                     if (heightOfHex < 0)
                         heightOfHex = 0.01f;
 
-                    createdHexagon.transform.localScale = new Vector3(1f, 1f, heightOfHex);
-                    createdHexagon.transform.localRotation = Quaternion.identity;
+                    createdHexagon.transform.localScale = new Vector3(1f, 1f, 1f);
+                    createdHexagon.transform.localRotation = Quaternion.Euler(0f,180f,0f);
 
                     createdHexagon.GetComponent<MeshRenderer>().material = materialSet[y * mapWidth + x];
 
 
                     //6gen offsetleri
-                    if (y%2==0)
+                    if (y % 2 == 0)
                         createdHexagon.transform.localPosition = new Vector3((2 * x) * xOffset, y * yOffset, 0f);
                     else
                         createdHexagon.transform.localPosition = new Vector3((2 * x + 1) * xOffset, y * yOffset, 0f);
 
                     createdHexagon.GetComponent<Hexagon>().ownHexagon = new hexagon(createdHexagon, new Vector2(x, y), createdHexagon.transform.position);
+
+                    //createdHexagon.transform.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>().text = x + " " + y;
 
                     //Listeye ekliyor
                     hexagons.Add(createdHexagon.GetComponent<Hexagon>().ownHexagon);
@@ -135,9 +137,10 @@ public class MapGenerator : MonoBehaviour
         parentObj.position = hexagons[Mathf.CeilToInt(hexagons.Count / 2)].hexObj.transform.position * -1;
 
         //Bir sonraki aşama
-        generate_player();
+
     }
 
+    //Artık kullanılmayacak ↓
     public void generate_player()
     {
         int randomSpawnIndex = Random.Range(0, hexagons.Count - 1);
@@ -153,6 +156,11 @@ public class MapGenerator : MonoBehaviour
 
         GameObject.Find("Main Camera").GetComponent<Camera>().enabled = false;
         GameObject.Find("Main Camera").GetComponent<AudioListener>().enabled = false;
+    }
+
+    public void generate_NPC()
+    {
+
     }
 
 }
@@ -181,3 +189,4 @@ public struct hexagon
     }
 
 }
+

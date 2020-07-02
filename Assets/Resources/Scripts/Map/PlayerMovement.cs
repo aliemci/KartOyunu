@@ -23,7 +23,7 @@ public class PlayerMovement : MonoBehaviour,  IPointerClickHandler
 
         foreach (hexagon hex in neighbours)
         {
-            hex.hexObj.GetComponent<Renderer>().material.color = new Color(50f,50f,0f);
+            hex.hexObj.GetComponent<Renderer>().material.color = new Color(0f, 0.9f, 0.9f, 0.8f);
         }
     }
 
@@ -52,18 +52,29 @@ public class PlayerMovement : MonoBehaviour,  IPointerClickHandler
         int x = (int) playerHex.GetComponent<Hexagon>().ownHexagon.coordinates.x;
         int y = (int) playerHex.GetComponent<Hexagon>().ownHexagon.coordinates.y;
 
-
-        //neighbours = {x-1, x, x+1}*{y-1, y, y+1}
-
-        Vector2[] neighbours = {
-            new Vector2(x + 1, y),
-            new Vector2(x, y - 1),
-            new Vector2(x, y + 1),
-            new Vector2(x - 1, y + 1),
-            new Vector2(x - 1, y),
-            new Vector2(x - 1, y - 1) };
-
         List<hexagon> neighbourHexs = new List<hexagon>();
+        Vector2[] neighbours = new Vector2[6];
+
+        //Tek ise
+        if (y%2 == 0)
+            neighbours = new Vector2[]{
+                new Vector2(x + 1, y),
+                new Vector2(x, y - 1),
+                new Vector2(x, y + 1),
+                new Vector2(x - 1, y + 1),
+                new Vector2(x - 1, y),
+                new Vector2(x - 1, y - 1)
+            };
+        //Çift ise
+        else
+            neighbours = new Vector2[]{
+                new Vector2(x - 1, y),
+                new Vector2(x, y - 1),
+                new Vector2(x, y + 1),
+                new Vector2(x + 1, y - 1),
+                new Vector2(x + 1, y),
+                new Vector2(x + 1, y + 1)
+            };
 
         foreach (hexagon hex in mg.hexagons)
         {
@@ -77,7 +88,7 @@ public class PlayerMovement : MonoBehaviour,  IPointerClickHandler
             }
         }
 
-
         return neighbourHexs;
     }
+
 }
