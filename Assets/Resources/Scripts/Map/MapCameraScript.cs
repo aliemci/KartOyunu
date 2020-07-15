@@ -173,12 +173,12 @@ public class MapCameraScript : MonoBehaviour
         {
             if (newLocalPos.z - mapCenter.z < minZ)
             {
-                Debug.Log("MIN Z");
+                //Debug.Log("MIN Z");
                 newLocalPos = new Vector3(newLocalPos.x, newLocalPos.y, minZ);
             }
             if (newLocalPos.z - mapCenter.z > maxZ)
             {
-                Debug.Log("MAX Z");
+                //Debug.Log("MAX Z");
                 newLocalPos = new Vector3(newLocalPos.x, newLocalPos.y, maxZ);
             }
         }

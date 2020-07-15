@@ -19,11 +19,16 @@ public class PlayerMovement : MonoBehaviour,  IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        Debug.Log(eventData.position);
         List<hexagon> neighbours = find_neighbours(parentHex.hexObj);
+
+        var colorBlock = new MaterialPropertyBlock();
+
+        colorBlock.SetColor("_BaseColor", new Color(0f,0.9f,0f,0.8f));
 
         foreach (hexagon hex in neighbours)
         {
-            hex.hexObj.GetComponent<Renderer>().material.color = new Color(0f, 0.9f, 0.9f, 0.8f);
+            hex.hexObj.GetComponent<Renderer>().SetPropertyBlock(colorBlock);
         }
     }
 

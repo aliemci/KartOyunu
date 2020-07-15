@@ -123,7 +123,7 @@ public class MapGenerator : MonoBehaviour
 
                     createdHexagon.GetComponent<Hexagon>().ownHexagon = new hexagon(createdHexagon, new Vector2(x, y), createdHexagon.transform.position);
 
-                    //createdHexagon.transform.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>().text = x + " " + y;
+                    createdHexagon.transform.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>().text = x + " " + y;
 
                     //Listeye ekliyor
                     hexagons.Add(createdHexagon.GetComponent<Hexagon>().ownHexagon);
@@ -137,7 +137,7 @@ public class MapGenerator : MonoBehaviour
         parentObj.position = hexagons[Mathf.CeilToInt(hexagons.Count / 2)].hexObj.transform.position * -1;
 
         //Bir sonraki aşama
-
+        generate_player();
     }
 
     //Artık kullanılmayacak ↓
@@ -157,6 +157,7 @@ public class MapGenerator : MonoBehaviour
         GameObject.Find("Main Camera").GetComponent<Camera>().enabled = false;
         GameObject.Find("Main Camera").GetComponent<AudioListener>().enabled = false;
     }
+    //↑↑↑↑↑ ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑ ↑
 
     public void generate_NPC()
     {

@@ -18,7 +18,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &8017117111555780590
 RectTransform:
   m_ObjectHideFlags: 0
@@ -26,14 +26,14 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3874791289869818388}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -1}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1326953051415735440}
   m_Father: {fileID: 2121898778642582309}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
@@ -111,7 +111,7 @@ GameObject:
   - component: {fileID: 8146869585010343253}
   - component: {fileID: 6263251374296353183}
   - component: {fileID: 5789657531174627090}
-  - component: {fileID: -4395549730367132977}
+  - component: {fileID: 3640951484301997429}
   m_Layer: 13
   m_Name: hexagon
   m_TagString: Untagged
@@ -202,22 +202,20 @@ MonoBehaviour:
     hexObj: {fileID: 0}
     coordinates: {x: 0, y: 0}
     position: {x: 0, y: 0}
---- !u!58 &-4395549730367132977
-CircleCollider2D:
+--- !u!136 &3640951484301997429
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5614710556843239498}
-  m_Enabled: 1
-  m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.85
+  m_Enabled: 1
+  m_Radius: 0.85625255
+  m_Height: 1.7125051
+  m_Direction: 2
+  m_Center: {x: 0, y: 0, z: -0}
 --- !u!1 &6487764580864727344
 GameObject:
   m_ObjectHideFlags: 0
