@@ -1,8 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.EventSystems;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class NPCBehaviour : MonoBehaviour
+public class NPCBehaviour : MonoBehaviour, IPointerClickHandler
 {
     public enum NPCTypes
     {
@@ -13,23 +15,32 @@ public class NPCBehaviour : MonoBehaviour
 
     public NPCTypes NPCType;
 
-    private void OnValidate()
+    public hexagon parentHex;
+
+    private GameObject player;
+
+    private void Start()
     {
-        switch (NPCType)
-        {
-            case NPCTypes.market:
-                market();
-                break;
-
-            case NPCTypes.rival:
-                rival();
-                break;
-
-            case NPCTypes.boss:
-                boss();
-                break;
-        }
+        player = GameObject.Find("Player");
     }
+
+    //private void OnValidate()
+    //{
+    //    switch (NPCType)
+    //    {
+    //        case NPCTypes.market:
+    //            market();
+    //            break;
+
+    //        case NPCTypes.rival:
+    //            rival();
+    //            break;
+
+    //        case NPCTypes.boss:
+    //            boss();
+    //            break;
+    //    }
+    //}
 
     void market()
     {
@@ -38,7 +49,7 @@ public class NPCBehaviour : MonoBehaviour
 
     void rival()
     {
-
+        SceneManager.LoadScene(0);
     }
 
     void boss()
@@ -46,4 +57,26 @@ public class NPCBehaviour : MonoBehaviour
 
     }
 
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (!player.GetComponent<PlayerMovement>().is_camera_dragged)
+        {
+            Debug.Log("Name:" + this.gameObject.name);
+            player.GetComponent<PlayerMovement>().go_to(this.parentHex.hexObj);
+            switch (NPCType)
+            {
+                case NPCTypes.market:
+                    market();
+                    break;
+
+                case NPCTypes.rival:
+                    rival();
+                    break;
+
+                case NPCTypes.boss:
+                    boss();
+                    break;
+            }
+        }
+    }
 }

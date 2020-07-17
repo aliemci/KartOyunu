@@ -8,6 +8,9 @@ public class PlayerMovement : MonoBehaviour,  IPointerClickHandler
 {
     public hexagon parentHex;
 
+    //[HideInInspector]
+    public bool is_camera_dragged;
+
     public MapGenerator mg;
 
     public Material stdGrass, nbGrass;
@@ -20,16 +23,16 @@ public class PlayerMovement : MonoBehaviour,  IPointerClickHandler
     public void OnPointerClick(PointerEventData eventData)
     {
         Debug.Log(eventData.position);
-        List<hexagon> neighbours = find_neighbours(parentHex.hexObj);
+        //List<hexagon> neighbours = find_neighbours(parentHex.hexObj);
 
-        var colorBlock = new MaterialPropertyBlock();
+        //var colorBlock = new MaterialPropertyBlock();
 
-        colorBlock.SetColor("_BaseColor", new Color(0f,0.9f,0f,0.8f));
+        //colorBlock.SetColor("_BaseColor", new Color(0f,0.9f,0f,0.8f));
 
-        foreach (hexagon hex in neighbours)
-        {
-            hex.hexObj.GetComponent<Renderer>().SetPropertyBlock(colorBlock);
-        }
+        //foreach (hexagon hex in neighbours)
+        //{
+        //    hex.hexObj.GetComponent<Renderer>().SetPropertyBlock(colorBlock);
+        //}
     }
 
     public void go_to(GameObject goalHex)
@@ -87,7 +90,7 @@ public class PlayerMovement : MonoBehaviour,  IPointerClickHandler
             {
                 if (hex.coordinates == neighbour)
                 {
-                    Debug.Log(neighbour);
+                    //Debug.Log(neighbour);
                     neighbourHexs.Add(hex);
                 }
             }

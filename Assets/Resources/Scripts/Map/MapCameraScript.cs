@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.EventSystems;
 using UnityEngine;
 
 [RequireComponent(typeof(Camera))]
@@ -17,7 +18,8 @@ public class MapCameraScript : MonoBehaviour
     //drag vars
     private Vector3 dragStart;
     private float dragSSx, dragSSy;
-    private bool wasDown = false;
+    [HideInInspector]
+    public bool wasDown = false;
     private bool nowDown;
     private Vector3 mapCenter;
     private Vector3 originalWS;
@@ -45,9 +47,14 @@ public class MapCameraScript : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        map = GameObject.Find("Water");
+
         inertiaVector = new Vector3(0, 0, 0);
+
         cam = GetComponent<Camera>();
+
         mapCenter = map.transform.localPosition;
+
         newLocalPos = Vector3.zero;
     }
 
@@ -60,7 +67,7 @@ public class MapCameraScript : MonoBehaviour
 
     }
 
-    private void processDrag()
+    public void processDrag()
     {
         //damp inertia
         inertiaVector = inertiaVector / inertiaDampingVal;
@@ -186,6 +193,7 @@ public class MapCameraScript : MonoBehaviour
         transform.localPosition = newLocalPos;
     }
 
+
     private void processZoom()
     {
         //Get increment values
@@ -236,5 +244,6 @@ public class MapCameraScript : MonoBehaviour
         //set new size
         cam.orthographicSize = currentSize;
     }
+
 }
 

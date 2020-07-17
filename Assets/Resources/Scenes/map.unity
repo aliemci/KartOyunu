@@ -177,10 +177,14 @@ MonoBehaviour:
     material: {fileID: 2100000, guid: add16c30a76ab0c42bfc731b3d3e05cd, type: 2}
   hexagonObject: {fileID: 5614710556843239498, guid: c5272ce8d3f546048ab045670a36442a,
     type: 3}
-  parentObj: {fileID: 718833307}
-  hexagons: []
-  playerObj: {fileID: 1144498068519656082, guid: 81c42fc7e2e06ee41a6ba15bb270954b,
+  playerObject: {fileID: 1144498068519656082, guid: 81c42fc7e2e06ee41a6ba15bb270954b,
     type: 3}
+  marketObject: {fileID: 1794845960449610412, guid: 731185793a2519349b610b6eebd5c2c4,
+    type: 3}
+  rivalObject: {fileID: 3627388526787562766, guid: 1a99e629444e3bb4eb696a1205917431,
+    type: 3}
+  parentObject: {fileID: 718833307}
+  hexagons: []
 --- !u!4 &14606502
 Transform:
   m_ObjectHideFlags: 0
@@ -342,6 +346,7 @@ GameObject:
   - component: {fileID: 958903612}
   - component: {fileID: 958903615}
   - component: {fileID: 958903616}
+  - component: {fileID: 958903617}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -462,6 +467,23 @@ MonoBehaviour:
   maxSize: 9
   touchZoomSpeed: 0.01
   inertiaDampingVal: 1.03
+  wasDown: 0
+--- !u!114 &958903617
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 958903611}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c49b4cc203aa6414fae5c798d1d0e7d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EventMask:
+    serializedVersion: 2
+    m_Bits: 25392
+  m_MaxRayIntersections: 0
 --- !u!1 &1611320771
 GameObject:
   m_ObjectHideFlags: 0
@@ -605,7 +627,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_FirstSelected: {fileID: 0}
   m_sendNavigationEvents: 1
-  m_DragThreshold: 10
+  m_DragThreshold: 20
 --- !u!4 &2110697763
 Transform:
   m_ObjectHideFlags: 0

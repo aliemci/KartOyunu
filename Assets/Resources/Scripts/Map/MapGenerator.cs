@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using System.Linq;
 
 public class MapGenerator : MonoBehaviour
 {
@@ -24,16 +25,33 @@ public class MapGenerator : MonoBehaviour
 
     [Header("Prefabs")]
     public GameObject hexagonObject;
-    public Transform parentObj;
+    public GameObject playerObject, marketObject, rivalObject;
+    public Transform parentObject;
 
     [Header("Debug")]
     public List<hexagon> hexagons = new List<hexagon>();
 
-    [Header("Generate Player")]
-    public GameObject playerObj;
 
     private float[,] fallOffMap;
     private float[,] noiseMap;
+
+    private List<int> randomSpawnPoints;
+
+
+    private List<int> shuffleArray(List<int> arr)
+    {
+        List<int> res = arr;
+        var count = arr.Count;
+        var last = count - 1;
+        for (var i = 0; i < last; ++i)
+        {
+            var r = UnityEngine.Random.Range(i, count);
+            var tmp = res[i];
+            res[i] = res[r];
+            res[r] = tmp;
+        }
+        return res;
+    }
 
     public Material[] generate_map()
     {
@@ -81,7 +99,15 @@ public class MapGenerator : MonoBehaviour
 
         seed = Random.Range(0, 1000);
 
+        //Üretim Safhası ↓
+
         generate_hexagons();
+
+        randomSpawnPoints = shuffleArray(Enumerable.Range(0,hexagons.Count).ToList());
+
+        generate_player();
+
+        generate_NPC();
     }
 
     public void generate_hexagons()
@@ -101,7 +127,7 @@ public class MapGenerator : MonoBehaviour
             {
                 if (noiseMap[x, y] > regions[1].height)
                 {
-                    GameObject createdHexagon = Instantiate(hexagonObject, parentObj);
+                    GameObject createdHexagon = Instantiate(hexagonObject, parentObject);
 
                     createdHexagon.name = x + " " + y;
 
@@ -123,7 +149,7 @@ public class MapGenerator : MonoBehaviour
 
                     createdHexagon.GetComponent<Hexagon>().ownHexagon = new hexagon(createdHexagon, new Vector2(x, y), createdHexagon.transform.position);
 
-                    createdHexagon.transform.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>().text = x + " " + y;
+                    //createdHexagon.transform.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>().text = x + " " + y;
 
                     //Listeye ekliyor
                     hexagons.Add(createdHexagon.GetComponent<Hexagon>().ownHexagon);
@@ -134,33 +160,64 @@ public class MapGenerator : MonoBehaviour
         }
 
         //Haritayı ortalamak için
-        parentObj.position = hexagons[Mathf.CeilToInt(hexagons.Count / 2)].hexObj.transform.position * -1;
+        parentObject.position = hexagons[Mathf.CeilToInt(hexagons.Count / 2)].hexObj.transform.position * -1;
 
-        //Bir sonraki aşama
-        generate_player();
+        
     }
 
-    //Artık kullanılmayacak ↓
+
     public void generate_player()
     {
-        int randomSpawnIndex = Random.Range(0, hexagons.Count - 1);
+        int randomSpawnIndex = randomSpawnPoints[0];
+
+        randomSpawnPoints.RemoveAt(0);
 
         //playerObj = Instantiate(playerObj, hexagons[randomSpawnIndex].hexObj.transform);
-        playerObj = Instantiate(playerObj);
+        playerObject = Instantiate(playerObject);
 
-        playerObj.name = "Player";
+        playerObject.name = "Player";
 
-        playerObj.transform.position = hexagons[randomSpawnIndex].hexObj.transform.position + new Vector3(0f,0f,-1f);
+        playerObject.transform.position = hexagons[randomSpawnIndex].hexObj.transform.position + new Vector3(0f,0f,-1f);
 
-        playerObj.GetComponent<PlayerMovement>().parentHex = hexagons[randomSpawnIndex];
+        playerObject.GetComponent<PlayerMovement>().parentHex = hexagons[randomSpawnIndex];
 
-        GameObject.Find("Main Camera").GetComponent<Camera>().enabled = false;
-        GameObject.Find("Main Camera").GetComponent<AudioListener>().enabled = false;
+        //Kamerayı oyuncunun üstüne getiriyor
+        GameObject.Find("Main Camera").transform.position = playerObject.transform.position + new Vector3(0f,0f,-10f);
+
+
     }
-    //↑↑↑↑↑ ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑ ↑
+
 
     public void generate_NPC()
     {
+        int randomSpawnIndex = randomSpawnPoints[0];
+
+        randomSpawnPoints.RemoveAt(0);
+
+        marketObject = Instantiate(marketObject);
+
+        marketObject.name = "Market";
+
+        marketObject.transform.position = hexagons[randomSpawnIndex].hexObj.transform.position + new Vector3(0f, 0f, -1f);
+
+        marketObject.GetComponent<NPCBehaviour>().parentHex = hexagons[randomSpawnIndex];
+
+        for (int i = 0; i < 3; i++)
+        {
+            randomSpawnIndex = randomSpawnPoints[0];
+
+            randomSpawnPoints.RemoveAt(0);
+
+            rivalObject = Instantiate(rivalObject);
+
+            rivalObject.name = "Rival " + (i + 1);
+
+            rivalObject.transform.position = hexagons[randomSpawnIndex].hexObj.transform.position + new Vector3(0f, 0f, -1f);
+
+            rivalObject.GetComponent<NPCBehaviour>().parentHex = hexagons[randomSpawnIndex];
+
+        }
+
 
     }
 
