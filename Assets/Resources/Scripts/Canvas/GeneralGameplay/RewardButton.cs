@@ -15,6 +15,7 @@ public class RewardButton : MonoBehaviour
             if (pchar.isPlayer)
             {
                 player = pchar;
+                Debug.Log(player.name);
                 break;
             }
         }

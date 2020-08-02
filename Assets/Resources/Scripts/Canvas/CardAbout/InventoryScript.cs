@@ -112,10 +112,10 @@ public class InventoryScript : MonoBehaviour
     public void create_inventory_panel()
     {
         Transform canvas = GameObject.Find("Canvas").transform;
-        for (int i=0; i < canvas.childCount; i++)
-        {
-            //canvas.GetChild(i).
-        }
+        //for (int i = 0; i < canvas.childCount; i++)
+        //{
+        //    
+        //}
         GameObject inventory_panel = Instantiate(inventoryPanelPrefab, GameObject.Find("Canvas_2").transform);
     }
     

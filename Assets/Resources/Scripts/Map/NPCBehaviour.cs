@@ -24,23 +24,6 @@ public class NPCBehaviour : MonoBehaviour, IPointerClickHandler
         player = GameObject.Find("Player");
     }
 
-    //private void OnValidate()
-    //{
-    //    switch (NPCType)
-    //    {
-    //        case NPCTypes.market:
-    //            market();
-    //            break;
-
-    //        case NPCTypes.rival:
-    //            rival();
-    //            break;
-
-    //        case NPCTypes.boss:
-    //            boss();
-    //            break;
-    //    }
-    //}
 
     void market()
     {

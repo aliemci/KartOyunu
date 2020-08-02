@@ -97,7 +97,7 @@ public class MapGenerator : MonoBehaviour
     {
         fallOffMap = FalloffGenerator.generate_falloff_map(mapWidth, mapHeight);
 
-        seed = Random.Range(0, 1000);
+        //seed = Random.Range(0, 1000);
 
         //Üretim Safhası ↓
 

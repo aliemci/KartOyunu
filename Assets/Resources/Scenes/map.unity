@@ -156,7 +156,7 @@ MonoBehaviour:
   octaves: 10
   persistance: 0.054
   lacunarity: 2
-  seed: 3
+  seed: 4
   offset: {x: 0, y: 0}
   autoUpdate: 0
   regions:

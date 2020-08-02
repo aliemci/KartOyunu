@@ -38,8 +38,8 @@ MonoBehaviour:
   isPlayer: 1
   StartingCards:
   - card: {fileID: 11400000, guid: b7444e1e6785c704f8460a6e3265c788, type: 2}
-    count: 20
+    count: 3
   - card: {fileID: 11400000, guid: 35c96920db842bb43b17dc5939d5c708, type: 2}
-    count: 20
+    count: 5
   - card: {fileID: 11400000, guid: 07a479e98f318db4c98d3c5d8a6e2550, type: 2}
-    count: 20
+    count: 4
