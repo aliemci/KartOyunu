@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-
-//Başlangıçta karakterin sahip olacağı kartlar
 [System.Serializable]
+//Başlangıçta karakterin sahip olacağı kartlar
 public class starterCards
 {
     public Card card;
@@ -17,7 +16,7 @@ public class starterCards
 public class playerCharacter : Character
 {
     [Header("Player Specific")]
-    public bool isPlayer = false;
+    public bool isUsing = false;
     public List<starterCards> StartingCards = new List<starterCards>();
 
 

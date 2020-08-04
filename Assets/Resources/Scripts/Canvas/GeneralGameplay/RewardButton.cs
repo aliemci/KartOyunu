@@ -5,23 +5,12 @@ using UnityEngine.SceneManagement;
 
 public class RewardButton : MonoBehaviour
 {
-    private playerCharacter player;
-
     public void OnMouseDown()
     {
-        //Oyuncuyu bulma
-        foreach (playerCharacter pchar in Resources.LoadAll<playerCharacter>("Players"))
-        {
-            if (pchar.isPlayer)
-            {
-                player = pchar;
-                Debug.Log(player.name);
-                break;
-            }
-        }
-
         //Kartı oyuncuya ekleme
-        player.add_card_to_player(this.gameObject.GetComponent<CardDisplay>().card);
+        PlayerData.player.add_card_to_player(this.gameObject.GetComponent<CardDisplay>().card);
+
+        SaveSystem.save_player(PlayerData.player);
 
         //Belki buraya animasyon eklenebilir.
 

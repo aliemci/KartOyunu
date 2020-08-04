@@ -2,13 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
-public class PlayerData
+public static class PlayerData
 {
-    public playerCharacter playerChar;
+    public static playerCharacter player;
 
-    public PlayerData(playerCharacter player)
-    {
-        playerChar = player;
-    }
 }

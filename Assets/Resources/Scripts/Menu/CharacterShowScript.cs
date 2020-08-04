@@ -22,6 +22,7 @@ public class CharacterShowScript : MonoBehaviour
         if (text.GetComponent<TextMeshProUGUI>().text != playerChar.name)
         {
             text.GetComponent<TextMeshProUGUI>().text = playerChar.name;
+            text.GetComponent<CharacterHolderForMenu>().selectedChar = playerChar;
             GameObject.Find("Select").GetComponent<Button>().interactable = true;
         }
     }

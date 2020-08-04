@@ -27,7 +27,7 @@ public class EndTurn : MonoBehaviour
             isVariablesDefined = true;
 
             //Player character sınıfının fonksiyonları da çağırılacağı için o tipte atanıyor.
-            player = playerObject.GetComponent<CharacterDisplay>().character as playerCharacter;
+            player = PlayerData.player;
         }
 
 
@@ -84,6 +84,8 @@ public class EndTurn : MonoBehaviour
         if (GameObject.FindGameObjectsWithTag("Enemy").Length == 1)
         {
             Debug.Log("END OF THE FIGHT");
+            //Kayıt ediliyor.
+            SaveSystem.save_player(player);
             //Ödül sahnesine yönlendiriyor.
             SceneManager.LoadScene(1);
         }

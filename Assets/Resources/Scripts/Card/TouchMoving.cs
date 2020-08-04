@@ -23,8 +23,6 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     
     private bool isCombineCard;
 
-
-
     // --------------------------------------------------------------
 
     // --------------- İŞLEVLER --------------- 
@@ -35,6 +33,8 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         inventory = GameObject.Find("Inventory").gameObject;
         cardpile = GameObject.Find("CardPile").gameObject;
         cardDeck = GameObject.Find("Deck").gameObject;
+
+        player = PlayerData.player;
         // ----------------------------------------
     }
 
@@ -85,7 +85,7 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
         playerObject = GameObject.Find("Player");
 
-        player = playerObject.GetComponent<CharacterDisplay>().character;
+        //player = playerObject.GetComponent<CharacterDisplay>().character;
 
         // --------------------------------------------------------------
 

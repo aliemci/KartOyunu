@@ -24,37 +24,38 @@ public class CharacterGenerator : MonoBehaviour
 
         GameObject inventoryObject = GameObject.Find("Inventory").gameObject;
 
+
+        //Oyuncuyu oluşturma -----------------------------------------------------------------------------------------
+        playerCharacter playerChar = SaveSystem.load_player();
+
+        Transform playerCopy = Instantiate(playerPrefab, playerDeck);
+
+        playerCopy.name = "Player";
+
+        GameObject playerGO = playerCopy.gameObject;
+
+        playerGO.layer = 9;
+
+        playerGO.GetComponent<CharacterDisplay>().character = playerChar;
+
+        //Envanterdeki kartları hazırlayacak fonksiyon çağırılıyor.
+        inventoryObject.GetComponent<InventoryScript>().inventory_load(playerChar);
+        //Oyuncuyu oluşturma sonu ------------------------------------------------------------------------------------
+
+
         int indis = 0;
         foreach(Character character in characters)
         {
             indis++;
-            //Karakter eğer player ise
-            if(character as playerCharacter != null)
-            {
-                // Karakter oluşturulup atanıyor.
-                Transform playerChar = Instantiate(playerPrefab, playerDeck);
-                playerChar.name = "Player";
-                //Gameobject nesnesini alıyor.
-                GameObject player = playerChar.gameObject;
-                // Layer olarak 9 atanıyor. (Player)
-                player.layer = 9;
-                // Charcter display koduna atama işlemi. Bu sayede oyuncu nesnesi oluştuktan sonra özelliklerine erişilebilecek
-                player.GetComponent<CharacterDisplay>().character = Instantiate(character);
-                //Envanterdeki kartları hazırlayacak fonksiyon çağırılıyor.
-                inventoryObject.GetComponent<InventoryScript>().inventory_load(character as playerCharacter);
-            }
-            else
-            {
-                // Karakter oluşturulup atanıyor.
-                Transform rivalChar = Instantiate(rivalPrefab, rivalDeck);
-                rivalChar.name = "Enemy " + indis;
-                //Gameobject nesnesini alıyor.
-                GameObject rival = rivalChar.gameObject;
-                // Layer olarak 8 atanıyor. (Enemy)
-                rival.layer = 8;
-                // Charcter display koduna atama işlemi. Bu sayede oyuncu nesnesi oluştuktan sonra özelliklerine erişilebilecek
-                rival.GetComponent<CharacterDisplay>().character = Instantiate(character);
-            }
+            // Karakter oluşturulup atanıyor.
+            Transform rivalChar = Instantiate(rivalPrefab, rivalDeck);
+            rivalChar.name = "Enemy " + indis;
+            //Gameobject nesnesini alıyor.
+            GameObject rival = rivalChar.gameObject;
+            // Layer olarak 8 atanıyor. (Enemy)
+            rival.layer = 8;
+            // Charcter display koduna atama işlemi. Bu sayede oyuncu nesnesi oluştuktan sonra özelliklerine erişilebilecek
+            rival.GetComponent<CharacterDisplay>().character = Instantiate(character);
         }
     }
 }

@@ -4,36 +4,22 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 public static class SaveSystem
 {
-    public static void SavePlayer(playerCharacter player)
+    public static void save_player(playerCharacter player)
     {
-        BinaryFormatter formatter = new BinaryFormatter();
-        string path = Application.persistentDataPath + "/Player.save";
-        FileStream stream = new FileStream(path, FileMode.Create);
-
-        PlayerData data = new PlayerData(player);
-
-        formatter.Serialize(stream, data);
-        stream.Close();
+        string json = JsonUtility.ToJson(player);
+        File.WriteAllText(Application.persistentDataPath + Path.DirectorySeparatorChar + "PlayerData.txt", json);
     }
 
-    public static PlayerData load_player()
+    public static playerCharacter load_player()
     {
-        string path = Application.persistentDataPath + "/Player.save";
-        if (File.Exists(path))
+        if(File.Exists(Application.persistentDataPath + Path.DirectorySeparatorChar + "PlayerData.txt"))
         {
-            BinaryFormatter formatter = new BinaryFormatter();
-            FileStream stream = new FileStream(path, FileMode.Open);
-
-            PlayerData data = formatter.Deserialize(stream) as PlayerData;
-
-            stream.Close();
-            return data;
+            PlayerData.player = ScriptableObject.CreateInstance<playerCharacter>();
+            string json = File.ReadAllText(Application.persistentDataPath + Path.DirectorySeparatorChar + "PlayerData.txt");
+            JsonUtility.FromJsonOverwrite(json, PlayerData.player);
         }
-        else
-        {
-            Debug.LogError("Kayıtlı dosya bulunamadı\n" + path);
-            return null;
-        }
+        return PlayerData.player;
     }
+
 
 }

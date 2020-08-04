@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class MenuScript : MonoBehaviour
@@ -27,8 +28,15 @@ public class MenuScript : MonoBehaviour
 
     }
 
-    public void is_character_selected()
+    public void select()
     {
+        PlayerData.player = Instantiate(GameObject.Find("SelectedCharacter").GetComponent<CharacterHolderForMenu>().selectedChar);
+        
+        if(PlayerData.player != null)
+            SaveSystem.save_player(PlayerData.player);
+
+        // Haritaya geçiyor.
+        SceneManager.LoadScene(2);
 
     }
 

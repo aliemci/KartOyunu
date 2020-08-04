@@ -28,5 +28,5 @@ MonoBehaviour:
   attack_range:
   - 0
   - 1
-  - 0
+  - 1
   - 0
