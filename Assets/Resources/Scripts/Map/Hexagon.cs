@@ -19,7 +19,6 @@ public class Hexagon: MonoBehaviour, IPointerClickHandler, IDragHandler, IEndDra
         playerCamera = player.transform.GetChild(0).gameObject;
     }
 
-
     public void OnPointerClick(PointerEventData eventData)
     {
         if (!player.GetComponent<PlayerMovement>().is_camera_dragged)

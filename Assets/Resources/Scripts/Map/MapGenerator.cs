@@ -28,6 +28,9 @@ public class MapGenerator : MonoBehaviour
     public GameObject playerObject, marketObject, rivalObject;
     public Transform parentObject;
 
+    private int marketCount;
+    private int rivalCount;
+
     [Header("Debug")]
     public List<hexagon> hexagons = new List<hexagon>();
 
@@ -99,6 +102,13 @@ public class MapGenerator : MonoBehaviour
 
         //seed = Random.Range(0, 1000);
 
+        Map loadedMap = SaveSystem.load_map();
+
+        seed = loadedMap.mapSeed;
+        marketCount = loadedMap.marketCount;
+        rivalCount = loadedMap.rivalCount;
+
+
         //Üretim Safhası ↓
 
         generate_hexagons();
@@ -107,7 +117,7 @@ public class MapGenerator : MonoBehaviour
 
         generate_player();
 
-        generate_NPC();
+        generate_NPC(marketCount, rivalCount);
     }
 
     public void generate_hexagons()
@@ -188,21 +198,26 @@ public class MapGenerator : MonoBehaviour
     }
 
 
-    public void generate_NPC()
+    public void generate_NPC(int marketNumber, int rivalNumber)
     {
-        int randomSpawnIndex = randomSpawnPoints[0];
+        int randomSpawnIndex;
 
-        randomSpawnPoints.RemoveAt(0);
+        for (int i = 0; i < marketNumber; i++)
+        {
+            randomSpawnIndex = randomSpawnPoints[0];
 
-        marketObject = Instantiate(marketObject);
+            randomSpawnPoints.RemoveAt(0);
 
-        marketObject.name = "Market";
+            marketObject = Instantiate(marketObject);
 
-        marketObject.transform.position = hexagons[randomSpawnIndex].hexObj.transform.position + new Vector3(0f, 0f, -1f);
+            marketObject.name = "Market";
 
-        marketObject.GetComponent<NPCBehaviour>().parentHex = hexagons[randomSpawnIndex];
+            marketObject.transform.position = hexagons[randomSpawnIndex].hexObj.transform.position + new Vector3(0f, 0f, -1f);
 
-        for (int i = 0; i < 3; i++)
+            marketObject.GetComponent<NPCBehaviour>().parentHex = hexagons[randomSpawnIndex];
+        }
+
+        for (int i = 0; i < rivalNumber; i++)
         {
             randomSpawnIndex = randomSpawnPoints[0];
 
@@ -221,6 +236,23 @@ public class MapGenerator : MonoBehaviour
 
     }
 
+}
+
+
+[System.Serializable]
+public struct Map
+{
+    [SerializeField]
+    public int mapSeed;
+    public int marketCount;
+    public int rivalCount;
+
+    public Map(int seed, int mCount, int rCount)
+    {
+        mapSeed = seed;
+        marketCount = mCount;
+        rivalCount = rCount;
+    }
 }
 
 [System.Serializable]

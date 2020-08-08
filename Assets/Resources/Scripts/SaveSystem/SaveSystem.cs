@@ -22,4 +22,29 @@ public static class SaveSystem
     }
 
 
+    public static void save_map(Map currentMap)
+    {        
+        string json = JsonUtility.ToJson(currentMap);
+        File.WriteAllText(Application.persistentDataPath + Path.DirectorySeparatorChar + "MapData.txt", json);
+    }
+
+    public static Map load_map()
+    {
+        Map loadedMap = new Map();
+        if (File.Exists(Application.persistentDataPath + Path.DirectorySeparatorChar + "MapData.txt"))
+        {
+            string json = File.ReadAllText(Application.persistentDataPath + Path.DirectorySeparatorChar + "MapData.txt");
+            loadedMap = JsonUtility.FromJson<Map>(json);
+            Debug.Log(loadedMap.mapSeed);
+        }
+        else
+        {
+            loadedMap.mapSeed = Random.Range(0, 1000);
+            loadedMap.marketCount = Random.Range(0, 1);
+            loadedMap.rivalCount = Random.Range(2, 4);
+        }
+
+        return loadedMap;
+    }
+
 }

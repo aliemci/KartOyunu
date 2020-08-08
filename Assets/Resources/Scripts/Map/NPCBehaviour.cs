@@ -27,17 +27,26 @@ public class NPCBehaviour : MonoBehaviour, IPointerClickHandler
 
     void market()
     {
+        if (player.GetComponent<PlayerMovement>().is_neighbour(this.parentHex.hexObj))
+        {
 
+        }
     }
 
     void rival()
     {
-        SceneManager.LoadScene(0);
+        if (player.GetComponent<PlayerMovement>().is_neighbour(this.parentHex.hexObj))
+        {
+            SceneManager.LoadScene(0);
+        }
     }
 
     void boss()
     {
+        if (player.GetComponent<PlayerMovement>().is_neighbour(this.parentHex.hexObj))
+        {
 
+        }
     }
 
     public void OnPointerClick(PointerEventData eventData)

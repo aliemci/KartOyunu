@@ -45,7 +45,7 @@ public class PlayerMovement : MonoBehaviour,  IPointerClickHandler
         }
     }
 
-    bool is_neighbour(GameObject hexGO)
+    public bool is_neighbour(GameObject hexGO)
     {
         List<hexagon> neighbours = find_neighbours(parentHex.hexObj);
         foreach (hexagon hex in neighbours)
