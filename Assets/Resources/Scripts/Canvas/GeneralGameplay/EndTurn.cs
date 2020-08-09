@@ -86,6 +86,10 @@ public class EndTurn : MonoBehaviour
             Debug.Log("END OF THE FIGHT");
             //Kayıt ediliyor.
             SaveSystem.save_player(player);
+
+            Map currentMap = SaveSystem.load_map();
+            
+
             //Ödül sahnesine yönlendiriyor.
             SceneManager.LoadScene(1);
         }

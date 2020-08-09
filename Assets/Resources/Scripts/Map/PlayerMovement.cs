@@ -35,14 +35,16 @@ public class PlayerMovement : MonoBehaviour,  IPointerClickHandler
         //}
     }
 
-    public void go_to(GameObject goalHex)
+    public bool go_to(GameObject goalHex)
     {
         if(is_neighbour(goalHex))
         {
             this.transform.position = goalHex.transform.position + new Vector3(0f,0f,-1f);
             this.transform.rotation = Quaternion.identity;
             parentHex = goalHex.GetComponent<Hexagon>().ownHexagon;
+            return true;
         }
+        return false;
     }
 
     public bool is_neighbour(GameObject hexGO)

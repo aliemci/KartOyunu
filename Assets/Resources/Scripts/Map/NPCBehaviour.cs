@@ -27,26 +27,17 @@ public class NPCBehaviour : MonoBehaviour, IPointerClickHandler
 
     void market()
     {
-        if (player.GetComponent<PlayerMovement>().is_neighbour(this.parentHex.hexObj))
-        {
 
-        }
     }
 
     void rival()
     {
-        if (player.GetComponent<PlayerMovement>().is_neighbour(this.parentHex.hexObj))
-        {
-            SceneManager.LoadScene(0);
-        }
+        SceneManager.LoadScene(0);
     }
 
     void boss()
     {
-        if (player.GetComponent<PlayerMovement>().is_neighbour(this.parentHex.hexObj))
-        {
 
-        }
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -54,20 +45,22 @@ public class NPCBehaviour : MonoBehaviour, IPointerClickHandler
         if (!player.GetComponent<PlayerMovement>().is_camera_dragged)
         {
             Debug.Log("Name:" + this.gameObject.name);
-            player.GetComponent<PlayerMovement>().go_to(this.parentHex.hexObj);
-            switch (NPCType)
+            if (player.GetComponent<PlayerMovement>().go_to(this.parentHex.hexObj))
             {
-                case NPCTypes.market:
-                    market();
-                    break;
+                switch (NPCType)
+                {
+                    case NPCTypes.market:
+                        market();
+                        break;
 
-                case NPCTypes.rival:
-                    rival();
-                    break;
+                    case NPCTypes.rival:
+                        rival();
+                        break;
 
-                case NPCTypes.boss:
-                    boss();
-                    break;
+                    case NPCTypes.boss:
+                        boss();
+                        break;
+                }
             }
         }
     }

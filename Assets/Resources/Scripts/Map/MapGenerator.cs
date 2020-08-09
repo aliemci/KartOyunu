@@ -39,9 +39,10 @@ public class MapGenerator : MonoBehaviour
     private float[,] noiseMap;
 
     private List<int> randomSpawnPoints;
+    public Dictionary<string,int> objectsOnMap = new Dictionary<string, int>();
 
 
-    private List<int> shuffleArray(List<int> arr)
+    public static List<int> shuffleArray(List<int> arr)
     {
         List<int> res = arr;
         var count = arr.Count;
@@ -100,7 +101,6 @@ public class MapGenerator : MonoBehaviour
     {
         fallOffMap = FalloffGenerator.generate_falloff_map(mapWidth, mapHeight);
 
-        //seed = Random.Range(0, 1000);
 
         Map loadedMap = SaveSystem.load_map();
 
@@ -108,16 +108,36 @@ public class MapGenerator : MonoBehaviour
         marketCount = loadedMap.marketCount;
         rivalCount = loadedMap.rivalCount;
 
-
         //Üretim Safhası ↓
 
         generate_hexagons();
 
-        randomSpawnPoints = shuffleArray(Enumerable.Range(0,hexagons.Count).ToList());
+        //Eğer kayıtlı dosya yoksa
+        if (!loadedMap.isLoaded)
+        {
+            randomSpawnPoints = shuffleArray(Enumerable.Range(0,hexagons.Count).ToList());
+            loadedMap.isLoaded = true;
+            Debug.Log("Kayıtlı dosya bulunamadı!");
+        }
+        else
+        {
+            objectsOnMap = loadedMap.objsOnMap;
+            int i = 0;
+            foreach (var item in objectsOnMap)
+            {
+                randomSpawnPoints[i] = item.Value;
+                i++;
+            }
+            
+        }
 
         generate_player();
 
         generate_NPC(marketCount, rivalCount);
+
+        loadedMap.objsOnMap = objectsOnMap;
+
+        SaveSystem.save_map(loadedMap);
     }
 
     public void generate_hexagons()
@@ -180,7 +200,7 @@ public class MapGenerator : MonoBehaviour
     {
         int randomSpawnIndex = randomSpawnPoints[0];
 
-        randomSpawnPoints.RemoveAt(0);
+        //randomSpawnPoints.RemoveAt(0);
 
         //playerObj = Instantiate(playerObj, hexagons[randomSpawnIndex].hexObj.transform);
         playerObject = Instantiate(playerObject);
@@ -190,6 +210,8 @@ public class MapGenerator : MonoBehaviour
         playerObject.transform.position = hexagons[randomSpawnIndex].hexObj.transform.position + new Vector3(0f,0f,-1f);
 
         playerObject.GetComponent<PlayerMovement>().parentHex = hexagons[randomSpawnIndex];
+
+        objectsOnMap.Add(playerObject.name, randomSpawnIndex);
 
         //Kamerayı oyuncunun üstüne getiriyor
         GameObject.Find("Main Camera").transform.position = playerObject.transform.position + new Vector3(0f,0f,-10f);
@@ -204,9 +226,9 @@ public class MapGenerator : MonoBehaviour
 
         for (int i = 0; i < marketNumber; i++)
         {
-            randomSpawnIndex = randomSpawnPoints[0];
+            randomSpawnIndex = randomSpawnPoints[1+i];
 
-            randomSpawnPoints.RemoveAt(0);
+            //randomSpawnPoints.RemoveAt(0);
 
             marketObject = Instantiate(marketObject);
 
@@ -215,13 +237,16 @@ public class MapGenerator : MonoBehaviour
             marketObject.transform.position = hexagons[randomSpawnIndex].hexObj.transform.position + new Vector3(0f, 0f, -1f);
 
             marketObject.GetComponent<NPCBehaviour>().parentHex = hexagons[randomSpawnIndex];
+
+            objectsOnMap.Add(marketObject.name, randomSpawnIndex);
+
         }
 
         for (int i = 0; i < rivalNumber; i++)
         {
-            randomSpawnIndex = randomSpawnPoints[0];
+            randomSpawnIndex = randomSpawnPoints[1+marketNumber+i];
 
-            randomSpawnPoints.RemoveAt(0);
+            //randomSpawnPoints.RemoveAt(0);
 
             rivalObject = Instantiate(rivalObject);
 
@@ -231,6 +256,7 @@ public class MapGenerator : MonoBehaviour
 
             rivalObject.GetComponent<NPCBehaviour>().parentHex = hexagons[randomSpawnIndex];
 
+            objectsOnMap.Add(rivalObject.name, randomSpawnIndex);
         }
 
 
@@ -242,17 +268,16 @@ public class MapGenerator : MonoBehaviour
 [System.Serializable]
 public struct Map
 {
-    [SerializeField]
+    //[SerializeField]
     public int mapSeed;
+
     public int marketCount;
+
     public int rivalCount;
 
-    public Map(int seed, int mCount, int rCount)
-    {
-        mapSeed = seed;
-        marketCount = mCount;
-        rivalCount = rCount;
-    }
+    public Dictionary<string, int> objsOnMap;
+
+    public bool isLoaded;
 }
 
 [System.Serializable]

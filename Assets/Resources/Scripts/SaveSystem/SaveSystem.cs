@@ -1,6 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
 
 public static class SaveSystem
 {
@@ -42,6 +42,8 @@ public static class SaveSystem
             loadedMap.mapSeed = Random.Range(0, 1000);
             loadedMap.marketCount = Random.Range(0, 1);
             loadedMap.rivalCount = Random.Range(2, 4);
+            loadedMap.objsOnMap = new Dictionary<string, int>();
+            loadedMap.isLoaded = false;
         }
 
         return loadedMap;
