@@ -38,8 +38,10 @@ MonoBehaviour:
   isUsing: 0
   StartingCards:
   - card: {fileID: 11400000, guid: b7444e1e6785c704f8460a6e3265c788, type: 2}
-    count: 5
+    count: 1
   - card: {fileID: 11400000, guid: 137291b9b9703ca47995468c19b8009a, type: 2}
-    count: 3
+    count: 1
   - card: {fileID: 11400000, guid: 35c96920db842bb43b17dc5939d5c708, type: 2}
     count: 1
+  - card: {fileID: 11400000, guid: bc8379b8cfbdbe34ba5acb5954a01390, type: 2}
+    count: 5

@@ -29,7 +29,7 @@ public class Card : ScriptableObject{
     [Header("Specifications")]
     public string cardName;
     
-    [Header("Card Type")]
+    [HideInInspector]
     public CardType1 CardT1;
     [HideInInspector]
     public CardType2 CardT2;
@@ -52,9 +52,8 @@ public class Card : ScriptableObject{
     [HideInInspector]
     public bool isPlayerOwn, isCardUsed;
 
-
     private const int attack_range_size = 4;
-    [Header("Attack Specs")]
+    [Header("Attack Specs")][HideInInspector]
     public float[] attack_range = new float[attack_range_size];
 
     
@@ -183,6 +182,8 @@ public class Card_Editor : Editor
         //Öntanımlı  çizilenler için.
         DrawDefaultInspector();
 
+        //EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+        
         //Üzerinde değişiklik yaptığımız nesnenin kart olduğunu belirterek değişkene atıyoruz.
         Card card = (Card)target;
 
@@ -192,60 +193,78 @@ public class Card_Editor : Editor
             fontStyle = FontStyle.Bold
         };
 
+        //Düz çizgi
+        EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+        //Başlık
+        EditorGUILayout.LabelField("First Type", label);
+        //İlk kart tipini görünür kılıyor.
+        card.CardT1 = (CardType1)EditorGUILayout.EnumPopup("First Card Type", card.CardT1);
+
+
         //Eğer ilk kart özelliği buff&debuff değilse, ikinci özelliği görünür kılıyoruz.
         if (card.CardT1 != CardType1.BuffCard && card.CardT1 != CardType1.DebuffCard)
         {
             //Eğer Saldırı kartıysa
             if(card.CardT1 == CardType1.AttackCard)
             {
-                EditorGUILayout.LabelField("", label); // Boşluk
-                EditorGUILayout.LabelField("Talha NOOB", label);
+                //EditorGUILayout.LabelField("", label); // Boşluk
+                EditorGUILayout.LabelField("Attack Specs", label);
                 card.attack = (int)EditorGUILayout.IntField("Attack", card.attack);
                 card.mana = (int)EditorGUILayout.IntField("Mana", card.mana);
+
+                EditorGUILayout.LabelField("Attack Range", label); // Boşluk
+                card.attack_range[0] = (float)EditorGUILayout.FloatField("Upper Left", card.attack_range[0]);
+                card.attack_range[1] = (float)EditorGUILayout.FloatField("Upper Right", card.attack_range[1]);
+                card.attack_range[2] = (float)EditorGUILayout.FloatField("Lower Left", card.attack_range[2]);
+                card.attack_range[3] = (float)EditorGUILayout.FloatField("Lower Right", card.attack_range[3]);
+
             }
 
             //Eğer Savunma kartıysa
-            if (card.CardT1 == CardType1.DefenceCard)
+            else if (card.CardT1 == CardType1.DefenceCard)
             {
-                EditorGUILayout.LabelField("", label); // Boşluk
+                //EditorGUILayout.LabelField("", label); // Boşluk
                 EditorGUILayout.LabelField("Defence Specs", label);
                 card.defence = (int)EditorGUILayout.IntField("Defence", card.defence);
                 card.mana = (int)EditorGUILayout.IntField("Mana", card.mana);
             }
 
             //Eğer Enerji kartıysa
-            if (card.CardT1 == CardType1.EnergyCard)
+            else if (card.CardT1 == CardType1.EnergyCard)
             {
-                EditorGUILayout.LabelField("", label); // Boşluk
+                //EditorGUILayout.LabelField("", label); // Boşluk
                 EditorGUILayout.LabelField("Energy Specs", label);
                 card.mana = (int)EditorGUILayout.IntField("Mana", card.mana);
             }
 
+
+            EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+            EditorGUILayout.LabelField("Second Type", label);
             //Kart için 2.özelliği görünür kılma fonksiyonu.
             card.CardT2 = (CardType2)EditorGUILayout.EnumPopup("Second Card Type", card.CardT2);
+
 
             //Eğer ikinci özellik olarak buff seçildiyse.
             if(card.CardT2 == CardType2.BuffCard)
             {
-                EditorGUILayout.LabelField("", label); // Boşluk
                 EditorGUILayout.LabelField("Buff Type", label);
                 //Kartın bilgilerini girebilmesi için gerekli alanları görünür kılıyor.
                 card.cardBuff = (buffs)EditorGUILayout.EnumPopup("Buffs", card.cardBuff);
                 card.buffCoefficient = EditorGUILayout.FloatField("Buff Coefficient", card.buffCoefficient);
             }
+
             //Eğer ikinci özellik olarak debuff seçildiyse.
             else if (card.CardT2 == CardType2.DebuffCard)
             {
-                EditorGUILayout.LabelField("", label); // Boşluk
                 EditorGUILayout.LabelField("Debuff Type", label);
                 //Kartın bilgilerini girebilmesi için gerekli alanları görünür kılıyor.
                 card.cardDebuff = (debuffs)EditorGUILayout.EnumPopup("Debuffs", card.cardDebuff);
                 card.debuffCoefficient = EditorGUILayout.FloatField("Debuff Coefficient", card.debuffCoefficient);
             }
+
             //Eğer ikinci özellik olarak combine seçildiyse.
             else if (card.CardT2 == CardType2.CombineCard)
             {
-                EditorGUILayout.LabelField("", label); // Boşluk
                 EditorGUILayout.LabelField("Combine Type", label);
                 //Kartın bilgilerini girebilmesi için gerekli alanları görünür kılıyor.
                 card.cardCombine = (CombineType)EditorGUILayout.EnumPopup("Combine Card", card.cardCombine);
@@ -260,7 +279,6 @@ public class Card_Editor : Editor
             //Eğer birinci özellik olarak buff seçildiyse.
             if (card.CardT1 == CardType1.BuffCard)
             {
-                EditorGUILayout.LabelField("", label); // Boşluk
                 EditorGUILayout.LabelField("Buff Type", label);
 
                 //Kartın bilgilerini girebilmesi için gerekli alanları görünür kılıyor.
@@ -292,7 +310,6 @@ public class Card_Editor : Editor
             //Eğer birinci özellik olarak debuff seçildiyse.
             else if (card.CardT1 == CardType1.DebuffCard)
             {
-                EditorGUILayout.LabelField("", label); // Boşluk
                 EditorGUILayout.LabelField("Debuff Type", label);
 
                 //Kartın bilgilerini girebilmesi için gerekli alanları görünür kılıyor.
@@ -322,6 +339,7 @@ public class Card_Editor : Editor
                 }
             }
         }
+
     }
 }
 #endif

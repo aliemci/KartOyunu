@@ -205,6 +205,7 @@ public class rivalCharacter_Editor : Editor
 
         EditorGUILayout.Space();
         EditorGUILayout.Space();
+
         EditorGUILayout.LabelField("Basic AI", EditorStyles.boldLabel);
 
         ListSize = ThisList.arraySize;

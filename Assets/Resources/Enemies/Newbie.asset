@@ -20,6 +20,7 @@ MonoBehaviour:
   is_resisted: 0
   is_invincible: 0
   is_stunned: 0
+  is_blinded: 0
   is_missed: 0
   is_confused: 0
   is_evaded: 0
@@ -29,16 +30,18 @@ MonoBehaviour:
   attack_multiplier: 1
   evasion_chance: 0
   confused_chance: 0
+  blind_chance: 0
   miss_chance: 0
   buffList: []
   debuffList: []
   CharacterSprite: {fileID: 21300012, guid: 5cf1b4629c7cb104e98d369448084abd, type: 3}
-  isRival: 1
-  damage: 5
-  regain_health: 2
-  regain_shield: 1
+  damage: 2
+  regainHealth: 0
+  regainShield: 0
   enemyPattern:
-  - moves: 4
+  - moves: 0
     buff: 7
+    buffCoef: 0
     debuff: 0
+    debuffCoef: 0
   movement_index: 0

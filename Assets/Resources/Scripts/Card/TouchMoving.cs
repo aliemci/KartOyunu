@@ -194,20 +194,6 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
             return;
         }
 
-        /*
-        try
-        {
-            //Debug.Log(hit.collider.gameObject.name);
-            //Eğer dönen obje yoksa hata verecektir.
-            hitObject = eventData.pointerCurrentRaycast.gameObject;
-        }
-        catch
-        {
-            //Hata gelirse kartı deck'e geri koysun.
-            returnToDeck();
-            return;
-        }
-        */
 
         //İleride kartın özelliğini etkilemek için kullanılıyor.
         bool is_card_used = false;
@@ -329,12 +315,23 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
             switch (card.CardT1)
             {
                 case CardType1.DefenceCard:
+                    player.shieldApply(card.defence);
+                    player.consumeMana(card.mana);
+                    playerObject.GetComponent<CharacterDisplay>().situationUpdater();
                     is_card_used = true;
                     break;
 
                 case CardType1.BuffCard:
+                    this.GetComponent<BuffCard>().buffApplier(player);
+                    player.consumeMana(card.mana);
+                    playerObject.GetComponent<CharacterDisplay>().situationUpdater();
 
                     is_card_used = true;
+                    break;
+
+                case CardType1.EnergyCard:
+                    player.energyApply(card.mana);
+                    playerObject.GetComponent<CharacterDisplay>().situationUpdater();
                     break;
 
                 case CardType1.SpecialCard:
@@ -343,7 +340,7 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
                     break;
 
                 case CardType1.UnusualCard:
-
+                    
                     is_card_used = true;
                     break;
             }
@@ -356,7 +353,7 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
                     break;
 
                 case CardType2.DebuffCard:
-
+                    this.GetComponent<DebuffCard>().debuffApplier(player);
                     is_card_used = true;
                     break;
 
@@ -373,29 +370,6 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
             else
                 returnToDeck();
 
-            /*
-            if (is_defence_card)
-            {
-                //Mana kontrolü
-                if (player.mana >= GetComponent<AttackCard>().Mana)
-                {
-                    //Düşmanın üstüne isabet ettiyse "DamageTaken" işlevi çağırılıyor.
-                    hitObject.GetComponent<CharacterDisplay>().DamageTaken(GetComponent<AttackCard>().Attack);
-
-                    if (is_buff_card)
-                    {   //Bu fonksiyon character classından nesne alıyor. O yüzden character display kodundan ona erişiyorum.
-                        GetComponent<BuffCard>().buffApplier(player);
-                    }
-
-                    //Mana tüketimi
-                    player.mana -= GetComponent<AttackCard>().Mana;
-
-                    //Kartı yok etme
-                    Destroy(placeHolder);
-                    Destroy(gameObject);
-                }
-            }
-            */
 
             //Manası yeterli olmayan kartları kapatacak fonksiyon çağırılıyor.
             playerObject.GetComponent<CharacterDisplay>().cardRequirements(player);

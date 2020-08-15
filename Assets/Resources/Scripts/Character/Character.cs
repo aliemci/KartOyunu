@@ -96,7 +96,7 @@ public abstract class Character : ScriptableObject
         
     }
     
-    //Arttırıcı uygulayıcısı
+    //Arttırıcı uygulayıcısı (Bu ekleme için değil!)
     public void doBuff(buffs buff, float coefficient)
     {
         switch (buff)
@@ -136,7 +136,7 @@ public abstract class Character : ScriptableObject
         }
     }
 
-    //Azaltıcı uygulayıcısı
+    //Azaltıcı uygulayıcısı (Bu ekleme için değil!)
     public void doDebuff(debuffs debuff, float coefficient)
     {
         switch (debuff)
@@ -202,7 +202,15 @@ public abstract class Character : ScriptableObject
     //Aldığı hasarı uygulayıcı
     public void takeDamage(int damage)
     {
-        health -= damage;
+        if (shield >= damage)
+        {
+            shield -= damage;
+        }
+        else
+        {
+            health -= damage - shield;
+            shield = 0;
+        }
     }
 
     //Kullandığı enerjiyi uygulayıcı
@@ -225,6 +233,12 @@ public abstract class Character : ScriptableObject
         //Azami can sınırına ulaşırsa, aşmasın.
         if (health > maxHealth)
             health = maxHealth;
+    }
+
+    //Enerji uygulayıcısı
+    public void energyApply(int amount)
+    {
+        shield += amount;
     }
 
     //-----------------------------------------------

@@ -37,7 +37,7 @@ MonoBehaviour:
   CharacterSprite: {fileID: 21300122, guid: 5cf1b4629c7cb104e98d369448084abd, type: 3}
   damage: 10
   regainHealth: 5
-  regainShield: 2
+  regainShield: 5
   enemyPattern:
   - moves: 0
     buff: 7
