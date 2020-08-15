@@ -84,10 +84,14 @@ public class EndTurn : MonoBehaviour
         if (GameObject.FindGameObjectsWithTag("Enemy").Length == 1)
         {
             Debug.Log("END OF THE FIGHT");
+
+            //Kalkan her savaş sonrası sıfırlanıyor.
+            player.shield = 0;
+
             //Kayıt ediliyor.
             SaveSystem.save_player(player);
 
-            Map currentMap = SaveSystem.load_map();
+            //Map currentMap = SaveSystem.load_map();
             
 
             //Ödül sahnesine yönlendiriyor.

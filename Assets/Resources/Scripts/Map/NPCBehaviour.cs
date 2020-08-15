@@ -4,14 +4,15 @@ using UnityEngine.EventSystems;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class NPCBehaviour : MonoBehaviour, IPointerClickHandler
-{
-    public enum NPCTypes
+public enum NPCTypes
     {
         market,
         rival,
         boss
     }
+
+public class NPCBehaviour : MonoBehaviour, IPointerClickHandler
+{
 
     public NPCTypes NPCType;
 

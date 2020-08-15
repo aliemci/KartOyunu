@@ -40,13 +40,8 @@ public class MenuScript : MonoBehaviour
         if(PlayerData.player != null)
             SaveSystem.save_player(PlayerData.player);
 
-        Map mapForSave = new Map();
-        mapForSave.mapSeed = Random.Range(0, 1000);
-        mapForSave.marketCount = Random.Range(0, 1);
-        mapForSave.rivalCount = Random.Range(2, 4);
-        mapForSave.objsOnMap = new Dictionary<string, int>();
-        mapForSave.isLoaded = false;
-        SaveSystem.save_map(mapForSave);
+        // Yeni başlangıç
+        SaveSystem.new_map();
 
         // Haritaya geçiyor.
         SceneManager.LoadScene(2);

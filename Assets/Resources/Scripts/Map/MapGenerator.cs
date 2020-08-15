@@ -39,8 +39,7 @@ public class MapGenerator : MonoBehaviour
     private float[,] noiseMap;
 
     private List<int> randomSpawnPoints;
-    public Dictionary<string,int> objectsOnMap = new Dictionary<string, int>();
-
+    public List<MapObject> objectsOnMap = new List<MapObject>();
 
     public static List<int> shuffleArray(List<int> arr)
     {
@@ -101,7 +100,6 @@ public class MapGenerator : MonoBehaviour
     {
         fallOffMap = FalloffGenerator.generate_falloff_map(mapWidth, mapHeight);
 
-
         Map loadedMap = SaveSystem.load_map();
 
         seed = loadedMap.mapSeed;
@@ -117,23 +115,35 @@ public class MapGenerator : MonoBehaviour
         {
             randomSpawnPoints = shuffleArray(Enumerable.Range(0,hexagons.Count).ToList());
             loadedMap.isLoaded = true;
-            Debug.Log("Kayıtlı dosya bulunamadı!");
+
+            generate_player();
+
+            for (int i = 0; i < marketCount; i++)
+                generate_NPC(NPCTypes.market);
+            for (int i = 0; i < rivalCount; i++)
+                generate_NPC(NPCTypes.rival);
+
+            Debug.Log(objectsOnMap);
+
         }
         else
         {
             objectsOnMap = loadedMap.objsOnMap;
-            int i = 0;
-            foreach (var item in objectsOnMap)
+
+            Debug.Log(objectsOnMap.Capacity);
+
+            foreach (MapObject item in objectsOnMap)
             {
-                randomSpawnPoints[i] = item.Value;
-                i++;
+                Debug.Log(item.name);
+                if (item.name.Contains("Player"))
+                    generate_player(item.index);
+                else if (item.name.Contains("Market"))
+                    generate_NPC(NPCTypes.market, item.index);
+                else if (item.name.Contains("Rival"))
+                    generate_NPC(NPCTypes.rival, item.index);
             }
             
         }
-
-        generate_player();
-
-        generate_NPC(marketCount, rivalCount);
 
         loadedMap.objsOnMap = objectsOnMap;
 
@@ -196,13 +206,17 @@ public class MapGenerator : MonoBehaviour
     }
 
 
-    public void generate_player()
+    public void generate_player(int randomSpawnIndex = -1)
     {
-        int randomSpawnIndex = randomSpawnPoints[0];
+        bool should_saved = false;
 
-        //randomSpawnPoints.RemoveAt(0);
+        if(randomSpawnIndex == -1)
+        {
+            randomSpawnIndex = randomSpawnPoints[0];
+            randomSpawnPoints.RemoveAt(0);
+            should_saved = true;
+        }
 
-        //playerObj = Instantiate(playerObj, hexagons[randomSpawnIndex].hexObj.transform);
         playerObject = Instantiate(playerObject);
 
         playerObject.name = "Player";
@@ -211,7 +225,8 @@ public class MapGenerator : MonoBehaviour
 
         playerObject.GetComponent<PlayerMovement>().parentHex = hexagons[randomSpawnIndex];
 
-        objectsOnMap.Add(playerObject.name, randomSpawnIndex);
+        if(should_saved)
+            objectsOnMap.Add(new MapObject(playerObject.name, randomSpawnIndex));
 
         //Kamerayı oyuncunun üstüne getiriyor
         GameObject.Find("Main Camera").transform.position = playerObject.transform.position + new Vector3(0f,0f,-10f);
@@ -220,16 +235,19 @@ public class MapGenerator : MonoBehaviour
     }
 
 
-    public void generate_NPC(int marketNumber, int rivalNumber)
+    public void generate_NPC(NPCTypes npc, int randomSpawnIndex=-1)
     {
-        int randomSpawnIndex;
-
-        for (int i = 0; i < marketNumber; i++)
+        bool should_saved = false;
+        
+        if (randomSpawnIndex == -1)
         {
-            randomSpawnIndex = randomSpawnPoints[1+i];
+            randomSpawnIndex = randomSpawnPoints[0];
+            randomSpawnPoints.RemoveAt(0);
+            should_saved = true;
+        }
 
-            //randomSpawnPoints.RemoveAt(0);
-
+        if (npc == NPCTypes.market)
+        {
             marketObject = Instantiate(marketObject);
 
             marketObject.name = "Market";
@@ -238,25 +256,22 @@ public class MapGenerator : MonoBehaviour
 
             marketObject.GetComponent<NPCBehaviour>().parentHex = hexagons[randomSpawnIndex];
 
-            objectsOnMap.Add(marketObject.name, randomSpawnIndex);
-
+            if (should_saved)
+                objectsOnMap.Add(new MapObject(marketObject.name, randomSpawnIndex));
         }
 
-        for (int i = 0; i < rivalNumber; i++)
+        else if(npc == NPCTypes.rival)
         {
-            randomSpawnIndex = randomSpawnPoints[1+marketNumber+i];
-
-            //randomSpawnPoints.RemoveAt(0);
-
             rivalObject = Instantiate(rivalObject);
 
-            rivalObject.name = "Rival " + (i + 1);
+            rivalObject.name = "Rival " + randomSpawnIndex;
 
             rivalObject.transform.position = hexagons[randomSpawnIndex].hexObj.transform.position + new Vector3(0f, 0f, -1f);
 
             rivalObject.GetComponent<NPCBehaviour>().parentHex = hexagons[randomSpawnIndex];
-
-            objectsOnMap.Add(rivalObject.name, randomSpawnIndex);
+            
+            if (should_saved)
+                objectsOnMap.Add(new MapObject(rivalObject.name, randomSpawnIndex));
         }
 
 
@@ -275,10 +290,24 @@ public struct Map
 
     public int rivalCount;
 
-    public Dictionary<string, int> objsOnMap;
+    public List<MapObject> objsOnMap;
 
     public bool isLoaded;
 }
+
+[System.Serializable]
+public struct MapObject
+{
+    public string name;
+    public int index;
+
+    public MapObject(string objName, int objIndex)
+    {
+        name = objName;
+        index = objIndex;
+    }
+}
+
 
 [System.Serializable]
 public struct TerrainType

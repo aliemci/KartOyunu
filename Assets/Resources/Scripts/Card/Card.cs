@@ -66,35 +66,6 @@ public class Card : ScriptableObject{
             Array.Resize(ref attack_range, attack_range_size);
         }
     }
-
-
-    //Yeni kart örneği oluşturma
-    //public Card(
-    //    string cName,
-    //    CardType1 cType1, CardType2 cType2,
-    //    buffs cBuff, debuffs cDebuff,
-    //    CombineType cCombineType,
-    //    float cBuffCoef, float cDebuffCoef,
-    //    int cAttack, int cDefence, int cMana,
-    //    bool cIsPlayerOwn, bool cIsUsed,
-    //    float[] cAttackRange
-    //    )
-    //{
-    //    cardName = cName;
-    //    CardT1 = cType1;
-    //    CardT2 = cType2;
-    //    cardBuff = cBuff;
-    //    cardDebuff = cDebuff;
-    //    cardCombine = cCombineType;
-    //    buffCoefficient = cBuffCoef;
-    //    debuffCoefficient = cDebuffCoef;
-    //    attack = cAttack;
-    //    defence = cDefence;
-    //    mana = cMana;
-    //    isPlayerOwn = cIsPlayerOwn;
-    //    isCardUsed = cIsUsed;
-    //    attack_range = cAttackRange;
-    //}
     
 
     //Kartların vurabileceği rakipleri şekillendiriyor.

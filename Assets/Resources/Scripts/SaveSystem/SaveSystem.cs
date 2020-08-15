@@ -4,6 +4,8 @@ using System.IO;
 
 public static class SaveSystem
 {
+
+    //Oyuncu kısmı ----------------------------------
     public static void save_player(playerCharacter player)
     {
         string json = JsonUtility.ToJson(player);
@@ -22,6 +24,7 @@ public static class SaveSystem
     }
 
 
+    //Harita kısmı ----------------------------------
     public static void save_map(Map currentMap)
     {        
         string json = JsonUtility.ToJson(currentMap);
@@ -35,18 +38,33 @@ public static class SaveSystem
         {
             string json = File.ReadAllText(Application.persistentDataPath + Path.DirectorySeparatorChar + "MapData.txt");
             loadedMap = JsonUtility.FromJson<Map>(json);
-            Debug.Log(loadedMap.mapSeed);
+            Debug.Log("Harita Yüklendi!");
         }
         else
         {
-            loadedMap.mapSeed = Random.Range(0, 1000);
-            loadedMap.marketCount = Random.Range(0, 1);
-            loadedMap.rivalCount = Random.Range(2, 4);
-            loadedMap.objsOnMap = new Dictionary<string, int>();
-            loadedMap.isLoaded = false;
+            Debug.LogWarning("Harita Yüklenemedi! Rastgele Harita oluşturuluyor.");
+            loadedMap = random_map();
         }
 
         return loadedMap;
     }
 
+    public static void new_map()
+    {
+        save_map(random_map());
+    }
+
+
+    private static Map random_map()
+    {
+        Map tempMap = new Map();
+
+        tempMap.mapSeed = Random.Range(0, 1000);
+        tempMap.marketCount = Random.Range(0, 1);
+        tempMap.rivalCount = Random.Range(2, 4);
+        tempMap.objsOnMap = new List<MapObject>();
+        tempMap.isLoaded = false;
+
+        return tempMap;
+    }
 }
