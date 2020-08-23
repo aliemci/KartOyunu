@@ -34,12 +34,16 @@ public class MapGenerator : MonoBehaviour
     [Header("Debug")]
     public List<hexagon> hexagons = new List<hexagon>();
 
-
+    
     private float[,] fallOffMap;
     private float[,] noiseMap;
 
     private List<int> randomSpawnPoints;
     public List<MapObject> objectsOnMap = new List<MapObject>();
+
+    private Map loadedMap;
+
+    // FONKSIYONLAR --------------------------------
 
     public static List<int> shuffleArray(List<int> arr)
     {
@@ -55,6 +59,7 @@ public class MapGenerator : MonoBehaviour
         }
         return res;
     }
+
 
     public Material[] generate_map()
     {
@@ -84,6 +89,7 @@ public class MapGenerator : MonoBehaviour
         return materialSet;
     }
 
+
     void OnValidate()
     {
         if (mapWidth < 1)
@@ -96,11 +102,12 @@ public class MapGenerator : MonoBehaviour
             octaves = 0;
     }
 
+
     public void Awake()
     {
         fallOffMap = FalloffGenerator.generate_falloff_map(mapWidth, mapHeight);
 
-        Map loadedMap = SaveSystem.load_map();
+        loadedMap = SaveSystem.load_map();
 
         seed = loadedMap.mapSeed;
         marketCount = loadedMap.marketCount;
@@ -277,8 +284,38 @@ public class MapGenerator : MonoBehaviour
 
     }
 
+
+    public void OnDestroy()
+    {
+        Debug.Log("OnDestroy Çalıştı!");
+
+        MapObject playerMO = new MapObject("Player", hexagons.IndexOf(playerObject.GetComponent<PlayerMovement>().parentHex));
+
+        mapUpdate();
+
+        loadedMap.objsOnMap = objectsOnMap;
+
+        loadedMap.objsOnMap[0] = playerMO;
+
+        SaveSystem.save_map(loadedMap);
+    }
+
+    public void mapUpdate()
+    {
+        foreach(MapObject m in objectsOnMap)
+        {
+            if (!GameObject.Find(m.name))
+                objectsOnMap.Remove(m);
+        }
+    }
+
+
 }
 
+
+
+
+// YAPILAR --------------------------------------
 
 [System.Serializable]
 public struct Map
@@ -306,6 +343,7 @@ public struct MapObject
         name = objName;
         index = objIndex;
     }
+
 }
 
 

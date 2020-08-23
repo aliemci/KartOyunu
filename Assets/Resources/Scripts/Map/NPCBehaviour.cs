@@ -1,8 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Collections;
+using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public enum NPCTypes
     {
@@ -28,16 +28,23 @@ public class NPCBehaviour : MonoBehaviour, IPointerClickHandler
 
     void market()
     {
-
+        //Market sahnesi yükleniyor.
+        SceneManager.LoadScene(5);
     }
 
-    void rival()
+    void rival(GameObject rivalObj)
     {
-        SceneManager.LoadScene(0);
+        Destroy(rivalObj);
+
+        Debug.Log("Rival Ögesi Silindi!");
+        //Dövüş Sahnesini yüklüyor.
+        SceneManager.LoadScene(2);
     }
 
-    void boss()
+    void boss(GameObject rivalObj)
     {
+        Destroy(rivalObj);
+        Debug.Log("Boss Ögesi Silindi!");
 
     }
 
@@ -55,11 +62,11 @@ public class NPCBehaviour : MonoBehaviour, IPointerClickHandler
                         break;
 
                     case NPCTypes.rival:
-                        rival();
+                        rival(this.gameObject);
                         break;
 
                     case NPCTypes.boss:
-                        boss();
+                        boss(this.gameObject);
                         break;
                 }
             }

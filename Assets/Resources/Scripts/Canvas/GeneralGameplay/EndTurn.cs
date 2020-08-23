@@ -91,11 +91,8 @@ public class EndTurn : MonoBehaviour
             //Kayıt ediliyor.
             SaveSystem.save_player(player);
 
-            //Map currentMap = SaveSystem.load_map();
-            
-
             //Ödül sahnesine yönlendiriyor.
-            SceneManager.LoadScene(1);
+            SceneManager.LoadScene(3);
         }
         else
             Debug.Log("Number of enemies: " + GameObject.FindGameObjectsWithTag("Enemy").Length);

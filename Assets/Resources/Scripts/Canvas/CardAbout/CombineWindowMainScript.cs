@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -85,14 +86,18 @@ public class CombineWindowMainScript : MonoBehaviour
 
             //Kart taslağı
             GameObject CardGO = Resources.Load<GameObject>("Prefabs/Card");
-           
-            //pressure + ignite = Thermite Grenade
-            if((comTypeCard1 == CombineType.Pressure && comTypeCard2 == CombineType.Flame) || (comTypeCard1 == CombineType.Flame && comTypeCard2 == CombineType.Pressure))
+
+            //pressure + Flame = Thermite Grenade
+            if ((comTypeCard1 == CombineType.Pressure && comTypeCard2 == CombineType.Flame) || (comTypeCard1 == CombineType.Flame && comTypeCard2 == CombineType.Pressure))
             {
                 //Her yere vuruyor
-                float[] cardAttackRange = { 0.25f, 0.25f, 0.25f, 0.25f };
-                
-                GameObject combinedCard = combined_card_creator("Thermite Grenade", cardAttackRange, 0, 0, cardMana, debuffs.Burn, CardGO);
+                int[] cardAttackRange = { 1 };
+
+                float burnCoeff = cardAttack / 11; //Trello Kart Kombinasyonu kartında yazılı denkleme göre
+
+                int thermiteMana = cardMana / 2;
+
+                GameObject combinedCard = combined_card_creator("Thermite Grenade", cardAttackRange, 0, thermiteMana, cardMana, debuffs.Burn, burnCoeff, CardGO);
 
             }
 
@@ -100,9 +105,13 @@ public class CombineWindowMainScript : MonoBehaviour
             else if ((comTypeCard1 == CombineType.Pressure && comTypeCard2 == CombineType.Lightning) || (comTypeCard1 == CombineType.Lightning && comTypeCard2 == CombineType.Pressure))
             {
                 //Her yere vuruyor
-                float[] cardAttackRange = { 0.25f, 0.25f, 0.25f, 0.25f };
+                int[] cardAttackRange = { 1 };
 
-                GameObject combinedCard = combined_card_creator("Stun Grenade", cardAttackRange, 0, 0, cardMana, debuffs.Stun, CardGO);
+                float stunCoeff = cardAttack / 20;
+
+                int stunMana = cardMana / 2;
+
+                GameObject combinedCard = combined_card_creator("Stun Grenade", cardAttackRange, 0, stunMana, cardMana, debuffs.Stun, stunCoeff, CardGO);
 
             }
 
@@ -110,9 +119,52 @@ public class CombineWindowMainScript : MonoBehaviour
             else if ((comTypeCard1 == CombineType.Pressure && comTypeCard2 == CombineType.Toxic) || (comTypeCard1 == CombineType.Toxic && comTypeCard2 == CombineType.Pressure))
             {
                 //Her yere vuruyor
-                float[] cardAttackRange = { 0.25f, 0.25f, 0.25f, 0.25f };
+                int[] cardAttackRange = { 1 };
 
-                GameObject combinedCard = combined_card_creator("Chemical Grenade", cardAttackRange, 0, 0, cardMana, debuffs.Weakness, CardGO);
+                float weaknessCoeff = cardAttack / 11;
+
+                int chemicalMana = cardMana / 2;
+
+                GameObject combinedCard = combined_card_creator("Chemical Grenade", cardAttackRange, 0, chemicalMana, cardMana, debuffs.Weakness, weaknessCoeff, CardGO);
+            }
+
+            //Flame + Lightning = Plasma
+            else if ((comTypeCard1 == CombineType.Flame && comTypeCard2 == CombineType.Lightning) || (comTypeCard1 == CombineType.Lightning && comTypeCard2 == CombineType.Flame))
+            {
+                //Her yere vuruyor
+                int[] cardAttackRange = { 1 };
+
+                float weaknessCoeff = cardAttack / 11;
+
+                int plasmaMana = cardMana / 2;
+
+                GameObject combinedCard = combined_card_creator("Chemical Grenade", cardAttackRange, 0, plasmaMana, cardMana, debuffs.Poison, weaknessCoeff, CardGO);
+            }
+
+            //Flame + Toxic = Gase
+            else if ((comTypeCard1 == CombineType.Flame && comTypeCard2 == CombineType.Toxic) || (comTypeCard1 == CombineType.Toxic && comTypeCard2 == CombineType.Flame))
+            {
+                //Her yere vuruyor
+                int[] cardAttackRange = { 1 };
+
+                float weaknessCoeff = cardAttack / 11;
+
+                int gaseMana = cardMana / 2;
+
+                GameObject combinedCard = combined_card_creator("Chemical Grenade", cardAttackRange, 0, gaseMana, cardMana, debuffs.Weakness, weaknessCoeff, CardGO);
+            }
+
+            //Ligthning + toxic = Coma
+            else if ((comTypeCard1 == CombineType.Lightning && comTypeCard2 == CombineType.Toxic) || (comTypeCard1 == CombineType.Toxic && comTypeCard2 == CombineType.Lightning))
+            {
+                //Her yere vuruyor
+                int[] cardAttackRange = { 1 };
+
+                float weaknessCoeff = cardAttack / 11;
+
+                int comaMana = cardMana / 2;
+
+                GameObject combinedCard = combined_card_creator("Chemical Grenade", cardAttackRange, 0, comaMana, cardMana, debuffs.Weakness, weaknessCoeff, CardGO);
             }
 
         }
@@ -126,7 +178,7 @@ public class CombineWindowMainScript : MonoBehaviour
     }
 
 
-    private GameObject combined_card_creator(string name, float[] AttackRange, int attack, int defence, int mana, debuffs debuff, GameObject cardObject)
+    private GameObject combined_card_creator(string name, int[] AttackRange, int attack, int defence, int mana, debuffs debuff, float debuffCoeff, GameObject cardObject)
     {
         Debug.Log(name + "!!!!");
 
@@ -140,7 +192,9 @@ public class CombineWindowMainScript : MonoBehaviour
         willCard.mana = mana;
         willCard.attack_range = AttackRange;
         willCard.cardDebuff = debuff;
-        
+        willCard.debuffCoefficient = debuffCoeff;
+
+
         GameObject newCard = CardGenerator.create_new_card(name, willCard, transform.Find("CardSlotResult"));
 
         //Kartı kullanılmaz hale getiriyor.

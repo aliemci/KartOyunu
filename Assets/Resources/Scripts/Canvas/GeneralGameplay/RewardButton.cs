@@ -15,7 +15,7 @@ public class RewardButton : MonoBehaviour
         //Belki buraya animasyon eklenebilir.
 
         //Haritaya dönüş yapmak için.
-        SceneManager.LoadScene(2);
+        SceneManager.LoadScene(1);
     }
 
 

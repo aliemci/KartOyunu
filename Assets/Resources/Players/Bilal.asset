@@ -35,11 +35,11 @@ MonoBehaviour:
   buffList: []
   debuffList: []
   CharacterSprite: {fileID: 21300006, guid: 5cf1b4629c7cb104e98d369448084abd, type: 3}
-  isPlayer: 0
+  isUsing: 0
   StartingCards:
-  - card: {fileID: 11400000, guid: b7444e1e6785c704f8460a6e3265c788, type: 2}
+  - card: {fileID: 11400000, guid: 137291b9b9703ca47995468c19b8009a, type: 2}
     count: 5
   - card: {fileID: 11400000, guid: 17fce559ad87fe94fa064f79a00663ca, type: 2}
-    count: 1
+    count: 0
   - card: {fileID: 11400000, guid: cfba833e3201f3341a49216a054c7fec, type: 2}
-    count: 1
+    count: 0

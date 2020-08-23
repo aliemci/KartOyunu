@@ -185,6 +185,7 @@ MonoBehaviour:
     type: 3}
   parentObject: {fileID: 718833307}
   hexagons: []
+  objectsOnMap: []
 --- !u!4 &14606502
 Transform:
   m_ObjectHideFlags: 0

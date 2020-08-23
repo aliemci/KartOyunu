@@ -54,17 +54,18 @@ public static class SaveSystem
         save_map(random_map());
     }
 
-
     private static Map random_map()
     {
         Map tempMap = new Map();
 
         tempMap.mapSeed = Random.Range(0, 1000);
-        tempMap.marketCount = Random.Range(0, 1);
+        tempMap.marketCount = Random.Range(1, 2);
         tempMap.rivalCount = Random.Range(2, 4);
         tempMap.objsOnMap = new List<MapObject>();
         tempMap.isLoaded = false;
 
         return tempMap;
     }
+
+
 }

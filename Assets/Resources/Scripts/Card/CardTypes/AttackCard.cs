@@ -4,38 +4,47 @@ using UnityEngine;
 
 public class AttackCard : MonoBehaviour
 {
-    public int Attack, Mana;
+    private int mana;
+    private int[] attacks;
+    private Card card;
 
     public void Start()
     {
-        Attack = GetComponentInParent<CardDisplay>().card.attack;
-        Mana = GetComponentInParent<CardDisplay>().card.mana;
+        card = GetComponentInParent<CardDisplay>().card;
+        attacks = card.attack_range;
+        mana = card.mana;
     }
 
-    public void attack(Character attacker, Character defender)
+    public void attack(Character attacker, Character[] defenders)
     {
-        int manaConsumption = Mathf.Abs(Mana) + Mathf.Abs(attacker.mana_factor);
-        int damage = (Attack + attacker.attack_factor) * attacker.attack_multiplier;
+        int manaConsumption = Mathf.Abs(mana) + Mathf.Abs(attacker.mana_factor);
 
         attacker.prepareChances();
-        defender.prepareChances();
 
-        //Debug.Log("ATTACKER\ninv:" + attacker.is_invincible + "\nconf:" + attacker.is_confused + "\nmiss:" + attacker.is_missed);
-        //Debug.Log("DEFENDER\ninv:" + defender.is_invincible + "\nconf:" + defender.is_confused + "\nmiss:" + defender.is_missed);
+        attacker.consumeMana(manaConsumption);
 
-        //Eğer saldıran "ölümsüz değilse" ve "şaşırmadıysa" ve "kaçırmadıysa" ve savunan "kaçamadıysa"
-        if (!attacker.is_invincible && !attacker.is_confused && !attacker.is_missed && !defender.is_evaded)
+
+        int i = 0;
+        foreach (Character defender in defenders)
         {
-            defender.takeDamage(damage);
-            attacker.consumeMana(manaConsumption);
-        }
+            int damage = (attacks[i] + attacker.attack_factor) * attacker.attack_multiplier;
+            defender.prepareChances();
 
-        else
-        {
-            Debug.Log("Invincible:" + attacker.is_invincible + "\n" +
-                "Confuse:" + attacker.is_confused + "\n" +
-                "Miss:" + attacker.is_missed + "\n" +
-                "Evade:" + defender.is_evaded);
+            //Eğer saldıran "ölümsüz değilse" ve "şaşırmadıysa" ve "kaçırmadıysa" ve savunan "kaçamadıysa"
+            if (!attacker.is_invincible && !attacker.is_confused && !attacker.is_missed && !defender.is_evaded)
+            {
+                defender.takeDamage(damage);
+            }
+
+            else
+            {
+                Debug.Log("Invincible:" + attacker.is_invincible + "\n" +
+                    "Confuse:" + attacker.is_confused + "\n" +
+                    "Miss:" + attacker.is_missed + "\n" +
+                    "Evade:" + defender.is_evaded);
+            }
+
+            i++;
         }
         
     }

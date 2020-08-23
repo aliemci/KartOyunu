@@ -6,15 +6,21 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Resources/Scenes/menu.unity
+    guid: fcddc741d4bd6aa4b819c14d40718899
+  - enabled: 1
+    path: Assets/Resources/Scenes/map.unity
+    guid: 2d96589ae1a884c4a8b4464642f5d1df
+  - enabled: 1
     path: Assets/Resources/Scenes/fight.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
     path: Assets/Resources/Scenes/reward.unity
     guid: 0eed611aaffbb2f41917af0951db6411
   - enabled: 1
-    path: Assets/Resources/Scenes/map.unity
-    guid: 2d96589ae1a884c4a8b4464642f5d1df
-  - enabled: 1
     path: Assets/Resources/Scenes/death.unity
     guid: 2ed897c6980449943a247ab7e3db8456
+  - enabled: 1
+    path: Assets/Resources/Scenes/market.unity
+    guid: 136d260125a71f34fb2c4bde414ef162
   m_configObjects: {}

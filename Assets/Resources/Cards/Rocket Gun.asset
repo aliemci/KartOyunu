@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ab39e7d5b12533e4fb6de22fa4234ab0, type: 3}
-  m_Name: Stone
+  m_Name: Rocket Gun
   m_EditorClassIdentifier: 
-  cardName: Stone
+  cardName: Rocket Gun
   CardT1: 0
   CardT2: 0
   cardBuff: 0
@@ -25,6 +25,8 @@ MonoBehaviour:
   mana: 0
   isPlayerOwn: 0
   isCardUsed: 0
-  attack_range: 0a000000050000000500000000000000
-  attackable_range: 01010100
-  attackRegime: 3
+  attack_range:
+  - 0
+  - 0
+  - 0
+  - 0

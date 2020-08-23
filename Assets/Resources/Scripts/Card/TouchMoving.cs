@@ -1,17 +1,22 @@
-﻿using System.Collections;
+﻿using System.IO;
+using System.Linq;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.EventSystems;
-using System.IO;
 using UnityEditor;
+using UnityEngine.UI;
+using TMPro;
+using UnityEngine.EventSystems;
 
 public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-    public GameObject playerObject, rivalObject;
+    public GameObject playerObject;
     public GameObject combineWindow;
+
     private GameObject placeHolder = null;
     private GameObject inventory, cardpile, cardDeck;
+    private GameObject rivalGO;
+    private List<GameObject> rivalNeighbours;
 
     private Card card;
 
@@ -103,7 +108,7 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         }
 
         //Kartın uygulanabileceği kimseleri belirtiyor.
-        card.attackable_enemies(show:false);
+        card.attackable_enemies(show:true);
 
         //Kartı aldıktan sonra collider bileşenini kapatıyor ki atılan yere giden ışını engellemesin
         this.GetComponent<BoxCollider2D>().enabled = false;
@@ -153,26 +158,35 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
         // --------------------------------------------------------------
 
+        if(eventData.pointerEnter.tag == "Enemy")
+        {
+            rivalGO = eventData.pointerEnter;
+            rivalNeighbours = findNeighbours(rivalGO, card.attackRegime);
 
+            rivalGO.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = rivalGO.GetComponent<CharacterDisplay>().character.health + "-" + this.card.attack_range[0].ToString();
+            int i = 0;
+            foreach (GameObject rGO in rivalNeighbours)
+            {
+                rGO.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = rGO.GetComponent<CharacterDisplay>().character.health + "-" + this.card.attack_range[i+1].ToString();
+                i++;
+            }
+
+        }
 
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        Debug.Log(eventData.pointerCurrentRaycast.gameObject);
+        Debug.Log(eventData.pointerEnter);
 
         //Kartı attıktan sonra collider bileşenini açıyor ki bir daha alınabilsin
         this.GetComponent<BoxCollider2D>().enabled = true;
 
-        //Fare'nin konumundan bir ışın gönderiliyor.
-        RaycastHit2D hit = Physics2D.Raycast(Input.mousePosition, -Vector2.up, 500f);
-
         //Kısayol
         GameObject hitObject =  eventData.pointerCurrentRaycast.gameObject;
 
-        //Düşmanlar görünür olsun.
-        card.attackable_enemies(show: true);
-
+        //Düşmanların hepsi görünür olsun.
+        card.attackable_enemies(show: false);
 
         //Destedeki diğer kartları erişilebilir hale getiriyor.
         for (int i = 0; i < cardDeck.transform.childCount; i++)
@@ -187,6 +201,9 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
             }
         }
 
+        //İleride kartın özelliğini etkilemek için kullanılıyor.
+        bool is_card_used = false;
+
         //Eğer bir şeye çarpmadıysa geri dönsün
         if (hitObject == null)
         {
@@ -195,13 +212,10 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         }
 
 
-        //İleride kartın özelliğini etkilemek için kullanılıyor.
-        bool is_card_used = false;
-
         //------------------------------------------------------------------------
 
         //Eğer düşman nesnesine atıldıysa
-        if (hitObject.layer == 8)
+        if (hitObject.tag == "Enemy")
         {
             bool
                 is_attack_card = GetComponent<CardDisplay>().card.CardT1 == CardType1.AttackCard,
@@ -212,13 +226,30 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
             rival  = hitObject.GetComponent<CharacterDisplay>().character;
             //Debug.Log(rival);
 
+            //Düşmanların toplandığı bir liste oluşturuluyor.
+            List<Character> rivals = new List<Character>();
+            //Kartı attığımız düşman içine ekleniyor.
+            rivals.Add(rival);
+            //Varsa komuşları da ekleniyor.
+            foreach (GameObject rivGO in rivalNeighbours)
+            {
+                Character rivalChar = rivGO.GetComponent<CharacterDisplay>().character;
+                rivals.Add(rivalChar);
+            }
+
             switch (card.CardT1)
             {
                 case CardType1.AttackCard:
                     // Kartın yapacağı saldırı fonksiyonu çağırılıyor.
-                    this.GetComponent<AttackCard>().attack(player, rival);
-                    // Kartın etkilediği düşmanın can kontrolü
+                    this.GetComponent<AttackCard>().attack(player, rivals.ToArray());
+
+                    // Kartın etkilediği düşman(lar)ın can kontrolü
                     hitObject.GetComponent<CharacterDisplay>().situationUpdater();
+                    foreach (GameObject rivalObjs in rivalNeighbours)
+                    {
+                        rivalObjs.GetComponent<CharacterDisplay>().situationUpdater();
+                    }
+
                     // Kartın etkilediği oyuncunun değerlerin ekrana yazdırılması
                     playerObject.GetComponent<CharacterDisplay>().situationUpdater();
                     // Kullanılan kartın silinmesi için
@@ -303,7 +334,7 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         }
 
         //Eğer oyuncu nesnesine çarptıysa 
-        else if (hitObject.layer == 9)
+        else if (hitObject.tag == "Player")
         {
             bool
                 is_defence_card = GetComponent<CardDisplay>().card.CardT1 == CardType1.DefenceCard,
@@ -376,7 +407,7 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         }
         
         //Eğer birleştiriciye çarptıysa
-        else if(hitObject.layer == 10)
+        else if(hitObject.tag == "CardCombiner")
         {
             //Kartı atama işlemi
             transform.SetParent(hitObject.transform);
@@ -396,7 +427,7 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         }
 
         //Eğer Kart destesine çarptıysa
-        else if (hitObject.layer == 11)
+        else if (hitObject.tag == "CardDeck")
         {
             //Desteye erişim
             Transform deck = hitObject.transform;
@@ -415,7 +446,7 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         }
 
         //------------------------------------------------------------------------
-        
+
     }
 
     public void returnToDeck()
@@ -460,6 +491,93 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
 
     }
-    
+
+    private int[] findNeighboursIndex(int i, AttackRegime ar)
+    {
+        switch (ar)
+        {
+            case AttackRegime.Horizontal:
+                switch (i)
+                {
+                    case 0:
+                        return (new int[] { 1 });
+                    case 1:
+                        return (new int[] { 0 });
+                    case 2:
+                        return (new int[] { 3 });
+                    case 3:
+                        return (new int[] { 4 });
+                    default:
+                        return new int[] { };
+                }
+
+            case AttackRegime.Vertical:
+                switch (i)
+                {
+                    case 0:
+                        return (new int[] { 2 });
+                    case 1:
+                        return (new int[] { 3 });
+                    case 2:
+                        return (new int[] { 0 });
+                    case 3:
+                        return (new int[] { 1 });
+                    default:
+                        return new int[] { };
+                }
+
+            case AttackRegime.Triangle:
+                switch (i)
+                {
+                    case 0:
+                        return (new int[] { 1, 2 });
+                    case 1:
+                        return (new int[] { 0, 3 });
+                    case 2:
+                        return (new int[] { 0, 3 });
+                    case 3:
+                        return (new int[] { 1, 2 });
+                    default:
+                        return new int[] { };
+                }
+
+            case AttackRegime.AllRegions:
+                switch (i)
+                {
+                    case 0:
+                        return (new int[] { 1, 2, 3 });
+                    case 1:
+                        return (new int[] { 0, 2, 3 });
+                    case 2:
+                        return (new int[] { 0, 1, 3 });
+                    case 3:
+                        return (new int[] { 0, 1, 2 });
+                    default:
+                        return new int[] { };
+                }
+
+            default:
+                return new int[] { };
+        }
+        
+    }
+
+    private List<GameObject> findNeighbours(GameObject rival, AttackRegime ar)
+    {
+        List<GameObject> rivalNgs = new List<GameObject>();
+
+        int rivalIndex = rival.transform.GetSiblingIndex();
+        int[] neighbourIndexes = findNeighboursIndex(rivalIndex, ar);
+
+        foreach (int index in neighbourIndexes)
+        {
+            if (rival.transform.parent.GetChild(index))
+            {
+                rivalNgs.Add(rival.transform.parent.GetChild(index).gameObject);
+            }
+        }
+
+        return rivalNgs;
+    }
 
 }

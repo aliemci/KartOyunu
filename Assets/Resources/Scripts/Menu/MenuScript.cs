@@ -23,7 +23,8 @@ public class MenuScript : MonoBehaviour
 
     public void load_game()
     {
-        SceneManager.LoadScene(2);
+        //Haritayı yüklüyor.
+        SceneManager.LoadScene(1);
     }
 
     public void return_to_main_menu()
@@ -44,7 +45,7 @@ public class MenuScript : MonoBehaviour
         SaveSystem.new_map();
 
         // Haritaya geçiyor.
-        SceneManager.LoadScene(2);
+        SceneManager.LoadScene(1);
 
     }
 

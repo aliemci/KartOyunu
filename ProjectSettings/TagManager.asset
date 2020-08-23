@@ -7,6 +7,8 @@ TagManager:
   - Card
   - Enemy
   - Market
+  - CardDeck
+  - CardCombiner
   layers:
   - Default
   - TransparentFX
