@@ -68,27 +68,40 @@ public class rivalCharacter : Character
             int rival_index = Mathf.FloorToInt(Random.Range(0f, rivals.Length));
             //O indisteki düşman alınıyor. Bu Confuse mekaniği için gerekli
             rival = rivals[rival_index].GetComponent<CharacterDisplay>().character as rivalCharacter;
+            
+            rival.prepareChances();
         }
 
         Debug.Log(enemyPattern[movement_index].moves);
 
+        this.prepareChances();
+        player.prepareChances();
+
         switch (enemyPattern[movement_index].moves)
         {
             case move.Attack:
-                if (is_stunned)
+                //Stun veya blind halindeyse
+                if (this.is_stunned || this.is_blinded)
                     break;
 
-                if (is_blinded)
-                    break;
-
+                //Confused halindeyse
                 if (is_confused)
                 {
+                    //Eğer saldıracağı arkadaşı kaçabildiyse
+                    if (rival.is_evaded)
+                        break;
+
                     //Kendi takımından birine vuruyor.
                     rival.takeDamage(Mathf.Abs(damage * attack_multiplier + attack_factor));
                     attack_multiplier = 1;
                 }
                 else
                 {
+                    //Eğer oyuncu kaçabildiyse
+                    if (player.is_evaded)
+                        break;
+
+                    //Oyuncuya vuruyor.
                     player.takeDamage(Mathf.Abs(damage * attack_multiplier + attack_factor));
                     attack_multiplier = 1;
                 }

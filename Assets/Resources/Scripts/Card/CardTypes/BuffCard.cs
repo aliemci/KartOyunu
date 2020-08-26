@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
+[SerializeField]
 public enum buffs
 {
     Adrenaline,
@@ -19,7 +19,7 @@ public enum buffs
 public class BuffCard : MonoBehaviour
 {
     public buffs buff;
-    public float buffCoefficient;
+    public int buffCoefficient;
 
     public void Start()
     {
@@ -29,58 +29,29 @@ public class BuffCard : MonoBehaviour
 
     public void buffApplier(Character effectedCharacter)
     {
-        buffQueue helper = new buffQueue();
-        helper.buff = buff;
-        helper.coefficient = buffCoefficient;
-        effectedCharacter.buffList.Add(helper);
-        
+        if(!addRepetitionIfBuffInList(buff, effectedCharacter))
+        {
+            buffQueue helper = new buffQueue();
+            helper.buff = buff;
+            helper.coefficient = buffCoefficient;
+            helper.repetition = 1;
+            effectedCharacter.buffList.Add(helper);
+        }
     }
 
-    /*
-    private void adrenaline(Character subject)
+    private bool addRepetitionIfBuffInList(buffs buff, Character c)
     {
-        buffQueue helper = new buffQueue();
-        helper.buff = buffs.Adrenaline;
-        helper.coefficient = 1;
-        subject.buffList.Add(helper);
-        Debug.Log(subject.buffList[0].buff.ToString() + "-" + subject.buffList[0].coefficient.ToString());
+        foreach (buffQueue item in c.buffList)
+        {
+            if (item.buff == buff)
+            {
+                item.repetition++;
+                return true;
+            }
+        }
+        return false;
     }
 
-    private void alertness(Character subject)
-    {
-        buffQueue helper = new buffQueue();
-        helper.buff = buffs.Alertness;
-        helper.coefficient = 1;
-        subject.buffList.Add(helper);
-        Debug.Log(subject.buffList[0].buff.ToString() + "-" + subject.buffList[0].coefficient.ToString());
-    }
 
-    private void castle(Character subject)
-    {
-        buffQueue helper = new buffQueue();
-        helper.buff = buffs.Castle;
-        helper.coefficient = 1;
-        subject.buffList.Add(helper);
-        Debug.Log(subject.buffList[0].buff.ToString() + "-" + subject.buffList[0].coefficient.ToString());
-    }
-
-    private void economiser(Character subject)
-    {
-        buffQueue helper = new buffQueue();
-        helper.buff = buffs.Economiser;
-        helper.coefficient = 1;
-        subject.buffList.Add(helper);
-        Debug.Log(subject.buffList[0].buff.ToString() + "-" + subject.buffList[0].coefficient.ToString());
-    }
-
-    private void puffed(Character subject)
-    {
-        buffQueue helper = new buffQueue();
-        helper.buff = buffs.Puffed;
-        helper.coefficient = 1;
-        subject.buffList.Add(helper);
-        Debug.Log(subject.buffList[0].buff.ToString() + "-" + subject.buffList[0].coefficient.ToString());
-    }
-    */
 
 }

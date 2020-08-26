@@ -572,7 +572,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerObject: {fileID: 0}
-  rivalObject: {fileID: 0}
   combineWindow: {fileID: 7651352459768671857, guid: 00802d9eedefbde43a3cec06a314b2c6,
     type: 3}
 --- !u!61 &8873654061148652706

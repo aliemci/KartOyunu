@@ -93,7 +93,7 @@ public class CombineWindowMainScript : MonoBehaviour
                 //Her yere vuruyor
                 int[] cardAttackRange = { 1 };
 
-                float burnCoeff = cardAttack / 11; //Trello Kart Kombinasyonu kartında yazılı denkleme göre
+                int burnCoeff = cardAttack / 11; //Trello Kart Kombinasyonu kartında yazılı denkleme göre
 
                 int thermiteMana = cardMana / 2;
 
@@ -107,7 +107,7 @@ public class CombineWindowMainScript : MonoBehaviour
                 //Her yere vuruyor
                 int[] cardAttackRange = { 1 };
 
-                float stunCoeff = cardAttack / 20;
+                int stunCoeff = cardAttack / 20;
 
                 int stunMana = cardMana / 2;
 
@@ -121,7 +121,7 @@ public class CombineWindowMainScript : MonoBehaviour
                 //Her yere vuruyor
                 int[] cardAttackRange = { 1 };
 
-                float weaknessCoeff = cardAttack / 11;
+                int weaknessCoeff = cardAttack / 11;
 
                 int chemicalMana = cardMana / 2;
 
@@ -134,7 +134,7 @@ public class CombineWindowMainScript : MonoBehaviour
                 //Her yere vuruyor
                 int[] cardAttackRange = { 1 };
 
-                float weaknessCoeff = cardAttack / 11;
+                int weaknessCoeff = cardAttack / 11;
 
                 int plasmaMana = cardMana / 2;
 
@@ -147,7 +147,7 @@ public class CombineWindowMainScript : MonoBehaviour
                 //Her yere vuruyor
                 int[] cardAttackRange = { 1 };
 
-                float weaknessCoeff = cardAttack / 11;
+                int weaknessCoeff = cardAttack / 11;
 
                 int gaseMana = cardMana / 2;
 
@@ -160,7 +160,7 @@ public class CombineWindowMainScript : MonoBehaviour
                 //Her yere vuruyor
                 int[] cardAttackRange = { 1 };
 
-                float weaknessCoeff = cardAttack / 11;
+                int weaknessCoeff = cardAttack / 11;
 
                 int comaMana = cardMana / 2;
 
@@ -178,7 +178,7 @@ public class CombineWindowMainScript : MonoBehaviour
     }
 
 
-    private GameObject combined_card_creator(string name, int[] AttackRange, int attack, int defence, int mana, debuffs debuff, float debuffCoeff, GameObject cardObject)
+    private GameObject combined_card_creator(string name, int[] AttackRange, int attack, int defence, int mana, debuffs debuff, int debuffCoeff, GameObject cardObject)
     {
         Debug.Log(name + "!!!!");
 

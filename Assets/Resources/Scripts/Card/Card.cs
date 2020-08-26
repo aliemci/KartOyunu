@@ -54,9 +54,9 @@ public class Card : ScriptableObject{
     public CombineType cardCombine;
 
     [HideInInspector]
-    public float buffCoefficient;
+    public int buffCoefficient;
     [HideInInspector]
-    public float debuffCoefficient;
+    public int debuffCoefficient;
 
     [HideInInspector]
     public int attack, defence, mana;
@@ -77,6 +77,27 @@ public class Card : ScriptableObject{
     void OnValidate()
     {
         cardName = this.name;
+
+        if(attackRegime == AttackRegime.Triangle)
+        {
+            Debug.Log("Triangle!");
+            int howManyAreasSelected=0;
+            foreach (bool item in attackable_range)
+            {
+                if (item == true)
+                {
+                    howManyAreasSelected++;
+                    Debug.Log("true");
+                }
+            }
+            if (howManyAreasSelected != 3)
+            {
+                Debug.LogWarning("Triangle seçili olduğu zaman 3 tane yer seçilmelidir!");
+                attackable_range[0] = true;
+                attackable_range[1] = true;
+                attackable_range[2] = true;
+            }
+        }
 
     }
     
@@ -196,8 +217,8 @@ public class Card_Editor : Editor
         //İlk kart tipini görünür kılıyor.
         card.CardT1 = (CardType1)EditorGUILayout.EnumPopup("First Card Type", card.CardT1);
         //Saldırı Tipini belirliyor.
-        EditorGUILayout.LabelField("Affection Area", label);
-        card.attackRegime = (AttackRegime)EditorGUILayout.EnumPopup("Region Type", card.attackRegime);
+        EditorGUILayout.LabelField("Attack Regime", label);
+        card.attackRegime = (AttackRegime)EditorGUILayout.EnumPopup("Regime Type", card.attackRegime);
 
         //Büyüklüğün belirlenmesi
         switch (card.attackRegime)
@@ -278,7 +299,6 @@ public class Card_Editor : Editor
                     case AttackRegime.Triangle:
                         card.attack_range[0] = (int)EditorGUILayout.FloatField("Center", card.attack_range[0]);
                         card.attack_range[1] = (int)EditorGUILayout.FloatField("Horizontal", card.attack_range[1]);
-                        Debug.Log(card.attack_range.Length);
                         card.attack_range[2] = (int)EditorGUILayout.FloatField("Vertical", card.attack_range[2]);
                         break;
                     case AttackRegime.AllRegions:
@@ -327,7 +347,7 @@ public class Card_Editor : Editor
                 EditorGUILayout.LabelField("Buff Type", label);
                 //Kartın bilgilerini girebilmesi için gerekli alanları görünür kılıyor.
                 card.cardBuff = (buffs)EditorGUILayout.EnumPopup("Buffs", card.cardBuff);
-                card.buffCoefficient = EditorGUILayout.FloatField("Buff Coefficient", card.buffCoefficient);
+                card.buffCoefficient = EditorGUILayout.IntField("Buff Coefficient", card.buffCoefficient);
             }
 
             //Eğer ikinci özellik olarak debuff seçildiyse.
@@ -336,7 +356,7 @@ public class Card_Editor : Editor
                 EditorGUILayout.LabelField("Debuff Type", label);
                 //Kartın bilgilerini girebilmesi için gerekli alanları görünür kılıyor.
                 card.cardDebuff = (debuffs)EditorGUILayout.EnumPopup("Debuffs", card.cardDebuff);
-                card.debuffCoefficient = EditorGUILayout.FloatField("Debuff Coefficient", card.debuffCoefficient);
+                card.debuffCoefficient = EditorGUILayout.IntField("Debuff Coefficient", card.debuffCoefficient);
             }
 
             //Eğer ikinci özellik olarak combine seçildiyse.
@@ -375,12 +395,12 @@ public class Card_Editor : Editor
                     case buffs.Economiser:
                     case buffs.Regenerate:
                     case buffs.Puffed:
-                        card.buffCoefficient = EditorGUILayout.FloatField(new GUIContent("Buff Coefficient", "Girilen sayı kadar etki yapacak."), card.buffCoefficient);
+                        card.buffCoefficient = EditorGUILayout.IntField(new GUIContent("Buff Coefficient", "Girilen sayı kadar etki yapacak."), card.buffCoefficient);
                         break;
 
                     //Bunda ise ihtimal cinsinden katsayı gerekiyor.
                     case buffs.Alertness:
-                        card.buffCoefficient = EditorGUILayout.FloatField(new GUIContent("Buff Coefficient", "Girilen sayı üzerinden ihtimal hesaplanacak."), card.buffCoefficient);
+                        card.buffCoefficient = EditorGUILayout.IntField(new GUIContent("Buff Coefficient", "Girilen sayı üzerinden ihtimal hesaplanacak."), card.buffCoefficient);
                         break;
                 }
             }
@@ -400,18 +420,18 @@ public class Card_Editor : Editor
 
                     case debuffs.Poison:
                     case debuffs.Burn:
-                        card.debuffCoefficient = EditorGUILayout.FloatField(new GUIContent("Debuff Coefficient", "Girilen sayı kadar can gidecek."), card.debuffCoefficient);
+                        card.debuffCoefficient = EditorGUILayout.IntField(new GUIContent("Debuff Coefficient", "Girilen sayı kadar can gidecek."), card.debuffCoefficient);
                         break;
 
                     case debuffs.Confused:
                     case debuffs.Blind:
-                        card.debuffCoefficient = EditorGUILayout.FloatField(new GUIContent("Debuff Coefficient", "Girilen sayı üzerinden ihtimal hesaplanacak."), card.debuffCoefficient);
+                        card.debuffCoefficient = EditorGUILayout.IntField(new GUIContent("Debuff Coefficient", "Girilen sayı üzerinden ihtimal hesaplanacak."), card.debuffCoefficient);
                         break;
 
                     case debuffs.Frailness:
                     case debuffs.Tired:
                     case debuffs.Weakness:
-                        card.debuffCoefficient = EditorGUILayout.FloatField(new GUIContent("Debuff Coefficient", "Girilen sayı kadar etki yapacak."), card.debuffCoefficient);
+                        card.debuffCoefficient = EditorGUILayout.IntField(new GUIContent("Debuff Coefficient", "Girilen sayı kadar etki yapacak."), card.debuffCoefficient);
                         break;
                 }
             }

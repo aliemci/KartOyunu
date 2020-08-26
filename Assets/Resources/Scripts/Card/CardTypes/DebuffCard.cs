@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[SerializeField]
 public enum debuffs
 {
     Poison,
@@ -12,13 +13,15 @@ public enum debuffs
     Frailness,
     Weakness,
     Tired,
+    Plasma,
+    Gase,
     None
 }
 
 public class DebuffCard : MonoBehaviour
 {
     public debuffs debuff;
-    public float debuffCoefficient;
+    public int debuffCoefficient;
 
     public void Start()
     {
@@ -28,26 +31,46 @@ public class DebuffCard : MonoBehaviour
 
     public void debuffApplier(Character effectedCharacter)
     {
-        //Eğer azaltıcılar bu ikisi ise kademeli şekilde etki ediyor. 1'er azalarak tekrar etki ediyor.
+        //Eğer azaltıcılar bu ikisi ise kademeli şekilde etki ediyor. 1'er azalarak tekrar etki etmeli.
         if(debuff == debuffs.Poison || debuff == debuffs.Burn)
         {
-            for(int i=0; i<debuffCoefficient; i++)
+            if(!addRepetitionIfDebuffInList(debuff, effectedCharacter))
             {
                 debuffQueue helper = new debuffQueue();
                 helper.debuff = debuff;
-                helper.coefficient = debuffCoefficient - i;
+                helper.coefficient = debuffCoefficient;
+                helper.repetition = debuffCoefficient;
                 effectedCharacter.debuffList.Add(helper);
             }
+
         }
         else
         {
-            debuffQueue helper = new debuffQueue();
-            helper.debuff = debuff;
-            helper.coefficient = debuffCoefficient;
-            effectedCharacter.debuffList.Add(helper);
+            if (!addRepetitionIfDebuffInList(debuff, effectedCharacter))
+            { 
+                debuffQueue helper = new debuffQueue();
+                helper.debuff = debuff;
+                helper.coefficient = debuffCoefficient;
+                helper.repetition = 1;
+                effectedCharacter.debuffList.Add(helper);
+            }
         }
         
 
+    }
+
+
+    private bool addRepetitionIfDebuffInList(debuffs debuff, Character c)
+    {
+        foreach (debuffQueue item in c.debuffList)
+        {
+            if (item.debuff == debuff)
+            {
+                item.repetition++;
+                return true;
+            }
+        }
+        return false;
     }
 
 }

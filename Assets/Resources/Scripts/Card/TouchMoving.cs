@@ -158,7 +158,7 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
         // --------------------------------------------------------------
 
-        if(eventData.pointerEnter.tag == "Enemy")
+        if(eventData.pointerEnter != null && eventData.pointerEnter.tag == "Enemy")
         {
             rivalGO = eventData.pointerEnter;
             rivalNeighbours = findNeighbours(rivalGO, card.attackRegime);
@@ -172,6 +172,25 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
             }
 
         }
+        
+        else
+        {
+            try
+            {
+                rivalGO.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = rivalGO.GetComponent<CharacterDisplay>().character.health.ToString();
+                int i = 0;
+                foreach (GameObject rGO in rivalNeighbours)
+                {
+                    rGO.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = rGO.GetComponent<CharacterDisplay>().character.health.ToString();
+                    i++;
+                }
+            }
+            catch { }
+            //rivalGO = eventData.pointerEnter;
+            //rivalNeighbours = findNeighbours(rivalGO, card.attackRegime);
+
+        }
+
 
     }
 

@@ -7,16 +7,18 @@ using UnityEditor;
 [System.Serializable]
 public class buffQueue
 {
-    public buffs buff { get; set; }
-    public float coefficient { get; set; }
+    public buffs buff;
+    public int coefficient;
+    public int repetition;
 }
 
 //Aynı şekilde azaltıcılar da uygulanabiliyor.
 [System.Serializable]
 public class debuffQueue
 {
-    public debuffs debuff { get; set; }
-    public float coefficient { get; set; }
+    public debuffs debuff;
+    public int coefficient;
+    public int repetition;
 }
 
 
@@ -40,7 +42,7 @@ public abstract class Character : ScriptableObject
     public int shield = 0;
     
 
-    [HideInInspector]
+    //[HideInInspector]
     public bool
         is_resisted = false,
         is_invincible = false,
@@ -50,14 +52,14 @@ public abstract class Character : ScriptableObject
         is_confused = false,
         is_evaded = false;
 
-    [HideInInspector]
+    //[HideInInspector]
     public int
         shield_factor = 0,
         mana_factor = 0,
         attack_factor = 0,
         attack_multiplier = 1;
 
-    [HideInInspector]
+    //[HideInInspector]
     public float
         evasion_chance = 0f,
         confused_chance = 0f,
@@ -80,19 +82,35 @@ public abstract class Character : ScriptableObject
     //Yeni tura geçildiğinde bu fonksiyon tetikleniyor.
     public void next_turn()
     {
-        if (buffList.Count > 0)
+        //Buff
+        for (int i = 0; i < buffList.Count; i++)
         {
-            //Buff etkisi uygulanıyor.
-            doBuff(buffList[0].buff, buffList[0].coefficient);
-            buffList.Remove(buffList[0]);
+            if(buffList[i].repetition > 0)
+            {
+                doBuff(buffList[i].buff, buffList[i].coefficient);
+                buffList[i].repetition--;
+            }
+            else
+            {
+                resetBuff(buffList[i].buff);
+                buffList.Remove(buffList[i]);
+            }
+        }
+        //Debuff
+        for (int i = 0; i < debuffList.Count; i++)
+        {
+            if (debuffList[i].repetition > 0)
+            {
+                doDebuff(debuffList[i].debuff, debuffList[i].coefficient);
+                debuffList[i].repetition--;
+            }
+            else
+            {
+                resetDebuff(debuffList[i].debuff);
+                debuffList.Remove(debuffList[i]);
+            }
         }
 
-        if(debuffList.Count > 0)
-        {
-            //Debuff etkisi uygulanıyor.
-            doDebuff(debuffList[0].debuff, debuffList[0].coefficient);
-            debuffList.Remove(debuffList[0]);
-        }
         
     }
     
@@ -149,29 +167,119 @@ public abstract class Character : ScriptableObject
                 health -= Mathf.RoundToInt(coefficient);
                 break;
 
+            case debuffs.Confused:
+                confused_chance = Mathf.RoundToInt(coefficient);
+                break;
+
             case debuffs.Stun:
                 is_stunned = true;
+                break;
+
+            case debuffs.Blind:
+                blind_chance = Mathf.RoundToInt(coefficient);
                 break;
 
             case debuffs.Frailness:
                 shield_factor = Mathf.RoundToInt(coefficient);
                 break;
 
-            case debuffs.Tired:
-                mana_factor = Mathf.RoundToInt(coefficient);
-                break;
-
             case debuffs.Weakness:
                 attack_factor -= Mathf.RoundToInt(coefficient);
                 break;
 
+            case debuffs.Tired:
+                mana_factor = Mathf.RoundToInt(coefficient);
+                break;
+
+            case debuffs.Plasma:
+                if (Random.Range(0f, 100f) < 30)
+                    is_stunned = true;
+                break;
+
+            case debuffs.Gase:
+                if (Random.Range(0f, 100f) < 50)
+                    attack_factor -= Mathf.RoundToInt(coefficient);
+                break;
+
+        }
+    }
+
+    public void resetBuff(buffs buff)
+    {
+        switch (buff)
+        {
+            case buffs.Adrenaline:
+                attack_multiplier = 1;
+                break;
+
+            case buffs.Alertness:
+                evasion_chance = 0;
+                break;
+
+            case buffs.Castle:
+                shield_factor = 0;
+                break;
+
+            case buffs.Economiser:
+                mana_factor = 0;
+                break;
+
+            case buffs.Puffed:
+                attack_factor = 0;
+                break;
+
+            case buffs.Resistance:
+                is_resisted = false;
+                break;
+
+            case buffs.Invincible:
+                is_invincible = false;
+                break;
+
+            case buffs.Regenerate:
+                break;
+        }
+    }
+
+    public void resetDebuff(debuffs debuff)
+    {
+        switch (debuff)
+        {
+            case debuffs.Poison:
+                break;
+
+            case debuffs.Burn:
+                break;
+
             case debuffs.Confused:
-                confused_chance = Mathf.RoundToInt(coefficient);
+                confused_chance = 0;
+                break;
+
+            case debuffs.Stun:
+                is_stunned = false;
                 break;
 
             case debuffs.Blind:
-                blind_chance = Mathf.RoundToInt(coefficient);
+                blind_chance = 0;
                 break;
+
+            case debuffs.Frailness:
+                shield_factor = 0;
+                break;
+
+            case debuffs.Weakness:
+                break;
+
+            case debuffs.Tired:
+                mana_factor = 0;
+                break;
+
+            case debuffs.Plasma:
+                break;
+
+            case debuffs.Gase:
+                break;
+
         }
     }
 
