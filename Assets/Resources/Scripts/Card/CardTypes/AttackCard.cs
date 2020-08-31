@@ -15,7 +15,7 @@ public class AttackCard : MonoBehaviour
         mana = card.mana;
     }
 
-    public void attack(Character attacker, Character[] defenders)
+    public void attack(Character attacker, Character[] defenders, GameObject[] defenderGOs)
     {
         int manaConsumption = Mathf.Abs(mana) + Mathf.Abs(attacker.mana_factor);
 
@@ -33,6 +33,8 @@ public class AttackCard : MonoBehaviour
             //Eğer saldıran "ölümsüz değilse" ve "şaşırmadıysa" ve "kaçırmadıysa" ve savunan "kaçamadıysa"
             if (!attacker.is_invincible && !attacker.is_confused && !attacker.is_missed && !defender.is_evaded)
             {
+                DamageIndicator.CreateDamageIndicator(defenderGOs[i].transform.position, damage);
+
                 defender.takeDamage(damage);
             }
 

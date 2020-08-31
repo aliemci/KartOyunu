@@ -20,13 +20,13 @@ public class CardDisplay : MonoBehaviour
     public bool isPlayerOwn, isCardUsed;
 
     //Private Variables:
-    private Vector2 resolution_scale;
+    //private Vector2 resolution_scale;
 
     //--------END OF VARIABLES--------
 
     void Awake()
     {
-        resolution_scale = GameObject.Find("Canvas").GetComponent<RectTransform>().localScale;
+        //resolution_scale = GameObject.Find("Canvas").GetComponent<RectTransform>().localScale;
 
         nameText = transform.Find("Name").GetComponent<TextMeshProUGUI>();
         attackText = transform.Find("Attack").GetComponent<TextMeshProUGUI>();
@@ -38,9 +38,9 @@ public class CardDisplay : MonoBehaviour
     {
         Refresh();
         //Uygun çözünürlüğe getirmek için katsayılar ile çarpılıyor.
-        transform.localScale = transform.localScale * resolution_scale * resolution_scale;
+        //transform.localScale = transform.localScale * resolution_scale * resolution_scale;
         //z ölçeğini 0 yapıyor. Bunu engellemek için tekrardan 0,0,1 vektörü ile topladım.
-        transform.localScale = transform.localScale + new Vector3(0f, 0f, 1f);
+        //transform.localScale = transform.localScale + new Vector3(0f, 0f, 1f);
     }
 
     public void Refresh()
@@ -98,4 +98,5 @@ public class CardDisplay : MonoBehaviour
             this.GetComponent<TouchMoving>().enabled = false;
         }
     }
+
 }

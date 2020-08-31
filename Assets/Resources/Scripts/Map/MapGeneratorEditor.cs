@@ -11,13 +11,7 @@ public class MapGeneratorEditor : Editor
     {
         MapGenerator mapgen = (MapGenerator)target;
 
-        if (DrawDefaultInspector())
-            if(mapgen.autoUpdate)
-                mapgen.generate_map();
-
-
-        //if (GUILayout.Button("Generate"))
-        //    mapgen.generate_hexagons();
+        DrawDefaultInspector();
     }
 
 }

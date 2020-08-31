@@ -163,11 +163,13 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
             rivalGO = eventData.pointerEnter;
             rivalNeighbours = findNeighbours(rivalGO, card.attackRegime);
 
-            rivalGO.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = rivalGO.GetComponent<CharacterDisplay>().character.health + "-" + this.card.attack_range[0].ToString();
+            rivalNeighbours.Add(rivalGO);
+
+            //rivalGO.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = rivalGO.GetComponent<CharacterDisplay>().character.health + "-" + this.card.attack_range[0].ToString();
             int i = 0;
             foreach (GameObject rGO in rivalNeighbours)
             {
-                rGO.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = rGO.GetComponent<CharacterDisplay>().character.health + "-" + this.card.attack_range[i+1].ToString();
+                rGO.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = rGO.GetComponent<CharacterDisplay>().character.health + "-" + this.card.attack_range[i].ToString();
                 i++;
             }
 
@@ -248,7 +250,7 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
             //Düşmanların toplandığı bir liste oluşturuluyor.
             List<Character> rivals = new List<Character>();
             //Kartı attığımız düşman içine ekleniyor.
-            rivals.Add(rival);
+            //rivals.Add(rival);
             //Varsa komuşları da ekleniyor.
             foreach (GameObject rivGO in rivalNeighbours)
             {
@@ -260,7 +262,7 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
             {
                 case CardType1.AttackCard:
                     // Kartın yapacağı saldırı fonksiyonu çağırılıyor.
-                    this.GetComponent<AttackCard>().attack(player, rivals.ToArray());
+                    this.GetComponent<AttackCard>().attack(player, rivals.ToArray(), rivalNeighbours.ToArray());
 
                     // Kartın etkilediği düşman(lar)ın can kontrolü
                     hitObject.GetComponent<CharacterDisplay>().situationUpdater();
@@ -590,9 +592,14 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
         foreach (int index in neighbourIndexes)
         {
-            if (rival.transform.parent.GetChild(index))
+            try
+            { 
+                if (rival.transform.parent.GetChild(index) != null)
+                    rivalNgs.Add(rival.transform.parent.GetChild(index).gameObject);
+            }
+            catch
             {
-                rivalNgs.Add(rival.transform.parent.GetChild(index).gameObject);
+                
             }
         }
 

@@ -6,6 +6,9 @@ using System.Linq;
 
 public class MapGenerator : MonoBehaviour
 {
+
+    #region DEĞİŞKENLER
+
     [Header("Map Specifications")]
     public int mapWidth;
     public int mapHeight;
@@ -18,8 +21,6 @@ public class MapGenerator : MonoBehaviour
 
     public int seed;
     public Vector2 offset;
-    [HideInInspector]
-    public bool autoUpdate;
 
     public TerrainType[] regions;
 
@@ -43,65 +44,10 @@ public class MapGenerator : MonoBehaviour
 
     private Map loadedMap;
 
-    // FONKSIYONLAR --------------------------------
-
-    public static List<int> shuffleArray(List<int> arr)
-    {
-        List<int> res = arr;
-        var count = arr.Count;
-        var last = count - 1;
-        for (var i = 0; i < last; ++i)
-        {
-            var r = UnityEngine.Random.Range(i, count);
-            var tmp = res[i];
-            res[i] = res[r];
-            res[r] = tmp;
-        }
-        return res;
-    }
+    #endregion
 
 
-    public Material[] generate_map()
-    {
-        noiseMap = Noise.generate_noise_map(mapWidth, mapHeight, seed, noiseScale, octaves, persistance, lacunarity, offset);
-
-        Material[] materialSet = new Material[mapWidth * mapHeight];
-        for (int x = 0; x < mapWidth; x++)
-        {
-            for (int y = 0; y < mapHeight; y++)
-            {
-                //Ada görünümü alsın diye, çevresindeki yükseklikler sıfırlanıyor.
-                noiseMap[x, y] = noiseMap[x, y] - fallOffMap[x, y];
-
-                float currentHeight = noiseMap[x, y];
-
-                for (int i = 0; i < regions.Length; i++)
-                {
-                    if(currentHeight <= regions[i].height)
-                    {
-                        materialSet[y * mapWidth + x] = regions[i].material;
-                        break;
-                    }
-                }
-            }
-        }
-
-        return materialSet;
-    }
-
-
-    void OnValidate()
-    {
-        if (mapWidth < 1)
-            mapWidth = 1;
-        if (mapHeight < 1)
-            mapHeight = 1;
-        if (lacunarity < 1)
-            lacunarity = 1;
-        if (octaves < 0)
-            octaves = 0;
-    }
-
+    #region FONKSİYONLAR
 
     public void Awake()
     {
@@ -156,6 +102,65 @@ public class MapGenerator : MonoBehaviour
 
         SaveSystem.save_map(loadedMap);
     }
+
+
+    private void OnValidate()
+    {
+        if (mapWidth < 1)
+            mapWidth = 1;
+        if (mapHeight < 1)
+            mapHeight = 1;
+        if (lacunarity < 1)
+            lacunarity = 1;
+        if (octaves < 0)
+            octaves = 0;
+    }
+
+
+    public static List<int> shuffleArray(List<int> arr)
+    {
+        List<int> res = arr;
+        var count = arr.Count;
+        var last = count - 1;
+        for (var i = 0; i < last; ++i)
+        {
+            var r = UnityEngine.Random.Range(i, count);
+            var tmp = res[i];
+            res[i] = res[r];
+            res[r] = tmp;
+        }
+        return res;
+    }
+
+
+    public Material[] generate_map()
+    {
+        noiseMap = Noise.generate_noise_map(mapWidth, mapHeight, seed, noiseScale, octaves, persistance, lacunarity, offset);
+
+        Material[] materialSet = new Material[mapWidth * mapHeight];
+        for (int x = 0; x < mapWidth; x++)
+        {
+            for (int y = 0; y < mapHeight; y++)
+            {
+                //Ada görünümü alsın diye, çevresindeki yükseklikler sıfırlanıyor.
+                noiseMap[x, y] = noiseMap[x, y] - fallOffMap[x, y];
+
+                float currentHeight = noiseMap[x, y];
+
+                for (int i = 0; i < regions.Length; i++)
+                {
+                    if(currentHeight <= regions[i].height)
+                    {
+                        materialSet[y * mapWidth + x] = regions[i].material;
+                        break;
+                    }
+                }
+            }
+        }
+
+        return materialSet;
+    }
+
 
     public void generate_hexagons()
     {
@@ -285,9 +290,22 @@ public class MapGenerator : MonoBehaviour
     }
 
 
+    public void mapUpdate()
+    {
+        for (int i = 0; i < objectsOnMap.Count; i++)
+        {
+            MapObject m = objectsOnMap[i];
+            if (!GameObject.Find(m.name))
+                objectsOnMap.Remove(m);
+        }
+    }
+
+
     public void OnDestroy()
     {
         Debug.Log("OnDestroy Çalıştı!");
+
+        //Debug.Log("Player Nesnesi: " + playerObject.name);
 
         MapObject playerMO = new MapObject("Player", hexagons.IndexOf(playerObject.GetComponent<PlayerMovement>().parentHex));
 
@@ -300,22 +318,14 @@ public class MapGenerator : MonoBehaviour
         SaveSystem.save_map(loadedMap);
     }
 
-    public void mapUpdate()
-    {
-        foreach(MapObject m in objectsOnMap)
-        {
-            if (!GameObject.Find(m.name))
-                objectsOnMap.Remove(m);
-        }
-    }
-
+    #endregion
 
 }
 
 
 
 
-// YAPILAR --------------------------------------
+#region YAPILAR
 
 [System.Serializable]
 public struct Map
@@ -372,3 +382,4 @@ public struct hexagon
 
 }
 
+#endregion

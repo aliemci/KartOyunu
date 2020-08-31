@@ -155,10 +155,9 @@ MonoBehaviour:
   noiseScale: 5
   octaves: 10
   persistance: 0.054
-  lacunarity: 2
+  lacunarity: 5
   seed: 4
   offset: {x: 0, y: 0}
-  autoUpdate: 0
   regions:
   - name: DeepWater
     height: 0.1

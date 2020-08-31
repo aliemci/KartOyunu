@@ -56,6 +56,7 @@ public class rivalCharacter : Character
     {
         //Değişken
         rivalCharacter rival = null;
+        int rival_index=0;
 
         //Eğer hiçbir hareketi yoksa
         if (enemyPattern.Count == 0)
@@ -65,7 +66,7 @@ public class rivalCharacter : Character
         if (is_confused)
         {
             //Rastgele bir sayı tutuluyor.
-            int rival_index = Mathf.FloorToInt(Random.Range(0f, rivals.Length));
+            rival_index = Mathf.FloorToInt(Random.Range(0f, rivals.Length));
             //O indisteki düşman alınıyor. Bu Confuse mekaniği için gerekli
             rival = rivals[rival_index].GetComponent<CharacterDisplay>().character as rivalCharacter;
             
@@ -77,6 +78,8 @@ public class rivalCharacter : Character
         this.prepareChances();
         player.prepareChances();
 
+        GameObject playerGO = GameObject.Find("Player");
+        
         switch (enemyPattern[movement_index].moves)
         {
             case move.Attack:
@@ -91,6 +94,8 @@ public class rivalCharacter : Character
                     if (rival.is_evaded)
                         break;
 
+                    DamageIndicator.CreateDamageIndicator(rivals[rival_index].transform.position, damage * attack_multiplier + attack_factor);
+
                     //Kendi takımından birine vuruyor.
                     rival.takeDamage(Mathf.Abs(damage * attack_multiplier + attack_factor));
                     attack_multiplier = 1;
@@ -100,6 +105,8 @@ public class rivalCharacter : Character
                     //Eğer oyuncu kaçabildiyse
                     if (player.is_evaded)
                         break;
+
+                    DamageIndicator.CreateDamageIndicator(playerGO.transform.position, damage * attack_multiplier + attack_factor);
 
                     //Oyuncuya vuruyor.
                     player.takeDamage(Mathf.Abs(damage * attack_multiplier + attack_factor));

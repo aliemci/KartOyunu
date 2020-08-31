@@ -80,19 +80,19 @@ public class Card : ScriptableObject{
 
         if(attackRegime == AttackRegime.Triangle)
         {
-            Debug.Log("Triangle!");
+            //Debug.Log("Triangle!");
             int howManyAreasSelected=0;
             foreach (bool item in attackable_range)
             {
                 if (item == true)
                 {
                     howManyAreasSelected++;
-                    Debug.Log("true");
+                    //Debug.Log("true");
                 }
             }
             if (howManyAreasSelected != 3)
             {
-                Debug.LogWarning("Triangle seçili olduğu zaman 3 tane yer seçilmelidir!");
+                //Debug.LogWarning("Triangle seçili olduğu zaman 3 tane yer seçilmelidir!");
                 attackable_range[0] = true;
                 attackable_range[1] = true;
                 attackable_range[2] = true;

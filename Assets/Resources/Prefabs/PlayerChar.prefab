@@ -56,6 +56,7 @@ MonoBehaviour:
   isEnemy: 0
   hearthText: {fileID: 0}
   manaText: {fileID: 0}
+  shieldText: {fileID: 0}
 --- !u!212 &9126003734635536174
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -70,6 +71,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -92,7 +94,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -957958211
-  m_SortingLayer: 4
+  m_SortingLayer: -3
   m_SortingOrder: 0
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

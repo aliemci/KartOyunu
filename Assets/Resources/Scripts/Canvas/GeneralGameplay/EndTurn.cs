@@ -38,7 +38,7 @@ public class EndTurn : MonoBehaviour
         }
         catch
         {
-            Debug.Log("Combiner açık değil");
+            //Debug.Log("Combiner açık değil");
         }
 
 
@@ -50,26 +50,7 @@ public class EndTurn : MonoBehaviour
         playerObject.GetComponent<CharacterDisplay>().situationUpdater();
         //Debug.Log("Player situation updated!");
 
-        //Aynı şey her düşman için de kontrol edilecek.
-        foreach (GameObject rivalobj in rivalObjects)
-        {
-            //Debug.Log(rivalobj);
-            //rival değişkenini fonksiyonları için bir değişkene atıyor.
-            rival = rivalobj.GetComponent<CharacterDisplay>().character as rivalCharacter;
-            //rival için temel hazırlıkları yapıyor.
-            rival.next_turn();
-            //aldığı hasarla ölüp ölmediğine bakılıyor.
-            rivalobj.GetComponent<CharacterDisplay>().situationUpdater();
-
-            //Sıra ona geçiyor ve hamlesini oynuyor.
-            rival.do_move(player, rivalObjects);
-            //Durumu güncelleniyor.
-            rivalobj.GetComponent<CharacterDisplay>().situationUpdater();
-
-            //Düşmanı için yazı güncellemeleri
-            playerObject.GetComponent<CharacterDisplay>().situationUpdater();
-            
-        }
+        StartCoroutine(rivalsTurn());
 
         //Kartları yeniden diziyor.
         GameObject.Find("Inventory").GetComponent<InventoryScript>().add_card_to_deck();
@@ -98,4 +79,30 @@ public class EndTurn : MonoBehaviour
             Debug.Log("Number of enemies: " + GameObject.FindGameObjectsWithTag("Enemy").Length);
     }
     
+
+    IEnumerator rivalsTurn()
+    {
+        //Aynı şey her düşman için de kontrol edilecek.
+        foreach (GameObject rivalobj in rivalObjects)
+        {
+            Debug.Log(rivalobj);
+            //rival değişkenini fonksiyonları için bir değişkene atıyor.
+            rival = rivalobj.GetComponent<CharacterDisplay>().character as rivalCharacter;
+            //rival için temel hazırlıkları yapıyor.
+            rival.next_turn();
+            //aldığı hasarla ölüp ölmediğine bakılıyor.
+            rivalobj.GetComponent<CharacterDisplay>().situationUpdater();
+
+            //Sıra ona geçiyor ve hamlesini oynuyor.
+            rival.do_move(player, rivalObjects);
+            //Durumu güncelleniyor.
+            rivalobj.GetComponent<CharacterDisplay>().situationUpdater();
+
+            //Düşmanı için yazı güncellemeleri
+            playerObject.GetComponent<CharacterDisplay>().situationUpdater();
+
+            yield return new WaitForSeconds(1f);
+        }
+    }
+
 }
