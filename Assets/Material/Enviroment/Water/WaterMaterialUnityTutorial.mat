@@ -30,7 +30,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - Vector1_88C0F123: 0.05
-    - Vector1_923F6ACC: 1.295
+    - Vector1_923F6ACC: 1.36
     - Vector1_A57D9028: -1
     - _NormalStrength: 0.331
     m_Colors:

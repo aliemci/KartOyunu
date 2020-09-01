@@ -158,40 +158,40 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
         // --------------------------------------------------------------
 
-        if(eventData.pointerEnter != null && eventData.pointerEnter.tag == "Enemy")
-        {
-            rivalGO = eventData.pointerEnter;
-            rivalNeighbours = findNeighbours(rivalGO, card.attackRegime);
+        //if(eventData.pointerEnter != null && eventData.pointerEnter.tag == "Enemy")
+        //{
+        //    rivalGO = eventData.pointerEnter;
+        //    rivalNeighbours = findNeighbours(rivalGO, card.attackRegime);
 
-            rivalNeighbours.Add(rivalGO);
+        //    rivalNeighbours.Add(rivalGO);
 
-            //rivalGO.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = rivalGO.GetComponent<CharacterDisplay>().character.health + "-" + this.card.attack_range[0].ToString();
-            int i = 0;
-            foreach (GameObject rGO in rivalNeighbours)
-            {
-                rGO.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = rGO.GetComponent<CharacterDisplay>().character.health + "-" + this.card.attack_range[i].ToString();
-                i++;
-            }
+        //    //rivalGO.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = rivalGO.GetComponent<CharacterDisplay>().character.health + "-" + this.card.attack_range[0].ToString();
+        //    int i = 0;
+        //    foreach (GameObject rGO in rivalNeighbours)
+        //    {
+        //        rGO.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = rGO.GetComponent<CharacterDisplay>().character.health + "-" + this.card.attack_range[i].ToString();
+        //        i++;
+        //    }
 
-        }
+        //}
         
-        else
-        {
-            try
-            {
-                rivalGO.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = rivalGO.GetComponent<CharacterDisplay>().character.health.ToString();
-                int i = 0;
-                foreach (GameObject rGO in rivalNeighbours)
-                {
-                    rGO.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = rGO.GetComponent<CharacterDisplay>().character.health.ToString();
-                    i++;
-                }
-            }
-            catch { }
-            //rivalGO = eventData.pointerEnter;
-            //rivalNeighbours = findNeighbours(rivalGO, card.attackRegime);
+        //else
+        //{
+        //    try
+        //    {
+        //        rivalGO.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = rivalGO.GetComponent<CharacterDisplay>().character.health.ToString();
+        //        int i = 0;
+        //        foreach (GameObject rGO in rivalNeighbours)
+        //        {
+        //            rGO.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = rGO.GetComponent<CharacterDisplay>().character.health.ToString();
+        //            i++;
+        //        }
+        //    }
+        //    catch { }
+        //    //rivalGO = eventData.pointerEnter;
+        //    //rivalNeighbours = findNeighbours(rivalGO, card.attackRegime);
 
-        }
+        //}
 
 
     }
@@ -199,6 +199,8 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     public void OnEndDrag(PointerEventData eventData)
     {
         Debug.Log(eventData.pointerEnter);
+
+        rivalGO = eventData.pointerEnter;
 
         //Kartı attıktan sonra collider bileşenini açıyor ki bir daha alınabilsin
         this.GetComponent<BoxCollider2D>().enabled = true;
@@ -247,11 +249,16 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
             rival  = hitObject.GetComponent<CharacterDisplay>().character;
             //Debug.Log(rival);
 
+            rivalNeighbours = findNeighbours(rivalGO, card.attackRegime);
+            rivalNeighbours.Add(rivalGO);
+
             //Düşmanların toplandığı bir liste oluşturuluyor.
             List<Character> rivals = new List<Character>();
+
             //Kartı attığımız düşman içine ekleniyor.
             //rivals.Add(rival);
             //Varsa komuşları da ekleniyor.
+
             foreach (GameObject rivGO in rivalNeighbours)
             {
                 Character rivalChar = rivGO.GetComponent<CharacterDisplay>().character;
@@ -336,6 +343,17 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
                 //Kartın kullanıldığını belirtmek için değişkeni doğru olarak atanıyor.
                 this.gameObject.GetComponent<CardDisplay>().isCardUsed = true;
 
+                //kullanılma sayısını arttırıyor.
+                card.timesUsed++;
+
+                //Aşağıdaki durumlarda kart bir daha kullanılamaz hale getiriliyor.
+                if (card.cardUsage == CardUsage.Delicate && card.timesUsed > 1)
+                    card.canCardUsable = false;
+                else if (card.cardUsage == CardUsage.DelicatePlus && card.timesUsed > 2)
+                    card.canCardUsable = false;
+                else if (card.cardUsage == CardUsage.Consumable && card.timesUsed > 1)
+                    card.canCardUsable = false;
+                    
                 //Limandan siliyor.
                 cardDeck.GetComponent<DeckScript>().cardsInDeck.Remove(card);
 
@@ -417,6 +435,18 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
             {
                 //Kartı yok etme
                 Destroy(placeHolder);
+
+                //kullanılma sayısını arttırıyor.
+                card.timesUsed++;
+
+                //Aşağıdaki durumlarda kart bir daha kullanılamaz hale getiriliyor.
+                if (card.cardUsage == CardUsage.Delicate && card.timesUsed > 1)
+                    card.canCardUsable = false;
+                else if (card.cardUsage == CardUsage.DelicatePlus && card.timesUsed > 2)
+                    card.canCardUsable = false;
+                else if (card.cardUsage == CardUsage.Consumable && card.timesUsed > 1)
+                    card.canCardUsable = false;
+
                 Destroy(gameObject);
             }
             else

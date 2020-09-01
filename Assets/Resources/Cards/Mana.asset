@@ -10,21 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ab39e7d5b12533e4fb6de22fa4234ab0, type: 3}
-  m_Name: Thermite Grenade
+  m_Name: Mana
   m_EditorClassIdentifier: 
-  cardName: Thermite Grenade
-  CardT1: 4
+  cardName: 
+  CardT1: 0
   CardT2: 0
-  cardBuff: 2
-  cardDebuff: 1
+  cardBuff: 0
+  cardDebuff: 0
   cardCombine: 0
   buffCoefficient: 0
-  debuffCoefficient: 2
+  debuffCoefficient: 0
   attack: 0
   defence: 0
   mana: 0
+  cardUsage: 0
   isPlayerOwn: 0
   isCardUsed: 0
+  canCardUsable: 1
+  timesUsed: 0
   attack_range: 00000000000000000000000000000000
   attackable_range: 00000000
   attackRegime: 0

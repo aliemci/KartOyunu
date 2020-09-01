@@ -98,13 +98,20 @@ public class InventoryScript : MonoBehaviour
             //Rastgele bir tamsayı alıyor.
             int index = Random.Range(0, Inventory.Count);
 
-            //Belirtilmiş özelliklere sahip bir kart oluşturuyor. (Dönüş değeri de var ancak şuan kullanılmıyor.)
-            CardGenerator.create_new_card("Card " + i.ToString(), Inventory[index], CardDeck.transform);
+            //Kart kullanılabilirse eklesin. Değilse bir kez daha dönsün
+            if (Inventory[index].canCardUsable)
+            {
+                //Belirtilmiş özelliklere sahip bir kart oluşturuyor. (Dönüş değeri de var ancak şuan kullanılmıyor.)
+                CardGenerator.create_new_card("Card " + i.ToString(), Inventory[index], CardDeck.transform);
 
-            //Envanterdeki kart limana ekleniyor.
-            CardDeck.GetComponent<DeckScript>().cardsInDeck.Add(Inventory[index]);
-            //O kart envanterden siliniyor.
-            Inventory.RemoveAt(index);
+                //Envanterdeki kart limana ekleniyor.
+                CardDeck.GetComponent<DeckScript>().cardsInDeck.Add(Inventory[index]);
+                //O kart envanterden siliniyor.
+                Inventory.RemoveAt(index);
+            }
+            else
+                i--;
+
         }
 
     }

@@ -32,6 +32,14 @@ public enum AttackRegime
     Triangle,
     AllRegions
 }
+
+public enum CardUsage
+{
+    Renewable,
+    Consumable,
+    Delicate,
+    DelicatePlus
+}
 // --------------
 
 
@@ -54,15 +62,19 @@ public class Card : ScriptableObject{
     public CombineType cardCombine;
 
     [HideInInspector]
-    public int buffCoefficient;
-    [HideInInspector]
-    public int debuffCoefficient;
+    public int buffCoefficient, debuffCoefficient;
 
     [HideInInspector]
     public int attack, defence, mana;
 
     [HideInInspector]
-    public bool isPlayerOwn, isCardUsed;
+    public CardUsage cardUsage;
+
+    [HideInInspector]
+    public bool isPlayerOwn, isCardUsed, canCardUsable = true;
+
+    [HideInInspector]
+    public int timesUsed = 0;
 
 
     [Header("Attack Specs")][HideInInspector]
@@ -74,31 +86,10 @@ public class Card : ScriptableObject{
     public AttackRegime attackRegime;
     
     //Kontrol
-    void OnValidate()
+    public void OnValidate()
     {
+        //Kartın adı static olsun. Dosya isminden okusun.
         cardName = this.name;
-
-        if(attackRegime == AttackRegime.Triangle)
-        {
-            //Debug.Log("Triangle!");
-            int howManyAreasSelected=0;
-            foreach (bool item in attackable_range)
-            {
-                if (item == true)
-                {
-                    howManyAreasSelected++;
-                    //Debug.Log("true");
-                }
-            }
-            if (howManyAreasSelected != 3)
-            {
-                //Debug.LogWarning("Triangle seçili olduğu zaman 3 tane yer seçilmelidir!");
-                attackable_range[0] = true;
-                attackable_range[1] = true;
-                attackable_range[2] = true;
-            }
-        }
-
     }
     
 
@@ -204,6 +195,9 @@ public class Card_Editor : Editor
         //Üzerinde değişiklik yaptığımız nesnenin kart olduğunu belirterek değişkene atıyoruz.
         Card card = (Card)target;
 
+        //Kartın içinde değişiklik olduğunda çağırıyor.
+        card.OnValidate();
+
         //Yazı stili
         GUIStyle label = new GUIStyle(GUI.skin.label)
         {
@@ -212,63 +206,71 @@ public class Card_Editor : Editor
 
         //Düz çizgi
         EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
-        //Başlık
-        EditorGUILayout.LabelField("Main Type", label);
+
+        //Kart sarf tipini belirliyor.
+        EditorGUILayout.LabelField("Usage", label);
+        card.cardUsage = (CardUsage)EditorGUILayout.EnumPopup("Card Usage Type", card.cardUsage);
+
+
         //İlk kart tipini görünür kılıyor.
+        EditorGUILayout.LabelField("Main Type", label);
         card.CardT1 = (CardType1)EditorGUILayout.EnumPopup("First Card Type", card.CardT1);
-        //Saldırı Tipini belirliyor.
-        EditorGUILayout.LabelField("Attack Regime", label);
-        card.attackRegime = (AttackRegime)EditorGUILayout.EnumPopup("Regime Type", card.attackRegime);
 
-        //Büyüklüğün belirlenmesi
-        switch (card.attackRegime)
-        {
-            case AttackRegime.Point:
-                //card.attack_range = new List<int>(new int[1]);
-                EditorGUILayout.LabelField("Attackable Range", label); // Boşluk
-                card.attackable_range[0] = EditorGUILayout.Toggle("Upper Left", card.attackable_range[0]);
-                card.attackable_range[1] = EditorGUILayout.Toggle("Upper Right", card.attackable_range[1]);
-                card.attackable_range[2] = EditorGUILayout.Toggle("Lower Left", card.attackable_range[2]);
-                card.attackable_range[3] = EditorGUILayout.Toggle("Lower Right", card.attackable_range[3]);
-                //Debug.Log(card.attack_range[0]);
-                break;
-            case AttackRegime.Horizontal:
-                //card.attack_range = new List<int>(new int[2]);
-                EditorGUILayout.LabelField("Attackable Range", label); // Boşluk
-                card.attackable_range[0] = EditorGUILayout.Toggle("Upper", card.attackable_range[0]);
-                card.attackable_range[1] = card.attackable_range[0];
-                card.attackable_range[2] = EditorGUILayout.Toggle("Lower", card.attackable_range[2]);
-                card.attackable_range[3] = card.attackable_range[2];
-                //Debug.Log(card.attack_range);
-                break;
-            case AttackRegime.Vertical:
-                //card.attack_range = new List<int>(new int[2]);
-                EditorGUILayout.LabelField("Attackable Range", label); // Boşluk
-                card.attackable_range[0] = EditorGUILayout.Toggle("Left", card.attackable_range[0]);
-                card.attackable_range[1] = EditorGUILayout.Toggle("Right", card.attackable_range[1]);
-                card.attackable_range[2] = card.attackable_range[0];
-                card.attackable_range[3] = card.attackable_range[1];
-                //Debug.Log(card.attack_range);
-                break;
-            case AttackRegime.Triangle:
-                //card.attack_range = new List<int>(new int[3]);
-                EditorGUILayout.LabelField("Attackable Range", label); // Boşluk
-                card.attackable_range[0] = EditorGUILayout.Toggle("Upper Left", card.attackable_range[0]);
-                card.attackable_range[1] = EditorGUILayout.Toggle("Upper Right", card.attackable_range[1]);
-                card.attackable_range[2] = EditorGUILayout.Toggle("Lower Left", card.attackable_range[2]);
-                card.attackable_range[3] = EditorGUILayout.Toggle("Lower Right", card.attackable_range[3]);
-                //Debug.Log(card.attack_range);
-                break;
-            case AttackRegime.AllRegions:
-                //card.attack_range = new List<int>(new int[4]);
-                card.attackable_range[0] = true;
-                card.attackable_range[1] = true;
-                card.attackable_range[2] = true;
-                card.attackable_range[3] = true;
-                //Debug.Log(card.attack_range);
-                break;
-        }
+        #region comment
+        ////Saldırı Tipini belirliyor.
+        //EditorGUILayout.LabelField("Attack Regime", label);
+        //card.attackRegime = (AttackRegime)EditorGUILayout.EnumPopup("Regime Type", card.attackRegime);
 
+        ////Büyüklüğün belirlenmesi
+        //switch (card.attackRegime)
+        //{
+        //    case AttackRegime.Point:
+        //        //card.attack_range = new List<int>(new int[1]);
+        //        EditorGUILayout.LabelField("Attackable Range", label); // Boşluk
+        //        card.attackable_range[0] = EditorGUILayout.Toggle("Upper Left", card.attackable_range[0]);
+        //        card.attackable_range[1] = EditorGUILayout.Toggle("Upper Right", card.attackable_range[1]);
+        //        card.attackable_range[2] = EditorGUILayout.Toggle("Lower Left", card.attackable_range[2]);
+        //        card.attackable_range[3] = EditorGUILayout.Toggle("Lower Right", card.attackable_range[3]);
+        //        //Debug.Log(card.attack_range[0]);
+        //        break;
+        //    case AttackRegime.Horizontal:
+        //        //card.attack_range = new List<int>(new int[2]);
+        //        EditorGUILayout.LabelField("Attackable Range", label); // Boşluk
+        //        card.attackable_range[0] = EditorGUILayout.Toggle("Upper", card.attackable_range[0]);
+        //        card.attackable_range[1] = card.attackable_range[0];
+        //        card.attackable_range[2] = EditorGUILayout.Toggle("Lower", card.attackable_range[2]);
+        //        card.attackable_range[3] = card.attackable_range[2];
+        //        //Debug.Log(card.attack_range);
+        //        break;
+        //    case AttackRegime.Vertical:
+        //        //card.attack_range = new List<int>(new int[2]);
+        //        EditorGUILayout.LabelField("Attackable Range", label); // Boşluk
+        //        card.attackable_range[0] = EditorGUILayout.Toggle("Left", card.attackable_range[0]);
+        //        card.attackable_range[1] = EditorGUILayout.Toggle("Right", card.attackable_range[1]);
+        //        card.attackable_range[2] = card.attackable_range[0];
+        //        card.attackable_range[3] = card.attackable_range[1];
+        //        //Debug.Log(card.attack_range);
+        //        break;
+        //    case AttackRegime.Triangle:
+        //        //card.attack_range = new List<int>(new int[3]);
+        //        EditorGUILayout.LabelField("Attackable Range", label); // Boşluk
+        //        card.attackable_range[0] = EditorGUILayout.Toggle("Upper Left", card.attackable_range[0]);
+        //        card.attackable_range[1] = EditorGUILayout.Toggle("Upper Right", card.attackable_range[1]);
+        //        card.attackable_range[2] = EditorGUILayout.Toggle("Lower Left", card.attackable_range[2]);
+        //        card.attackable_range[3] = EditorGUILayout.Toggle("Lower Right", card.attackable_range[3]);
+        //        //Debug.Log(card.attack_range);
+        //        break;
+        //    case AttackRegime.AllRegions:
+        //        //card.attack_range = new List<int>(new int[4]);
+        //        card.attackable_range[0] = true;
+        //        card.attackable_range[1] = true;
+        //        card.attackable_range[2] = true;
+        //        card.attackable_range[3] = true;
+        //        //Debug.Log(card.attack_range);
+        //        break;
+        //}
+
+        #endregion
 
         //Eğer ilk kart özelliği buff&debuff değilse, ikinci özelliği görünür kılıyoruz.
         if (card.CardT1 != CardType1.BuffCard && card.CardT1 != CardType1.DebuffCard)
@@ -280,6 +282,60 @@ public class Card_Editor : Editor
                 EditorGUILayout.LabelField("Attack Specs", label);
                 //card.attack = (int)EditorGUILayout.IntField("Attack", card.attack);
                 card.mana = (int)EditorGUILayout.IntField("Mana", card.mana);
+
+
+                //Saldırı Tipini belirliyor.
+                EditorGUILayout.LabelField("Attack Regime", label);
+                card.attackRegime = (AttackRegime)EditorGUILayout.EnumPopup("Regime Type", card.attackRegime);
+
+                //Büyüklüğün belirlenmesi
+                switch (card.attackRegime)
+                {
+                    case AttackRegime.Point:
+                        //card.attack_range = new List<int>(new int[1]);
+                        EditorGUILayout.LabelField("Attackable Range", label); // Boşluk
+                        card.attackable_range[0] = EditorGUILayout.Toggle("Upper Left", card.attackable_range[0]);
+                        card.attackable_range[1] = EditorGUILayout.Toggle("Upper Right", card.attackable_range[1]);
+                        card.attackable_range[2] = EditorGUILayout.Toggle("Lower Left", card.attackable_range[2]);
+                        card.attackable_range[3] = EditorGUILayout.Toggle("Lower Right", card.attackable_range[3]);
+                        //Debug.Log(card.attack_range[0]);
+                        break;
+                    case AttackRegime.Horizontal:
+                        //card.attack_range = new List<int>(new int[2]);
+                        EditorGUILayout.LabelField("Attackable Range", label); // Boşluk
+                        card.attackable_range[0] = EditorGUILayout.Toggle("Upper", card.attackable_range[0]);
+                        card.attackable_range[1] = card.attackable_range[0];
+                        card.attackable_range[2] = EditorGUILayout.Toggle("Lower", card.attackable_range[2]);
+                        card.attackable_range[3] = card.attackable_range[2];
+                        //Debug.Log(card.attack_range);
+                        break;
+                    case AttackRegime.Vertical:
+                        //card.attack_range = new List<int>(new int[2]);
+                        EditorGUILayout.LabelField("Attackable Range", label); // Boşluk
+                        card.attackable_range[0] = EditorGUILayout.Toggle("Left", card.attackable_range[0]);
+                        card.attackable_range[1] = EditorGUILayout.Toggle("Right", card.attackable_range[1]);
+                        card.attackable_range[2] = card.attackable_range[0];
+                        card.attackable_range[3] = card.attackable_range[1];
+                        //Debug.Log(card.attack_range);
+                        break;
+                    case AttackRegime.Triangle:
+                        //card.attack_range = new List<int>(new int[3]);
+                        EditorGUILayout.LabelField("Attackable Range", label); // Boşluk
+                        card.attackable_range[0] = EditorGUILayout.Toggle("Upper Left", card.attackable_range[0]);
+                        card.attackable_range[1] = EditorGUILayout.Toggle("Upper Right", card.attackable_range[1]);
+                        card.attackable_range[2] = EditorGUILayout.Toggle("Lower Left", card.attackable_range[2]);
+                        card.attackable_range[3] = EditorGUILayout.Toggle("Lower Right", card.attackable_range[3]);
+                        //Debug.Log(card.attack_range);
+                        break;
+                    case AttackRegime.AllRegions:
+                        //card.attack_range = new List<int>(new int[4]);
+                        card.attackable_range[0] = true;
+                        card.attackable_range[1] = true;
+                        card.attackable_range[2] = true;
+                        card.attackable_range[3] = true;
+                        //Debug.Log(card.attack_range);
+                        break;
+                }
 
                 EditorGUILayout.LabelField("Attack(s) Value(s)", label); // Boşluk
 
@@ -309,11 +365,6 @@ public class Card_Editor : Editor
                         break;
                 }
 
-                //EditorGUILayout.LabelField("Attackable Range", label); // Boşluk
-                //card.attackable_range[0] = EditorGUILayout.Toggle("Upper Left", card.attackable_range[0]);
-                //card.attackable_range[1] = EditorGUILayout.Toggle("Upper Right", card.attackable_range[1]);
-                //card.attackable_range[2] = EditorGUILayout.Toggle("Lower Left", card.attackable_range[2]);
-                //card.attackable_range[3] = EditorGUILayout.Toggle("Lower Right", card.attackable_range[3]);
 
             }
 
@@ -353,10 +404,12 @@ public class Card_Editor : Editor
             //Eğer ikinci özellik olarak debuff seçildiyse.
             else if (card.CardT2 == CardType2.DebuffCard)
             {
+
                 EditorGUILayout.LabelField("Debuff Type", label);
                 //Kartın bilgilerini girebilmesi için gerekli alanları görünür kılıyor.
                 card.cardDebuff = (debuffs)EditorGUILayout.EnumPopup("Debuffs", card.cardDebuff);
                 card.debuffCoefficient = EditorGUILayout.IntField("Debuff Coefficient", card.debuffCoefficient);
+
             }
 
             //Eğer ikinci özellik olarak combine seçildiyse.
@@ -434,9 +487,68 @@ public class Card_Editor : Editor
                         card.debuffCoefficient = EditorGUILayout.IntField(new GUIContent("Debuff Coefficient", "Girilen sayı kadar etki yapacak."), card.debuffCoefficient);
                         break;
                 }
+
+
+                //Saldırı Tipini belirliyor.
+                EditorGUILayout.LabelField("Regime", label);
+                card.attackRegime = (AttackRegime)EditorGUILayout.EnumPopup("Regime Type", card.attackRegime);
+
+                //Büyüklüğün belirlenmesi
+                switch (card.attackRegime)
+                {
+                    case AttackRegime.Point:
+                        //card.attack_range = new List<int>(new int[1]);
+                        EditorGUILayout.LabelField("Attackable Range", label); // Boşluk
+                        card.attackable_range[0] = EditorGUILayout.Toggle("Upper Left", card.attackable_range[0]);
+                        card.attackable_range[1] = EditorGUILayout.Toggle("Upper Right", card.attackable_range[1]);
+                        card.attackable_range[2] = EditorGUILayout.Toggle("Lower Left", card.attackable_range[2]);
+                        card.attackable_range[3] = EditorGUILayout.Toggle("Lower Right", card.attackable_range[3]);
+                        //Debug.Log(card.attack_range[0]);
+                        break;
+                    case AttackRegime.Horizontal:
+                        //card.attack_range = new List<int>(new int[2]);
+                        EditorGUILayout.LabelField("Attackable Range", label); // Boşluk
+                        card.attackable_range[0] = EditorGUILayout.Toggle("Upper", card.attackable_range[0]);
+                        card.attackable_range[1] = card.attackable_range[0];
+                        card.attackable_range[2] = EditorGUILayout.Toggle("Lower", card.attackable_range[2]);
+                        card.attackable_range[3] = card.attackable_range[2];
+                        //Debug.Log(card.attack_range);
+                        break;
+                    case AttackRegime.Vertical:
+                        //card.attack_range = new List<int>(new int[2]);
+                        EditorGUILayout.LabelField("Attackable Range", label); // Boşluk
+                        card.attackable_range[0] = EditorGUILayout.Toggle("Left", card.attackable_range[0]);
+                        card.attackable_range[1] = EditorGUILayout.Toggle("Right", card.attackable_range[1]);
+                        card.attackable_range[2] = card.attackable_range[0];
+                        card.attackable_range[3] = card.attackable_range[1];
+                        //Debug.Log(card.attack_range);
+                        break;
+                    case AttackRegime.Triangle:
+                        //card.attack_range = new List<int>(new int[3]);
+                        EditorGUILayout.LabelField("Attackable Range", label); // Boşluk
+                        card.attackable_range[0] = EditorGUILayout.Toggle("Upper Left", card.attackable_range[0]);
+                        card.attackable_range[1] = EditorGUILayout.Toggle("Upper Right", card.attackable_range[1]);
+                        card.attackable_range[2] = EditorGUILayout.Toggle("Lower Left", card.attackable_range[2]);
+                        card.attackable_range[3] = EditorGUILayout.Toggle("Lower Right", card.attackable_range[3]);
+                        //Debug.Log(card.attack_range);
+                        break;
+                    case AttackRegime.AllRegions:
+                        //card.attack_range = new List<int>(new int[4]);
+                        card.attackable_range[0] = true;
+                        card.attackable_range[1] = true;
+                        card.attackable_range[2] = true;
+                        card.attackable_range[3] = true;
+                        //Debug.Log(card.attack_range);
+                        break;
+                }
+
+
             }
         }
 
+
+
     }
+
 }
 #endif
