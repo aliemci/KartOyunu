@@ -12,21 +12,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab39e7d5b12533e4fb6de22fa4234ab0, type: 3}
   m_Name: Narsssil
   m_EditorClassIdentifier: 
-  cardName: Narrrsil
+  cardName: Narsssil
   CardT1: 0
   CardT2: 2
   cardBuff: 0
-  cardDebuff: 1
+  cardDebuff: 2
   cardCombine: 0
   buffCoefficient: 0
-  debuffCoefficient: 1
+  debuffCoefficient: 100
   attack: 40
   defence: 0
   mana: -4
+  cardUsage: 2
   isPlayerOwn: 0
   isCardUsed: 0
-  attack_range:
-  - 0
-  - 1
-  - 1
-  - 0
+  canCardUsable: 1
+  timesUsed: 0
+  attack_range: 28000000010000000100000000000000
+  attackable_range: 01000100
+  attackRegime: 0

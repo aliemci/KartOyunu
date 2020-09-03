@@ -98,6 +98,11 @@ public class InventoryScript : MonoBehaviour
             //Rastgele bir tamsayı alıyor.
             int index = Random.Range(0, Inventory.Count);
 
+            foreach (var item in Inventory)
+            {
+                Debug.Log(item.name);
+            }
+
             //Kart kullanılabilirse eklesin. Değilse bir kez daha dönsün
             if (Inventory[index].canCardUsable)
             {
@@ -110,7 +115,11 @@ public class InventoryScript : MonoBehaviour
                 Inventory.RemoveAt(index);
             }
             else
-                i--;
+            {
+                if (Inventory.Count == numberOfCardsInDeck)
+                    continue;
+                //i--;
+            }
 
         }
 

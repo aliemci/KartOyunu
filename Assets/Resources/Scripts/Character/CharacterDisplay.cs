@@ -16,7 +16,8 @@ public class CharacterDisplay : MonoBehaviour
     //Her ekran için ayrı büyüklükte olacağı için belirli bir katsayı ile nesneleri büyültüp/küçülteceğiz.
     private Vector2 resolution_scale;
 
-    public TextMeshProUGUI hearthText, manaText, shieldText;
+    private TextMeshProUGUI hearthText, manaText, shieldText;
+    private Material heartFillRatio, manaFillRatio, shieldFillRatio;
 
     void Awake()
     {
@@ -47,6 +48,11 @@ public class CharacterDisplay : MonoBehaviour
         hearthText = GameObject.Find("Heart_Value").GetComponent<TextMeshProUGUI>();
         manaText = GameObject.Find("Mana_Value").GetComponent<TextMeshProUGUI>();
         shieldText = GameObject.Find("Shield_Value").GetComponent<TextMeshProUGUI>();
+
+        heartFillRatio = GameObject.Find("Heart").GetComponent<Renderer>().material;
+        manaFillRatio = GameObject.Find("Mana").GetComponent<Renderer>().material;
+        shieldFillRatio = GameObject.Find("Shield").GetComponent<Renderer>().material;
+
         situationUpdater();
     }
 
@@ -60,6 +66,8 @@ public class CharacterDisplay : MonoBehaviour
             hearthText.text = character.health.ToString();
             manaText.text = character.mana.ToString();
             shieldText.text = character.shield.ToString();
+
+            heartFillRatio.SetFloat("Value", HESMapper(character.health,character.maxHealth));
 
             //Eğer ölmüşse
             if (character.health <= 0)
@@ -91,7 +99,6 @@ public class CharacterDisplay : MonoBehaviour
         }
 
     }
-
     
     public void cardRequirements(Character player)
     {
@@ -120,6 +127,10 @@ public class CharacterDisplay : MonoBehaviour
         }
     }
 
-
+    private float HESMapper(float value, float maxValue)
+    {
+        //Debug.Log(((value / maxValue)) - 0.5f);
+        return ((value / maxValue)) - 0.5f;
+    }
 }
 

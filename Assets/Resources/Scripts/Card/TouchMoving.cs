@@ -347,11 +347,11 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
                 card.timesUsed++;
 
                 //Aşağıdaki durumlarda kart bir daha kullanılamaz hale getiriliyor.
-                if (card.cardUsage == CardUsage.Delicate && card.timesUsed > 1)
+                if (card.cardUsage == CardUsage.Delicate && card.timesUsed > 0)
                     card.canCardUsable = false;
-                else if (card.cardUsage == CardUsage.DelicatePlus && card.timesUsed > 2)
+                else if (card.cardUsage == CardUsage.DelicatePlus && card.timesUsed > 1)
                     card.canCardUsable = false;
-                else if (card.cardUsage == CardUsage.Consumable && card.timesUsed > 1)
+                else if (card.cardUsage == CardUsage.Consumable && card.timesUsed > 0)
                     card.canCardUsable = false;
                     
                 //Limandan siliyor.

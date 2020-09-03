@@ -9,7 +9,9 @@ public class buffQueue
 {
     public buffs buff;
     public int coefficient;
+    public int probablity;
     public int repetition;
+    public bool multiplex;
 }
 
 //Aynı şekilde azaltıcılar da uygulanabiliyor.
@@ -18,7 +20,9 @@ public class debuffQueue
 {
     public debuffs debuff;
     public int coefficient;
+    public int probablity;
     public int repetition;
+    public bool multiplex;
 }
 
 
@@ -87,8 +91,16 @@ public abstract class Character : ScriptableObject
         {
             if(buffList[i].repetition > 0)
             {
-                doBuff(buffList[i].buff, buffList[i].coefficient);
-                buffList[i].repetition--;
+                if (buffList[i].multiplex)
+                {
+                    doBuff(buffList[i].buff, buffList[i].repetition);
+                    buffList[i].repetition--;
+                }
+                else
+                {
+                    doBuff(buffList[i].buff, buffList[i].coefficient);
+                    buffList[i].repetition--;
+                }
             }
             else
             {
@@ -96,13 +108,22 @@ public abstract class Character : ScriptableObject
                 buffList.Remove(buffList[i]);
             }
         }
+
         //Debuff
         for (int i = 0; i < debuffList.Count; i++)
         {
             if (debuffList[i].repetition > 0)
             {
-                doDebuff(debuffList[i].debuff, debuffList[i].coefficient);
-                debuffList[i].repetition--;
+                if (debuffList[i].multiplex)
+                {
+                    doDebuff(debuffList[i].debuff, debuffList[i].repetition);
+                    debuffList[i].repetition--;
+                }
+                else
+                {
+                    doDebuff(debuffList[i].debuff, debuffList[i].coefficient);
+                    debuffList[i].repetition--;
+                }
             }
             else
             {
@@ -111,7 +132,6 @@ public abstract class Character : ScriptableObject
             }
         }
 
-        
     }
     
     //Arttırıcı uygulayıcısı (Bu ekleme için değil!)

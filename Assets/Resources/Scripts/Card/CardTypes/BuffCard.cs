@@ -19,23 +19,45 @@ public enum buffs
 public class BuffCard : MonoBehaviour
 {
     public buffs buff;
-    public int buffCoefficient;
+    public int probablity;
+    public int coefficient;
+    public int repetition;
+    public bool multiplex;
 
     public void Start()
     {
         buff = GetComponent<CardDisplay>().card.cardBuff;
-        buffCoefficient = GetComponent<CardDisplay>().card.buffCoefficient;
+        probablity = GetComponent<CardDisplay>().card.buffProbablity;
+        coefficient = GetComponent<CardDisplay>().card.buffCoefficient;
+        repetition = GetComponent<CardDisplay>().card.buffRepetition;
+        multiplex = GetComponent<CardDisplay>().card.buffMultiplex;
     }
 
     public void buffApplier(Character effectedCharacter)
     {
-        if(!addRepetitionIfBuffInList(buff, effectedCharacter))
+        //İhtimal ki, buff etkiler ya da etkilemez
+        if (Random.Range(0, 100) < probablity)
         {
-            buffQueue helper = new buffQueue();
-            helper.buff = buff;
-            helper.coefficient = buffCoefficient;
-            helper.repetition = 1;
-            effectedCharacter.buffList.Add(helper);
+            //Buraya ekranda bir yazı yazdırma kodu gelmeli. !!!! 
+
+            Debug.Log("Buff uygulanıyor.");
+
+            if (!addRepetitionIfBuffInList(buff, effectedCharacter))
+            {
+                buffQueue helper = new buffQueue();
+                helper.buff = buff;
+                helper.coefficient = coefficient;
+                helper.repetition = repetition;
+                helper.multiplex = multiplex;
+
+                effectedCharacter.buffList.Add(helper);
+            }
+        }
+        else
+        {
+            //Buraya ekranda "KAÇIRDIN" yazdırma kodu gelmeli. !!!! 
+
+            Debug.Log("Buff kaçtı!");
         }
     }
 

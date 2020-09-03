@@ -21,41 +21,47 @@ public enum debuffs
 public class DebuffCard : MonoBehaviour
 {
     public debuffs debuff;
-    public int debuffCoefficient;
+    public int probablity;
+    public int coefficient;
+    public int repetition;
+    public bool multiplex;
 
     public void Start()
     {
         debuff = GetComponent<CardDisplay>().card.cardDebuff;
-        debuffCoefficient = GetComponent<CardDisplay>().card.debuffCoefficient;
+        probablity = GetComponent<CardDisplay>().card.debuffProbablity;
+        coefficient = GetComponent<CardDisplay>().card.debuffCoefficient;
+        repetition = GetComponent<CardDisplay>().card.debuffRepetition;
+        multiplex = GetComponent<CardDisplay>().card.debuffMultiplex;
     }
+
 
     public void debuffApplier(Character effectedCharacter)
     {
-        //Eğer azaltıcılar bu ikisi ise kademeli şekilde etki ediyor. 1'er azalarak tekrar etki etmeli.
-        if(debuff == debuffs.Poison || debuff == debuffs.Burn)
+        //İhtimal ki, buff etkiler ya da etkilemez
+        if (Random.Range(0, 100) < probablity)
         {
-            if(!addRepetitionIfDebuffInList(debuff, effectedCharacter))
+            //Buraya ekranda bir yazı yazdırma kodu gelmeli. !!!! 
+
+            Debug.Log("Debuff uygulanıyor.");
+
+            if (!addRepetitionIfDebuffInList(debuff, effectedCharacter))
             {
                 debuffQueue helper = new debuffQueue();
                 helper.debuff = debuff;
-                helper.coefficient = debuffCoefficient;
-                helper.repetition = debuffCoefficient;
+                helper.coefficient = coefficient;
+                helper.repetition = repetition;
+                helper.multiplex = multiplex;
+
                 effectedCharacter.debuffList.Add(helper);
             }
-
         }
         else
         {
-            if (!addRepetitionIfDebuffInList(debuff, effectedCharacter))
-            { 
-                debuffQueue helper = new debuffQueue();
-                helper.debuff = debuff;
-                helper.coefficient = debuffCoefficient;
-                helper.repetition = 1;
-                effectedCharacter.debuffList.Add(helper);
-            }
+            //Buraya ekranda "KAÇIRDIN" yazdırma kodu gelmeli. !!!! 
+
+            Debug.Log("Debuff kaçtı!");
         }
-        
 
     }
 

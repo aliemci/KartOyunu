@@ -12,22 +12,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab39e7d5b12533e4fb6de22fa4234ab0, type: 3}
   m_Name: Fatherhood
   m_EditorClassIdentifier: 
-  cardName: 
-  CardT1: 0
+  cardName: Fatherhood
+  CardT1: 4
   CardT2: 0
   cardBuff: 0
-  cardDebuff: 0
+  cardDebuff: 2
   cardCombine: 0
   buffCoefficient: 0
-  debuffCoefficient: 0
+  buffProbablity: 0
+  buffRepetition: 0
+  debuffCoefficient: 100
+  debuffProbablity: 100
+  debuffRepetition: 2
+  buffMultiplex: 0
+  debuffMultiplex: 0
   attack: 0
   defence: 0
   mana: 0
-  cardUsage: 0
+  cardUsage: 2
   isPlayerOwn: 0
   isCardUsed: 0
   canCardUsable: 1
   timesUsed: 0
   attack_range: 00000000000000000000000000000000
-  attackable_range: 00000000
+  attackable_range: 01010101
   attackRegime: 0

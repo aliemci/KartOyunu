@@ -62,7 +62,16 @@ public class Card : ScriptableObject{
     public CombineType cardCombine;
 
     [HideInInspector]
-    public int buffCoefficient, debuffCoefficient;
+    public int buffCoefficient, buffProbablity, buffRepetition;
+
+    [HideInInspector]
+    public int debuffCoefficient, debuffProbablity, debuffRepetition;
+
+    [HideInInspector]
+    public bool buffMultiplex;
+
+    [HideInInspector]
+    public bool debuffMultiplex;
 
     [HideInInspector]
     public int attack, defence, mana;
@@ -398,7 +407,62 @@ public class Card_Editor : Editor
                 EditorGUILayout.LabelField("Buff Type", label);
                 //Kartın bilgilerini girebilmesi için gerekli alanları görünür kılıyor.
                 card.cardBuff = (buffs)EditorGUILayout.EnumPopup("Buffs", card.cardBuff);
-                card.buffCoefficient = EditorGUILayout.IntField("Buff Coefficient", card.buffCoefficient);
+
+                EditorGUILayout.LabelField("Buff Specifications", label);
+
+                switch (card.cardBuff)
+                {
+                    case buffs.Adrenaline:
+                        card.buffProbablity = EditorGUILayout.IntField("Probablity", card.buffProbablity);
+                        card.buffRepetition = EditorGUILayout.IntField("Repetition", card.buffRepetition);
+                        break;
+
+                    case buffs.Alertness:
+                        card.buffCoefficient = EditorGUILayout.IntField("Coefficient", card.buffCoefficient);
+                        card.buffProbablity = EditorGUILayout.IntField("Probablity", card.buffProbablity);
+                        card.buffRepetition = EditorGUILayout.IntField("Repetition", card.buffRepetition);
+                        break;
+
+                    case buffs.Castle:
+                        card.buffCoefficient = EditorGUILayout.IntField("Coefficient", card.buffCoefficient);
+                        card.buffProbablity = EditorGUILayout.IntField("Probablity", card.buffProbablity);
+                        card.buffRepetition = EditorGUILayout.IntField("Repetition", card.buffRepetition);
+                        card.buffMultiplex = EditorGUILayout.Toggle("Multiplex", card.buffMultiplex);
+                        break;
+
+                    case buffs.Economiser:
+                        card.buffCoefficient = EditorGUILayout.IntField("Coefficient", card.buffCoefficient);
+                        card.buffProbablity = EditorGUILayout.IntField("Probablity", card.buffProbablity);
+                        card.buffRepetition = EditorGUILayout.IntField("Repetition", card.buffRepetition);
+                        card.buffMultiplex = EditorGUILayout.Toggle("Multiplex", card.buffMultiplex);
+                        break;
+
+                    case buffs.Puffed:
+                        card.buffCoefficient = EditorGUILayout.IntField("Coefficient", card.buffCoefficient);
+                        card.buffProbablity = EditorGUILayout.IntField("Probablity", card.buffProbablity);
+                        card.buffRepetition = EditorGUILayout.IntField("Repetition", card.buffRepetition);
+                        card.buffMultiplex = EditorGUILayout.Toggle("Multiplex", card.buffMultiplex);
+                        break;
+
+                    case buffs.Resistance:
+                        card.buffProbablity = EditorGUILayout.IntField("Probablity", card.buffProbablity);
+                        card.buffRepetition = EditorGUILayout.IntField("Repetition", card.buffRepetition);
+                        break;
+
+                    case buffs.Invincible:
+                        card.buffProbablity = EditorGUILayout.IntField("Probablity", card.buffProbablity);
+                        card.buffRepetition = EditorGUILayout.IntField("Repetition", card.buffRepetition);
+                        break;
+
+                    case buffs.Regenerate:
+                        card.buffCoefficient = EditorGUILayout.IntField("Coefficient", card.buffCoefficient);
+                        card.buffProbablity = EditorGUILayout.IntField("Probablity", card.buffProbablity);
+                        card.buffRepetition = EditorGUILayout.IntField("Repetition", card.buffRepetition);
+                        card.buffMultiplex = EditorGUILayout.Toggle("Multiplex", card.buffMultiplex);
+                        break;
+
+                }
+
             }
 
             //Eğer ikinci özellik olarak debuff seçildiyse.
@@ -408,7 +472,73 @@ public class Card_Editor : Editor
                 EditorGUILayout.LabelField("Debuff Type", label);
                 //Kartın bilgilerini girebilmesi için gerekli alanları görünür kılıyor.
                 card.cardDebuff = (debuffs)EditorGUILayout.EnumPopup("Debuffs", card.cardDebuff);
-                card.debuffCoefficient = EditorGUILayout.IntField("Debuff Coefficient", card.debuffCoefficient);
+
+                EditorGUILayout.LabelField("Debuff Specifications", label);
+
+                //Kart tipine göre yardımcı yazı yazdırılıyor.
+                switch (card.cardDebuff)
+                {
+                    case debuffs.Poison:
+                        card.debuffProbablity = EditorGUILayout.IntField("Probablity", card.debuffProbablity);
+                        card.debuffRepetition = EditorGUILayout.IntField("Repetition", card.debuffRepetition);
+                        card.debuffMultiplex = EditorGUILayout.Toggle("Multiplex", card.debuffMultiplex);
+                        if(!card.debuffMultiplex)
+                            card.debuffCoefficient = EditorGUILayout.IntField("Coefficient", card.debuffCoefficient);
+                        break;
+
+                    case debuffs.Burn:
+                        card.debuffProbablity = EditorGUILayout.IntField("Probablity", card.debuffProbablity);
+                        card.debuffRepetition = EditorGUILayout.IntField("Repetition", card.debuffRepetition);
+                        card.debuffMultiplex = EditorGUILayout.Toggle("Multiplex", card.debuffMultiplex);
+                        if (!card.debuffMultiplex)
+                            card.debuffCoefficient = EditorGUILayout.IntField("Coefficient", card.debuffCoefficient);
+                        break;
+
+                    case debuffs.Confused:
+                        card.debuffProbablity = EditorGUILayout.IntField("Probablity", card.debuffProbablity);
+                        card.debuffRepetition = EditorGUILayout.IntField("Repetition", card.debuffRepetition);
+                        break;
+
+                    case debuffs.Stun:
+                        card.debuffProbablity = EditorGUILayout.IntField("Probablity", card.debuffProbablity);
+                        card.debuffRepetition = EditorGUILayout.IntField("Repetition", card.debuffRepetition);
+                        break;
+
+                    case debuffs.Blind:
+                        card.debuffProbablity = EditorGUILayout.IntField("Probablity", card.debuffProbablity);
+                        card.debuffRepetition = EditorGUILayout.IntField("Repetition", card.debuffRepetition);
+                        break;
+
+                    case debuffs.Frailness:
+                        card.debuffCoefficient = EditorGUILayout.IntField("Coefficient", card.debuffCoefficient);
+                        card.debuffProbablity = EditorGUILayout.IntField("Probablity", card.debuffProbablity);
+                        card.debuffRepetition = EditorGUILayout.IntField("Repetition", card.debuffRepetition);
+                        card.debuffMultiplex = EditorGUILayout.Toggle("Multiplex", card.debuffMultiplex);
+                        break;
+
+                    case debuffs.Weakness:
+                        card.debuffCoefficient = EditorGUILayout.IntField("Coefficient", card.debuffCoefficient);
+                        card.debuffProbablity = EditorGUILayout.IntField("Probablity", card.debuffProbablity);
+                        card.debuffRepetition = EditorGUILayout.IntField("Repetition", card.debuffRepetition);
+                        card.debuffMultiplex = EditorGUILayout.Toggle("Multiplex", card.debuffMultiplex);
+                        break;
+
+                    case debuffs.Tired:
+                        card.debuffCoefficient = EditorGUILayout.IntField("Coefficient", card.debuffCoefficient);
+                        card.debuffProbablity = EditorGUILayout.IntField("Probablity", card.debuffProbablity);
+                        card.debuffRepetition = EditorGUILayout.IntField("Repetition", card.debuffRepetition);
+                        card.debuffMultiplex = EditorGUILayout.Toggle("Multiplex", card.debuffMultiplex);
+                        break;
+
+                    case debuffs.Plasma:
+                        card.debuffProbablity = EditorGUILayout.IntField("Probablity", card.debuffProbablity);
+                        break;
+
+                    case debuffs.Gase:
+                        card.debuffProbablity = EditorGUILayout.IntField("Probablity", card.debuffProbablity);
+                        break;
+
+                }
 
             }
 
@@ -434,28 +564,61 @@ public class Card_Editor : Editor
                 //Kartın bilgilerini girebilmesi için gerekli alanları görünür kılıyor.
                 card.cardBuff = (buffs)EditorGUILayout.EnumPopup("Buffs", card.cardBuff);
 
-                //Kart tipine göre yardımcı yazı yazdırılıyor.
+                EditorGUILayout.LabelField("Buff Specifications", label);
+
                 switch (card.cardBuff)
                 {
-                    //Bunlarda herhangi bir katsayı vermek gerekmiyor.
                     case buffs.Adrenaline:
-                    case buffs.Resistance:
-                    case buffs.Invincible:
+                        card.buffProbablity = EditorGUILayout.IntField("Probablity", card.buffProbablity);
+                        card.buffRepetition = EditorGUILayout.IntField("Repetition", card.buffRepetition);
                         break;
 
-                    //Bunlarda düz katsayı gerekiyor.
-                    case buffs.Castle:
-                    case buffs.Economiser:
-                    case buffs.Regenerate:
-                    case buffs.Puffed:
-                        card.buffCoefficient = EditorGUILayout.IntField(new GUIContent("Buff Coefficient", "Girilen sayı kadar etki yapacak."), card.buffCoefficient);
-                        break;
-
-                    //Bunda ise ihtimal cinsinden katsayı gerekiyor.
                     case buffs.Alertness:
-                        card.buffCoefficient = EditorGUILayout.IntField(new GUIContent("Buff Coefficient", "Girilen sayı üzerinden ihtimal hesaplanacak."), card.buffCoefficient);
+                        card.buffCoefficient = EditorGUILayout.IntField("Coefficient", card.buffCoefficient);
+                        card.buffProbablity = EditorGUILayout.IntField("Probablity", card.buffProbablity);
+                        card.buffRepetition = EditorGUILayout.IntField("Repetition", card.buffRepetition);
                         break;
+
+                    case buffs.Castle:
+                        card.buffCoefficient = EditorGUILayout.IntField("Coefficient", card.buffCoefficient);
+                        card.buffProbablity = EditorGUILayout.IntField("Probablity", card.buffProbablity);
+                        card.buffRepetition = EditorGUILayout.IntField("Repetition", card.buffRepetition);
+                        card.buffMultiplex = EditorGUILayout.Toggle("Multiplex", card.buffMultiplex);
+                        break;
+
+                    case buffs.Economiser:
+                        card.buffCoefficient = EditorGUILayout.IntField("Coefficient", card.buffCoefficient);
+                        card.buffProbablity = EditorGUILayout.IntField("Probablity", card.buffProbablity);
+                        card.buffRepetition = EditorGUILayout.IntField("Repetition", card.buffRepetition);
+                        card.buffMultiplex = EditorGUILayout.Toggle("Multiplex", card.buffMultiplex);
+                        break;
+
+                    case buffs.Puffed:
+                        card.buffCoefficient = EditorGUILayout.IntField("Coefficient", card.buffCoefficient);
+                        card.buffProbablity = EditorGUILayout.IntField("Probablity", card.buffProbablity);
+                        card.buffRepetition = EditorGUILayout.IntField("Repetition", card.buffRepetition);
+                        card.buffMultiplex = EditorGUILayout.Toggle("Multiplex", card.buffMultiplex);
+                        break;
+
+                    case buffs.Resistance:
+                        card.buffProbablity = EditorGUILayout.IntField("Probablity", card.buffProbablity);
+                        card.buffRepetition = EditorGUILayout.IntField("Repetition", card.buffRepetition);
+                        break;
+
+                    case buffs.Invincible:
+                        card.buffProbablity = EditorGUILayout.IntField("Probablity", card.buffProbablity);
+                        card.buffRepetition = EditorGUILayout.IntField("Repetition", card.buffRepetition);
+                        break;
+
+                    case buffs.Regenerate:
+                        card.buffCoefficient = EditorGUILayout.IntField("Coefficient", card.buffCoefficient);
+                        card.buffProbablity = EditorGUILayout.IntField("Probablity", card.buffProbablity);
+                        card.buffRepetition = EditorGUILayout.IntField("Repetition", card.buffRepetition);
+                        card.buffMultiplex = EditorGUILayout.Toggle("Multiplex", card.buffMultiplex);
+                        break;
+
                 }
+
             }
             //Eğer birinci özellik olarak debuff seçildiyse.
             else if (card.CardT1 == CardType1.DebuffCard)
@@ -465,27 +628,69 @@ public class Card_Editor : Editor
                 //Kartın bilgilerini girebilmesi için gerekli alanları görünür kılıyor.
                 card.cardDebuff = (debuffs)EditorGUILayout.EnumPopup("Debuffs", card.cardDebuff);
 
+                EditorGUILayout.LabelField("Debuff Specifications", label);
+
                 //Kart tipine göre yardımcı yazı yazdırılıyor.
                 switch (card.cardDebuff)
                 {
-                    case debuffs.Stun:
-                        break;
-
                     case debuffs.Poison:
-                    case debuffs.Burn:
-                        card.debuffCoefficient = EditorGUILayout.IntField(new GUIContent("Debuff Coefficient", "Girilen sayı kadar can gidecek."), card.debuffCoefficient);
+                        card.debuffCoefficient = EditorGUILayout.IntField("Coefficient", card.debuffCoefficient);
+                        card.debuffProbablity = EditorGUILayout.IntField("Probablity", card.debuffProbablity);
+                        card.debuffRepetition = EditorGUILayout.IntField("Repetition", card.debuffRepetition);
+                        card.debuffMultiplex = EditorGUILayout.Toggle("Multiplex", card.debuffMultiplex);
                         break;
 
+                    case debuffs.Burn:
+                        card.debuffCoefficient = EditorGUILayout.IntField("Coefficient", card.debuffCoefficient);
+                        card.debuffProbablity = EditorGUILayout.IntField("Probablity", card.debuffProbablity);
+                        card.debuffRepetition = EditorGUILayout.IntField("Repetition", card.debuffRepetition);
+                        card.debuffMultiplex = EditorGUILayout.Toggle("Multiplex", card.debuffMultiplex);
+                        break;
+                    
                     case debuffs.Confused:
+                        card.debuffProbablity = EditorGUILayout.IntField("Probablity", card.debuffProbablity);
+                        card.debuffRepetition = EditorGUILayout.IntField("Repetition", card.debuffRepetition);
+                        break;
+
+                    case debuffs.Stun:
+                        card.debuffProbablity = EditorGUILayout.IntField("Probablity", card.debuffProbablity);
+                        card.debuffRepetition = EditorGUILayout.IntField("Repetition", card.debuffRepetition);
+                        break;
+
                     case debuffs.Blind:
-                        card.debuffCoefficient = EditorGUILayout.IntField(new GUIContent("Debuff Coefficient", "Girilen sayı üzerinden ihtimal hesaplanacak."), card.debuffCoefficient);
+                        card.debuffProbablity = EditorGUILayout.IntField("Probablity", card.debuffProbablity);
+                        card.debuffRepetition = EditorGUILayout.IntField("Repetition", card.debuffRepetition);
                         break;
 
                     case debuffs.Frailness:
-                    case debuffs.Tired:
-                    case debuffs.Weakness:
-                        card.debuffCoefficient = EditorGUILayout.IntField(new GUIContent("Debuff Coefficient", "Girilen sayı kadar etki yapacak."), card.debuffCoefficient);
+                        card.debuffCoefficient = EditorGUILayout.IntField("Coefficient", card.debuffCoefficient);
+                        card.debuffProbablity = EditorGUILayout.IntField("Probablity", card.debuffProbablity);
+                        card.debuffRepetition = EditorGUILayout.IntField("Repetition", card.debuffRepetition);
+                        card.debuffMultiplex = EditorGUILayout.Toggle("Multiplex", card.debuffMultiplex);
                         break;
+
+                    case debuffs.Weakness:
+                        card.debuffCoefficient = EditorGUILayout.IntField("Coefficient", card.debuffCoefficient);
+                        card.debuffProbablity = EditorGUILayout.IntField("Probablity", card.debuffProbablity);
+                        card.debuffRepetition = EditorGUILayout.IntField("Repetition", card.debuffRepetition);
+                        card.debuffMultiplex = EditorGUILayout.Toggle("Multiplex", card.debuffMultiplex);
+                        break;
+                    
+                    case debuffs.Tired:
+                        card.debuffCoefficient = EditorGUILayout.IntField("Coefficient", card.debuffCoefficient);
+                        card.debuffProbablity = EditorGUILayout.IntField("Probablity", card.debuffProbablity);
+                        card.debuffRepetition = EditorGUILayout.IntField("Repetition", card.debuffRepetition);
+                        card.debuffMultiplex = EditorGUILayout.Toggle("Multiplex", card.debuffMultiplex);
+                        break;
+
+                    case debuffs.Plasma:
+                        card.debuffProbablity = EditorGUILayout.IntField("Probablity", card.debuffProbablity);
+                        break;
+
+                    case debuffs.Gase:
+                        card.debuffProbablity = EditorGUILayout.IntField("Probablity", card.debuffProbablity);
+                        break;
+
                 }
 
 
@@ -547,6 +752,8 @@ public class Card_Editor : Editor
         }
 
 
+        //Kayıt etmesi için
+        EditorUtility.SetDirty(card);
 
     }
 
