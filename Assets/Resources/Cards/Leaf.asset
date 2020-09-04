@@ -19,14 +19,21 @@ MonoBehaviour:
   cardDebuff: 0
   cardCombine: 0
   buffCoefficient: 0
+  buffProbablity: 0
+  buffRepetition: 0
   debuffCoefficient: 0
+  debuffProbablity: 0
+  debuffRepetition: 0
+  buffMultiplex: 0
+  debuffMultiplex: 0
   attack: 7
   defence: 0
   mana: -1
+  cardUsage: 0
   isPlayerOwn: 0
   isCardUsed: 0
-  attack_range:
-  - 0.5
-  - 0
-  - 1
-  - 0.5
+  canCardUsable: 1
+  timesUsed: 4
+  attack_range: 07000000000000000100000000000000
+  attackable_range: 01010101
+  attackRegime: 0

@@ -73,7 +73,7 @@ public class rivalCharacter : Character
             rival.prepareChances();
         }
 
-        Debug.Log(enemyPattern[movement_index].moves);
+        //Debug.Log(enemyPattern[movement_index].moves);
 
         this.prepareChances();
         player.prepareChances();
@@ -326,7 +326,9 @@ public class rivalCharacter_Editor : Editor
         //-------------------------------------------------------
 
         GetTarget.ApplyModifiedProperties();
-        
+
+        //Kayıt etmesi için
+        EditorUtility.SetDirty(riv);
     }
 }
 #endif

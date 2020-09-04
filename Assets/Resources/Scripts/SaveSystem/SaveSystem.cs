@@ -52,6 +52,7 @@ public static class SaveSystem
     public static void new_map()
     {
         save_map(random_map());
+        reset_cards();
     }
 
     private static Map random_map()
@@ -67,5 +68,13 @@ public static class SaveSystem
         return tempMap;
     }
 
-
+    private static void reset_cards()
+    {
+        Card[] cards = Resources.LoadAll<Card>("Cards");
+        foreach (Card card in cards)
+        {
+            card.timesUsed = 0;
+            card.canCardUsable = true;
+        }
+    }
 }

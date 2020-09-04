@@ -135,7 +135,7 @@ public abstract class Character : ScriptableObject
     }
     
     //Arttırıcı uygulayıcısı (Bu ekleme için değil!)
-    public void doBuff(buffs buff, float coefficient)
+    public void doBuff(buffs buff, int coefficient)
     {
         switch (buff)
         {
@@ -175,20 +175,20 @@ public abstract class Character : ScriptableObject
     }
 
     //Azaltıcı uygulayıcısı (Bu ekleme için değil!)
-    public void doDebuff(debuffs debuff, float coefficient)
+    public void doDebuff(debuffs debuff, int coefficient)
     {
         switch (debuff)
         {
             case debuffs.Poison:
-                health -= Mathf.RoundToInt(coefficient);
+                health -= coefficient;
                 break;
 
             case debuffs.Burn:
-                health -= Mathf.RoundToInt(coefficient);
+                health -= coefficient;
                 break;
 
             case debuffs.Confused:
-                confused_chance = Mathf.RoundToInt(coefficient);
+                confused_chance = coefficient;
                 break;
 
             case debuffs.Stun:
@@ -196,29 +196,29 @@ public abstract class Character : ScriptableObject
                 break;
 
             case debuffs.Blind:
-                blind_chance = Mathf.RoundToInt(coefficient);
+                blind_chance = coefficient;
                 break;
 
             case debuffs.Frailness:
-                shield_factor = Mathf.RoundToInt(coefficient);
+                shield_factor = coefficient;
                 break;
 
             case debuffs.Weakness:
-                attack_factor -= Mathf.RoundToInt(coefficient);
+                attack_factor -= coefficient;
                 break;
 
             case debuffs.Tired:
-                mana_factor = Mathf.RoundToInt(coefficient);
+                mana_factor = coefficient;
                 break;
 
             case debuffs.Plasma:
-                if (Random.Range(0f, 100f) < 30)
+                if (Random.Range(0f, 100f) < coefficient)
                     is_stunned = true;
                 break;
 
             case debuffs.Gase:
-                if (Random.Range(0f, 100f) < 50)
-                    attack_factor -= Mathf.RoundToInt(coefficient);
+                if (Random.Range(0f, 100f) < coefficient)
+                    attack_factor -= coefficient;
                 break;
 
         }
@@ -366,7 +366,7 @@ public abstract class Character : ScriptableObject
     //Enerji uygulayıcısı
     public void energyApply(int amount)
     {
-        shield += amount;
+        mana += amount;
     }
 
     //-----------------------------------------------

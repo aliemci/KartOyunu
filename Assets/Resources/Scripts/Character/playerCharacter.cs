@@ -56,7 +56,8 @@ public class playerCharacter_Editor : Editor
         //Üzerinde değişiklik yaptığımız nesnenin kart olduğunu belirterek değişkene atıyoruz.
         playerCharacter player_character = (playerCharacter)target;
 
-
+        //Kayıt etmesi için
+        EditorUtility.SetDirty(player_character);
     }
 
 }

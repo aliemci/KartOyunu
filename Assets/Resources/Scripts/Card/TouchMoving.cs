@@ -395,13 +395,13 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
                     this.GetComponent<BuffCard>().buffApplier(player);
                     player.consumeMana(card.mana);
                     playerObject.GetComponent<CharacterDisplay>().situationUpdater();
-
                     is_card_used = true;
                     break;
 
                 case CardType1.EnergyCard:
                     player.energyApply(card.mana);
                     playerObject.GetComponent<CharacterDisplay>().situationUpdater();
+                    is_card_used = true;
                     break;
 
                 case CardType1.SpecialCard:
@@ -440,11 +440,11 @@ public class TouchMoving : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
                 card.timesUsed++;
 
                 //Aşağıdaki durumlarda kart bir daha kullanılamaz hale getiriliyor.
-                if (card.cardUsage == CardUsage.Delicate && card.timesUsed > 1)
+                if (card.cardUsage == CardUsage.Delicate && card.timesUsed > 0)
                     card.canCardUsable = false;
-                else if (card.cardUsage == CardUsage.DelicatePlus && card.timesUsed > 2)
+                else if (card.cardUsage == CardUsage.DelicatePlus && card.timesUsed > 1)
                     card.canCardUsable = false;
-                else if (card.cardUsage == CardUsage.Consumable && card.timesUsed > 1)
+                else if (card.cardUsage == CardUsage.Consumable && card.timesUsed > 0)
                     card.canCardUsable = false;
 
                 Destroy(gameObject);

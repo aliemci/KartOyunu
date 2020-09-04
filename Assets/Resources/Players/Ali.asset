@@ -37,9 +37,23 @@ MonoBehaviour:
   CharacterSprite: {fileID: 21300004, guid: 5cf1b4629c7cb104e98d369448084abd, type: 3}
   isUsing: 0
   StartingCards:
+  - card: {fileID: 11400000, guid: 560ccae4ef5bcf2479f7a27d7551f6d5, type: 2}
+    count: 1
+  - card: {fileID: 11400000, guid: bc8379b8cfbdbe34ba5acb5954a01390, type: 2}
+    count: 1
+  - card: {fileID: 11400000, guid: b141698134736dc4baaf79a34306d4e2, type: 2}
+    count: 1
+  - card: {fileID: 11400000, guid: b041c901bb98ed34eb1d1ce518f9bf91, type: 2}
+    count: 1
+  - card: {fileID: 11400000, guid: fd32bfdc7619c4a4e8c27a339ae32e93, type: 2}
+    count: 1
   - card: {fileID: 11400000, guid: b7444e1e6785c704f8460a6e3265c788, type: 2}
-    count: 2
-  - card: {fileID: 11400000, guid: 137291b9b9703ca47995468c19b8009a, type: 2}
-    count: 2
+    count: 1
+  - card: {fileID: 11400000, guid: 9e29b9bd07e80c94699a8722e5ce8770, type: 2}
+    count: 1
   - card: {fileID: 11400000, guid: 07a479e98f318db4c98d3c5d8a6e2550, type: 2}
+    count: 1
+  - card: {fileID: 11400000, guid: 84e4ec039a13f88418a46f181e2f4760, type: 2}
+    count: 1
+  - card: {fileID: 11400000, guid: cfba833e3201f3341a49216a054c7fec, type: 2}
     count: 1

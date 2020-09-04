@@ -19,7 +19,13 @@ MonoBehaviour:
   cardDebuff: 2
   cardCombine: 0
   buffCoefficient: 0
+  buffProbablity: 0
+  buffRepetition: 0
   debuffCoefficient: 100
+  debuffProbablity: 0
+  debuffRepetition: 0
+  buffMultiplex: 0
+  debuffMultiplex: 0
   attack: 40
   defence: 0
   mana: -4

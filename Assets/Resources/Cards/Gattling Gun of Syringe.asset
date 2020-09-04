@@ -21,9 +21,9 @@ MonoBehaviour:
   buffCoefficient: 0
   buffProbablity: 0
   buffRepetition: 0
-  debuffCoefficient: 3
-  debuffProbablity: 0
-  debuffRepetition: 0
+  debuffCoefficient: 0
+  debuffProbablity: 100
+  debuffRepetition: 3
   buffMultiplex: 0
   debuffMultiplex: 1
   attack: 0
@@ -33,7 +33,7 @@ MonoBehaviour:
   isPlayerOwn: 0
   isCardUsed: 0
   canCardUsable: 1
-  timesUsed: 0
-  attack_range: 00000000000000000000000000000000
+  timesUsed: 2
+  attack_range: 05000000050000000500000005000000
   attackable_range: 01010101
   attackRegime: 4

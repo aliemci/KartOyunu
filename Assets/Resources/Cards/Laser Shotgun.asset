@@ -14,19 +14,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardName: Laser Shotgun
   CardT1: 0
-  CardT2: 2
+  CardT2: 0
   cardBuff: 0
   cardDebuff: 0
   cardCombine: 2
   buffCoefficient: 0
+  buffProbablity: 0
+  buffRepetition: 0
   debuffCoefficient: 5
+  debuffProbablity: 0
+  debuffRepetition: 0
+  buffMultiplex: 0
+  debuffMultiplex: 0
   attack: 4
   defence: 0
   mana: 1
+  cardUsage: 0
   isPlayerOwn: 0
   isCardUsed: 0
-  attack_range:
-  - 1
-  - 1
-  - 1
-  - 1
+  canCardUsable: 1
+  timesUsed: 5
+  attack_range: 04000000060000000100000001000000
+  attackable_range: 01010101
+  attackRegime: 1

@@ -33,7 +33,7 @@ MonoBehaviour:
   isPlayerOwn: 0
   isCardUsed: 0
   canCardUsable: 1
-  timesUsed: 0
+  timesUsed: 5
   attack_range: 00000000000000000000000000000000
   attackable_range: 00000000
   attackRegime: 0

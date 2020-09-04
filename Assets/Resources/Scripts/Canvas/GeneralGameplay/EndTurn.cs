@@ -69,6 +69,30 @@ public class EndTurn : MonoBehaviour
             //Kalkan her savaş sonrası sıfırlanıyor.
             player.shield = 0;
 
+            //Kart kullanılabilirliklerini ayarlıyor
+            foreach (starterCards cardList in player.StartingCards)
+            {
+                Card card = cardList.card;
+                if(!card.canCardUsable)
+                {
+                    switch (card.cardUsage)
+                    {
+                        case CardUsage.Delicate:
+                            card.canCardUsable = true;
+                            card.timesUsed = 0;
+                            break;
+
+                        case CardUsage.DelicatePlus:
+                            card.canCardUsable = true;
+                            card.timesUsed = 0;
+                            break;
+
+                    }
+                }
+
+            }
+            
+
             //Kayıt ediliyor.
             SaveSystem.save_player(player);
 
@@ -85,7 +109,7 @@ public class EndTurn : MonoBehaviour
         //Aynı şey her düşman için de kontrol edilecek.
         foreach (GameObject rivalobj in rivalObjects)
         {
-            Debug.Log(rivalobj);
+            //Debug.Log(rivalobj);
             //rival değişkenini fonksiyonları için bir değişkene atıyor.
             rival = rivalobj.GetComponent<CharacterDisplay>().character as rivalCharacter;
             //rival için temel hazırlıkları yapıyor.

@@ -79,10 +79,10 @@ public class Card : ScriptableObject{
     [HideInInspector]
     public CardUsage cardUsage;
 
-    [HideInInspector]
+    //[HideInInspector]
     public bool isPlayerOwn, isCardUsed, canCardUsable = true;
 
-    [HideInInspector]
+    //[HideInInspector]
     public int timesUsed = 0;
 
 
@@ -113,7 +113,7 @@ public class Card : ScriptableObject{
         }
         catch
         {
-            Debug.Log("Combiner açık değil, devam!");
+            //Debug.Log("Combiner açık değil, devam!");
         }
 
         //Değişken ataması
